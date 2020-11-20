@@ -26,7 +26,13 @@
 
 				<ul>
 					<li><a href="/login">Documentation</a></li>
-					<li><a href="/login">LOGIN</a></li>
+					<li>
+                        {% if isAuth %}
+                            <a href="/logout">LOGOUT</a>
+                        {% else %}
+                            <a href="/login">LOGIN</a>
+                        {% endif %}
+                    </li>
 				</ul>
 			</nav>		
 		</header>
