@@ -1,0 +1,189 @@
+body {
+  background: #e5eaf1;
+  margin: 0;
+  padding: 0;
+  font-family: "Orbitron", sans-serif;
+  letter-spacing: 4px;
+}
+
+body a {
+  text-decoration: none;
+  color: #3490dc;
+}
+
+header {
+  display: flex;
+}
+
+header nav {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+header nav .logo {
+  margin-right: 2rem;
+}
+
+header nav .search-bar-container {
+  width: 60vw;
+}
+
+header nav .search-bar-container form {
+  display: flex;
+  border: 1px solid transparent;
+}
+
+header nav .search-bar-container form input {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid transparent;
+}
+
+header nav .search-bar-container form button {
+  background: #38c172;
+  font-size: 1.2rem;
+  color: #fff;
+  border: 1px solid transparent;
+  padding: 0 2rem;
+  position: relative;
+  right: 2rem;
+}
+
+header nav ul {
+  display: flex;
+}
+
+header nav ul li {
+  margin: 0 1rem;
+  list-style-type: none;
+}
+
+main {
+  min-height: 30vh;
+}
+
+#landing {
+  background: #111;
+  color: #fff;
+  padding: 1rem;
+  min-height: 30vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#landing .title {
+  font-size: 1.8rem;
+  margin-bottom: 4rem;
+}
+
+#landing .btn-landing {
+  padding: 1rem 4rem;
+  margin: 1rem;
+  color: #fff;
+  text-decoration: none;
+  font-family: arial;
+}
+
+#landing .btn-landing:nth-child(1) {
+  background: #38c172;
+}
+
+#landing .btn-landing:nth-child(1):hover {
+  background: #5cd08d;
+}
+
+#landing .btn-landing:nth-child(2) {
+  background: #3490dc;
+}
+
+#landing .btn-landing:nth-child(2):hover {
+  background: #60a8e4;
+}
+
+#latest .title {
+  text-align: center;
+}
+
+#latest .smart-contracts {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+#latest .smart-contracts .smart-contract {
+  width: 48%;
+  margin: 0.4rem;
+}
+
+#latest .categories ul li {
+  list-style-type: none;
+  margin-bottom: 1rem;
+}
+
+#documentation .code {
+  background: #111;
+  color: #fff;
+  width: 100%;
+  padding: 2rem;
+  font-size: 1.4rem;
+}
+
+.btn-login-social {
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  padding: 0.6rem 2rem;
+  border-radius: 4px;
+  color: #000;
+  display: block;
+}
+
+.btn-login-social:hover {
+  background: rgba(153, 153, 153, 0.7);
+}
+
+.btn-login-social i {
+  margin-right: 0.6rem;
+  font-size: 1.4rem;
+}
+
+.container {
+  max-width: 1480px;
+  margin: 0 auto;
+  display: flex;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 4px;
+  width: 100%;
+}
+
+.card .card-body {
+  padding: 1rem;
+}
+
+.container-login {
+  width: 40vw;
+  margin: 1rem auto;
+  padding: 1rem;
+  background: #fff;
+}
+
+.container-login .title {
+  margin: 1rem 0;
+  font-size: 1.4rem;
+  text-align: center;
+}
+
+footer {
+  background: #111;
+  color: #fff;
+  padding: 4rem 0;
+}
+

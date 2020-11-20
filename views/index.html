@@ -1,0 +1,67 @@
+{% extends "_layout.html" %}
+
+{% block content %}
+	<section id="landing">
+		<h1 class="title">Privates smarts contracts are here</h1>
+
+		<div>
+			<a href="/search" class="btn-landing">
+				Search
+			</a>
+
+			<a href="" class="btn-landing">
+				Get started
+			</a>
+		</div>
+	</section>
+
+	<section id="latest">
+		<h2 class="title">Latest</h2>
+		<div class="container">
+			
+			<div class="smart-contracts">
+				{% for i in [1,2,3,4,5,6,7,8,9] %}
+
+					<div class="card smart-contract">
+						<div class="card-body">
+							Lorem, ipsum dolor sit amet consectetur adipisicing, elit. Molestiae!
+						</div>
+					</div>
+				{%- endfor %}
+
+			</div>
+
+			<div class="categories">
+				<ul>
+					<li><a href="#">Defi</a></li>
+					<li><a href="#">Ecommerce</a></li>
+					<li><a href="#">Gambling</a></li>
+					<li><a href="#">Misc</a></li>
+					<li><a href="#">More categories</a></li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+	<section id="documentation">
+		<div class="container">
+
+			
+			<pre class="code">
+// galaxy.json (at the root of your project)				
+{
+	"title": "My awesome smart contract",
+	"description": "a short description",
+	"version": "1.2.3",
+	"url": "https://github.com/myaccount/my-smart-contract",
+	"tags": [
+		"defi",
+		"ecommerce",
+		"wallet"
+	]
+}
+			</pre>
+		</div>
+	</section>
+
+{% endblock %}

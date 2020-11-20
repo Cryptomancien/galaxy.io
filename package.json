@@ -1,0 +1,41 @@
+{
+  "name": "react-mix",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npm run development",
+    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "npm run development -- --watch",
+    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "prod": "npm run production",
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.5.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "mongoose": "^5.10.15",
+    "nodemon": "^2.0.6",
+    "nunjucks": "^3.2.2",
+    "passport": "^0.4.1",
+    "passport-github": "^1.1.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "vue": "^3.0.2"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.12.5",
+    "@vue/compiler-sfc": "^3.0.2",
+    "cross-env": "^7.0.2",
+    "laravel-mix": "^5.0.9",
+    "laravel-mix-vue3": "^0.7.0",
+    "resolve-url-loader": "^3.1.0",
+    "sass": "^1.29.0",
+    "sass-loader": "^8.0.2",
+    "vue-loader": "^16.0.0-rc.1"
+  }
+}
