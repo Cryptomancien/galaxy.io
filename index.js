@@ -2,12 +2,16 @@ const express = require('express')
 const app = express()
 const port = 8080
 const  nunjucks = require('nunjucks')
+const axios = require('axios');
 
 require('dotenv').config()
 
 const passport = require('passport')
 const session = require('express-session')
 const GithubStrategy = require('passport-github').Strategy
+
+const FrontController = require('./controllers/FrontController')
+const ensureAuthenticated = require('./middleware/ensureAuthenticated')
 
 nunjucks.configure('views', {
 	autoescape:  true,
@@ -49,33 +53,11 @@ passport.deserializeUser((user, done) => {
 })
 
 
-// respond with "hello world" when a GET request is made to the homepage
-app.get('/', function(request, response) {
+app.get('/', FrontController.index)
 
-	let data = {
-		isAuth: request.isAuthenticated()
-	}
+app.get('/search', FrontController.search)
 
-	response.render('index.html', data)
-})
-
-app.get('/search', (request, response) => {
-
-	let data = {
-		isAuth: request.isAuthenticated()
-	}
-
-	response.render('search.html', data)
-})
-
-app.get('/login', (request,response) => {
-
-	let data = {
-		isAuth: request.isAuthenticated()
-	}
-
-	response.render('login.html', data)
-})
+app.get('/login', FrontController.login)
 
 app.get('/login/github', passport.authenticate('github'))
 
@@ -85,23 +67,22 @@ app.get('/login/github/callback', passport.authenticate('github', { failureRedir
 	}
 )
 
-
-function ensureAuthenticated(request, response, next) {
-	if (request.isAuthenticated()) {
-		return next()
-	}
-	response.redirect('/')
-}
-
 app.get('/app', ensureAuthenticated, (request, response) => {
-	response.send('okay')
+
+	let data = {
+		user: request.user
+	}
+
+	//console.log(data)
+
+	console.log('--------')
+
+	//const url = 'https://api.github.com/repos/netwarp/galaxy-hello-world/contents/galaxy.json'
+	//axios(url).then(resp => console.log(resp))
+
+	response.render('app.html', data)
 })
 
-app.get('/logout', (request, response) => {
-	request.logout()
-	response.redirect('/')
-})
+app.get('/logout', FrontController.logout)
 
-app.listen(port, () => {
-	console.log(`Example app listening at http://localhost:${port}`)
-})
+app.listen(port, () => console.log(`http://localhost:${port}`))

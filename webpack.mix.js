@@ -13,7 +13,7 @@ let mix = require('laravel-mix');
 
 
 require("laravel-mix-vue3");
-//mix.vue3('src/index.js', 'public/js');
+mix.vue3('resources/js/index.js', 'public/js');
 mix.sass('resources/scss/app.scss', 'public/css');
 
 

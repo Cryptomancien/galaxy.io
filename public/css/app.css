@@ -27,7 +27,7 @@ header nav .logo {
 }
 
 header nav .search-bar-container {
-  width: 60vw;
+  width: 50vw;
 }
 
 header nav .search-bar-container form {
@@ -59,6 +59,27 @@ header nav ul {
 header nav ul li {
   margin: 0 1rem;
   list-style-type: none;
+}
+
+header nav .menu-user-navbar {
+  justify-content: center;
+  align-items: center;
+}
+
+header nav .menu-user-navbar .fas {
+  font-size: 2rem;
+  color: #000;
+}
+
+header nav .menu-user-navbar a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+}
+
+header nav .menu-user-navbar a img {
+  width: 50px;
 }
 
 main {

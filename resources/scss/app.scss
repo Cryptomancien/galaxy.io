@@ -29,7 +29,7 @@ header {
 		}
 
 		.search-bar-container {
-			width: 60vw;
+			width: 50vw;
 
 			form {
 				display: flex;
@@ -61,6 +61,32 @@ header {
 			li {
 				margin: 0 1rem;
 				list-style-type: none;
+			}
+		}
+
+		.menu-user-navbar {
+			justify-content: center;
+			align-items: center;
+			
+			li {
+
+			}
+
+			.fas {
+				font-size: 2rem;
+				color: #000;
+			}
+
+
+			a {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: 1rem;
+
+				img {
+					width: 50px;
+				}
 			}
 		}
 

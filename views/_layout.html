@@ -25,10 +25,22 @@
 				</div>
 
 				<ul>
+                    <!--
 					<li><a href="/login">Documentation</a></li>
+					 -->
 					<li>
-                        {% if isAuth %}
-                            <a href="/logout">LOGOUT</a>
+                        {% if user %}
+                            <ul class="menu-user-navbar">
+                                <li>
+                                    <a href="/app">
+                                        <img src="{{ user['_json']['avatar_url'] }}" alt="">
+                                        <span id="username">
+                                            {{ user.username }}
+                                        </span>
+                                    </a>
+                                </li>
+                                <li><a title="logout" href="/logout"><i class="fas fa-sign-out-alt"></i></a></li>
+                            </ul>
                         {% else %}
                             <a href="/login">LOGIN</a>
                         {% endif %}
