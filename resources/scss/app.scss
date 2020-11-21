@@ -65,16 +65,36 @@ header {
 		}
 
 		.menu-user-navbar {
-			justify-content: center;
 			align-items: center;
-			
-			li {
+			padding: 0;
+			border: 1px solid #000;
+			border-radius: 2px;
+			background: #fff;
 
+			li {
+				margin: 0;
+
+				&.link-app-container {
+					border-right: 1px solid #000;
+					
+					a {
+						background: transparent;
+
+						&:hover {
+							background: rgba(#000, 0.4);
+						}
+					}
+				}
+
+				&.logout-container {
+					margin-left: 1rem;
+				}
 			}
 
 			.fas {
-				font-size: 2rem;
+				font-size: 1.4rem;
 				color: #000;
+
 			}
 
 
