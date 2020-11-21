@@ -10,7 +10,11 @@ const passport = require('passport')
 const session = require('express-session')
 const GithubStrategy = require('passport-github').Strategy
 
+const mongoose = require('mongoose')
+
 const FrontController = require('./controllers/FrontController')
+const ApiController = require('./controllers/ApiController')
+const SmartsContractsController = require('./controllers/Api/SmartsContractsController')
 const ensureAuthenticated = require('./middleware/ensureAuthenticated')
 
 nunjucks.configure('views', {
@@ -18,6 +22,12 @@ nunjucks.configure('views', {
 	express:  app,
 	watch: true,
 })
+
+mongoose.connect('mongodb://localhost:27017/galaxy', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.set('useCreateIndex', true)
+const User = require('./models/User')
+const SmartContract = require('./models/SmartContract')
+
 
 passport.use(
 	new GithubStrategy(
@@ -44,8 +54,25 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-passport.serializeUser((user, done) => {
-	done(null, user)
+passport.serializeUser(async (user, done) => {
+
+	await User.findOneAndUpdate(
+		{
+			id: user['_json']['id'],
+		},
+		{
+			username: user.username,
+			avatar_url: user['_json']['avatar_url'],
+			provider: user.provider
+		},
+		{
+			upsert: true,
+			setDefaultsOnInsert: true
+		}
+	)
+
+	await console.log(user)
+	await done(null, user)
 })
 
 passport.deserializeUser((user, done) => {
@@ -84,5 +111,7 @@ app.get('/app', ensureAuthenticated, (request, response) => {
 })
 
 app.get('/logout', FrontController.logout)
+
+app.get('/api/smarts-contracts', ApiController.getAllSmartsContracts)
 
 app.listen(port, () => console.log(`http://localhost:${port}`))
