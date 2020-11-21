@@ -1,16 +1,14 @@
 table {
-
     width: 100%;
     max-width: 100%;
     margin-bottom: 1rem;
-    //background-color: transparent;
+    border: 1px solid rgba(#000, .2);
+    padding: 1rem;
 
     thead {
-
         th {
             vertical-align: bottom;
             border-bottom: 2px solid #dee2e6;
-            background: #000;
         }
     }
 }
