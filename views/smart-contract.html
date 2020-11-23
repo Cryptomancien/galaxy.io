@@ -1,0 +1,33 @@
+{% extends "_layout.html" %}
+
+{% block css %}
+<link href="https://myCDN.com/prism@v1.x/themes/prism.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h1>{{ smart_contract.title }}</h1>
+                <h2>{{ smart_contract.description }}</h2>
+                <div>
+                    <a href="#">https://github.com/{{ smart_contract.author }}</a>
+                </div>
+<pre>
+<code class="lang-basic">
+{{ smart_contract.content }}
+</code>
+</pre>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+<script>
+    window.Prism = window.Prism || {};
+    window.Prism.manual = true;
+</script>
+<script src="https://myCDN.com/prism@v1.x/components/prism-core.min.js"></script>
+<script src="https://myCDN.com/prism@v1.x/plugins/autoloader/prism-autoloader.min.js"></script>
+{% endblock %}

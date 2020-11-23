@@ -20,11 +20,18 @@
 		<div class="container">
 			
 			<div class="smart-contracts">
-				{% for i in [1,2,3,4,5,6,7,8,9] %}
+				{% for smart_contract in smarts_contracts %}
 
 					<div class="card smart-contract">
 						<div class="card-body">
-							Lorem, ipsum dolor sit amet consectetur adipisicing, elit. Molestiae!
+							<div>
+								<a href="/smart-contract/{{ smart_contract.id }}">
+									{{ smart_contract.title }}
+								</a>
+							</div>
+							<div>
+								{{ smart_contract.description }}
+							</div>
 						</div>
 					</div>
 				{%- endfor %}
@@ -48,18 +55,22 @@
 
 			
 			<pre class="code">
-// galaxy.json (at the root of your project)				
-{
-	"title": "My awesome smart contract",
-	"description": "a short description",
-	"version": "1.2.3",
-	"file": "hello_world.bas",
-	"tags": [
-		"defi",
-		"ecommerce",
-		"wallet"
-	]
-}
+	// galaxy.json (at the root of your project)
+	{
+		smarts_contracts = [
+			{
+				"title": "My awesome smart contract",
+				"description": "a short description",
+				"version": "1.2.3",
+				"file": "hello_world.bas",
+				"tags": [
+					"defi",
+					"ecommerce",
+					"wallet"
+				]
+			}
+		]
+	}
 			</pre>
 		</div>
 	</section>
