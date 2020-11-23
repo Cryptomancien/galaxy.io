@@ -2,11 +2,12 @@ const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
 const schema = new Schema({
-    name: String,
-    file: String,
+    title: String,
     description: String,
+    file: String,
     content: String,
     user_id: Number,
+    author: String,
     created_at: {
         type: Date,
         default: Date.now
