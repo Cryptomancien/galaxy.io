@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const bodyParser = require('body-parser')
 const port = 8080
 const  nunjucks = require('nunjucks')
 const axios = require('axios');
@@ -43,6 +44,9 @@ passport.use(
 )
 
 app.use(express.static('public'))
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
 
 app.use(session({
 	secret: process.env.session,
@@ -84,6 +88,8 @@ app.get('/', FrontController.index)
 
 app.get('/search', FrontController.search)
 
+app.get('/smart-contract/:id', FrontController.smartContract)
+
 app.get('/login', FrontController.login)
 
 app.get('/login/github', passport.authenticate('github'))
@@ -109,6 +115,8 @@ app.get('/app', ensureAuthenticated, (request, response) => {
 
 	response.render('app.html', data)
 })
+
+app.post('/api/sc/store', SmartsContractsController.store)
 
 app.get('/logout', FrontController.logout)
 

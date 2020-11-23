@@ -9,12 +9,6 @@
                         <input type="text" v-model="url" placeholder="https://github.com/you/repository" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" v-model="description" placeholder="Description" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" v-model="tags" placeholder="Tags" required>
-                    </div>
-                    <div class="form-group">
                         <button type="submit">Go</button>
                     </div>
                 </form>
@@ -25,42 +19,64 @@
 
 <script>
     import axios from 'axios'
+    import swal from 'sweetalert';
+
 
     export default {
         name: 'Create',
         mounted() {
             this.username = document.querySelector('#username').innerText
-            const echo = 'https://api.github.com/repos/${this.username}/${this.new_sc_url_repo}/contents/galaxy.json'
-            console.log(axios)
         },
         data() {
             return {
-                user: '',
+                username: '',
                 url: '',
-                description: '',
-                tags: ''
+                repo: '',
+                config: {}
             }
         },
         methods: {
             async handleForm() {
-
                 if ( ! this.url) {
-                    console.error('the repo must be valid. Example: https://github.com/<account>/<repository>/<fil.base>')
+                    swal("Error", 'the repo must be valid. Example: https://github.com/<account>/<repository>', "error");
                     return
                 }
 
-                if ( ! this.description ) {
-                     console.error('The description must be valid')
+                if ( ! this.url.startsWith('https://github.com/')) {
+                    swal('Error', 'the repo must be valid. Example: https://github.com/<account>/<repository>', 'error')
                     return
                 }
 
-                if ( ! this.tags) {
-                    console.error('At least one tag please')
+                if ( ! this.url.includes(this.username)) {
+                    swal('Error', 'you are the owner of the repository, all right ?', 'error')
                     return
                 }
 
+                let repo = this.url
+                repo = repo.split('/')
+                repo = repo.pop()
+
+                this.repo = repo
+
+                let url = `https://raw.githubusercontent.com/${this.username}/${this.repo}/main/galaxy.json`
+
+                try {
+                    let response = await axios.get(url)
+                    this.config = await response.data
+
+                } catch (error) {
+                    await console.log('the file galaxy.json is missing at the root of the repository')
+                }
+
+                url = '/api/sc/store'
+                axios.post(url, {
+                    config: this.config,
+                    username: this.username,
+                    repo: this.repo
+                })
+                .then(response => console.log(response))
 
             }
-        }
+        },
     }
 </script>
