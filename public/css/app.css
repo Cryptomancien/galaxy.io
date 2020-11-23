@@ -11,32 +11,20 @@ table thead th {
   border-bottom: 2px solid #dee2e6;
 }
 
-body {
-  background: #e5eaf1;
-  margin: 0;
-  padding: 0;
-  font-family: "Orbitron", sans-serif;
-  letter-spacing: 4px;
-}
-
-body a {
-  text-decoration: none;
-  color: #3490dc;
-}
-
 header {
   display: flex;
 }
 
 header nav {
-  padding: 1rem;
   display: flex;
   align-items: center;
   width: 100%;
 }
 
-header nav .logo {
-  margin-right: 2rem;
+@media screen and (max-width: 930px) {
+  header nav {
+    flex-direction: column;
+  }
 }
 
 header nav .search-bar-container {
@@ -115,6 +103,61 @@ header nav .menu-user-navbar a img {
   width: 50px;
 }
 
+.card {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 4px;
+  width: 100%;
+}
+
+.card .card-body {
+  padding: 1rem;
+}
+
+footer {
+  background: #111;
+  color: #fff;
+  padding: 4rem 0;
+}
+
+body {
+  background: #e5eaf1;
+  margin: 0;
+  padding: 0;
+  font-family: "Orbitron", sans-serif;
+  letter-spacing: 4px;
+}
+
+body a {
+  text-decoration: none;
+  color: #3490dc;
+}
+
+.container {
+  max-width: 1480px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.container .row {
+  display: flex;
+  flex-direction: row;
+}
+
+.container-login {
+  width: 40vw;
+  margin: 1rem auto;
+  padding: 1rem;
+  background: #fff;
+}
+
+.container-login .title {
+  margin: 1rem 0;
+  font-size: 1.4rem;
+  text-align: center;
+}
+
 main {
   min-height: 30vh;
 }
@@ -184,7 +227,7 @@ main {
   background: #111;
   color: #fff;
   width: 100%;
-  padding: 2rem;
+  padding: 2rem 0;
   font-size: 1.4rem;
 }
 
@@ -203,47 +246,5 @@ main {
 .btn-login-social i {
   margin-right: 0.6rem;
   font-size: 1.4rem;
-}
-
-.container {
-  max-width: 1480px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.container .row {
-  display: flex;
-  flex-direction: row;
-}
-
-.card {
-  background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  border-radius: 4px;
-  width: 100%;
-}
-
-.card .card-body {
-  padding: 1rem;
-}
-
-.container-login {
-  width: 40vw;
-  margin: 1rem auto;
-  padding: 1rem;
-  background: #fff;
-}
-
-.container-login .title {
-  margin: 1rem 0;
-  font-size: 1.4rem;
-  text-align: center;
-}
-
-footer {
-  background: #111;
-  color: #fff;
-  padding: 4rem 0;
 }
 

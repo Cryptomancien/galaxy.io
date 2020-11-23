@@ -8,12 +8,17 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com">
 		<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+		{% block css %}
+		{% endblock %}
 	</head>
 	<body>
-		<header>
+		<header class="container">
 			<nav>
 				<div class="logo">
-					<a href="/">LOGO</a>
+					<a href="/">
+						<img src="/img/logo.svg" alt="">
+					</a>
 				</div>
 
 				<div class="search-bar-container">
@@ -21,34 +26,33 @@
 						<input type="search" class="searchbar">
 						<button type="submit">Search</button>
 					</form>
-					
 				</div>
 
 				<ul>
-                    <!--
+					<!--
 					<li><a href="/login">Documentation</a></li>
 					 -->
 					<li>
-                        {% if user %}
-                            <ul class="menu-user-navbar">
-                                <li class="link-app-container">
-                                    <a href="/app" title="Go to application">
-                                        <img src="{{ user['_json']['avatar_url'] }}" alt="">
-                                        <span id="username">
-                                            {{ user.username }}
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="logout-container">
-                                    <a title="logout" href="/logout"><i class="fas fa-power-off"></i></a>
-                                </li>
-                            </ul>
-                        {% else %}
-                            <a href="/login">LOGIN</a>
-                        {% endif %}
-                    </li>
+						{% if user %}
+							<ul class="menu-user-navbar">
+								<li class="link-app-container">
+									<a href="/app" title="Go to application">
+										<img src="{{ user['_json']['avatar_url'] }}" alt="">
+										<span id="username">
+											{{ user.username }}
+										</span>
+									</a>
+								</li>
+								<li class="logout-container">
+									<a title="logout" href="/logout"><i class="fas fa-power-off"></i></a>
+								</li>
+							</ul>
+						{% else %}
+							<a href="/login">LOGIN</a>
+						{% endif %}
+					</li>
 				</ul>
-			</nav>		
+			</nav>
 		</header>
 
 		<main>
@@ -64,5 +68,7 @@
 			</div>
 		</footer>
 		<script src="/js/index.js"></script>
+		{% block js %}
+		{% endblock %}
 	</body>
 </html>
