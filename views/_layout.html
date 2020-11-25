@@ -6,7 +6,6 @@
 		<link rel="stylesheet" href="/css/app.css">
 		<title>Galaxy.io | The explorer of Dero smart contracts</title>
 		<link rel="preconnect" href="https://fonts.gstatic.com">
-		<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
 		{% block css %}
@@ -38,7 +37,7 @@
 								<li class="link-app-container">
 									<a href="/app" title="Go to application">
 										<img src="{{ user['_json']['avatar_url'] }}" alt="">
-										<span id="username">
+										<span id="username" data-id="{{ user.id }}">
 											{{ user.username }}
 										</span>
 									</a>

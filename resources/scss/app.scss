@@ -1,15 +1,17 @@
-@import '_variables';
-@import '_table';
+@import 'variables';
+@import 'table';
 @import 'nav';
 @import 'card';
+@import 'button';
+@import 'form';
 @import 'footer';
 
 body {
 	background: #e5eaf1;
 	margin: 0;
 	padding: 0;
-	font-family: 'Orbitron', sans-serif;
-	letter-spacing: 4px;
+	font-family: Arial;
+	letter-spacing: 1px;
 
 	a {
 		text-decoration: none;
@@ -45,7 +47,7 @@ body {
 
 
 main {
-	min-height: 30vh;
+	min-height: 50vh;
 }
 
 #landing {
@@ -146,6 +148,23 @@ main {
 		font-size: 1.4rem;
 	}
 }
+.app-nav {
+	background: #000;
+	display: flex;
+	flex-direction: column;
+	width: 30vw;
 
 
+	a {
+		display: block;
+		padding: 1rem;
 
+
+	}
+}
+
+.flex-between {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}

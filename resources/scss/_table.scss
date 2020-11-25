@@ -4,11 +4,14 @@ table {
     margin-bottom: 1rem;
     border: 1px solid rgba(#000, .2);
     padding: 1rem;
+    text-align: left;
 
     thead {
+
         th {
             vertical-align: bottom;
             border-bottom: 2px solid #dee2e6;
+            padding: 0.4rem;
         }
     }
 }
