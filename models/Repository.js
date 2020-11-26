@@ -2,13 +2,13 @@ const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
 const schema = new Schema({
-    title: String,
-    description: String,
-    file: String,
-    content: String,
+    url: String,
     user_id: Number,
-    repository: String,
-    username: String,
+    author: String,
+    config: {
+        type: Map,
+        of: String
+    },
     created_at: {
         type: Date,
         default: Date.now
@@ -19,6 +19,6 @@ const schema = new Schema({
     }
 })
 
-const model = mongoose.model('SmartContract', schema)
+const model = mongoose.model('Repository', schema)
 
 module.exports = model

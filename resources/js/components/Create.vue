@@ -12,6 +12,17 @@
                         <button type="submit">Go</button>
                     </div>
                 </form>
+                <hr>
+
+                <div v-if="smart_contracts.length" v-for="smart_contract in smart_contracts">
+                    <form @submit.prevent="add(smart_contract)">
+                        <div>Title: {{ smart_contract.title }}</div>
+                        <div>Description: {{ smart_contract.description }}</div>
+                        <div>File: {{ smart_contract.file }}</div>
+                        <div>Version: {{ smart_contract.version }}</div>
+                        <button type="submit">Add in database</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -21,18 +32,23 @@
     import axios from 'axios'
     import swal from 'sweetalert';
 
-
     export default {
         name: 'Create',
         mounted() {
-            this.username = document.querySelector('#username').innerText
+            const user_data = document.querySelector('#username')
+            this.username = user_data.innerText
+            this.id = user_data.dataset.id
         },
         data() {
             return {
+                id: '',
                 username: '',
                 url: '',
                 repo: '',
-                config: {}
+                config: {},
+
+                loading: false,
+                smart_contracts: []
             }
         },
         methods: {
@@ -55,27 +71,38 @@
                 let repo = this.url
                 repo = repo.split('/')
                 repo = repo.pop()
-
                 this.repo = repo
 
                 let url = `https://raw.githubusercontent.com/${this.username}/${this.repo}/main/galaxy.json`
 
-                try {
-                    let response = await axios.get(url)
-                    this.config = await response.data
+                let response = await axios.get(url)
+                let data = await response.data
 
-                } catch (error) {
-                    await console.log('the file galaxy.json is missing at the root of the repository')
+                if ( ! data.smart_contracts) {
+                    swal('Error', 'No smart contract found', 'error')
+                    return
                 }
 
-                url = '/api/sc/store'
-                axios.post(url, {
-                    config: this.config,
-                    username: this.username,
-                    repo: this.repo
-                })
-                .then(response => console.log(response))
+                this.smart_contracts = data.smart_contracts
+            },
+            async add(smart_contract) {
 
+                const data = {
+                    title: smart_contract.title,
+                    description: smart_contract.description,
+                    version: smart_contract.version,
+                    file: smart_contract.file,
+                    username: this.username,
+                    repository: this.repo,
+                    user_id: this.id,
+                }
+
+
+                const url = '/api/sc/store'
+                const response = await axios.post(url, data)
+                if (response.data === 'success') {
+                    swal('Success', 'Smart Contract created', 'success')
+                }
             }
         },
     }

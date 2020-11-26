@@ -1,13 +1,15 @@
 <template>
-    <div id="app">
-        <div id="nav">
-            <div class="container">
-                <div class="row">
-                    <router-link to="/app">Home</router-link> |
-                    <router-link to="/app/sc/create">Create new SC</router-link>
-                </div>
+    <div class="container">
+        <div class="row">
+            <div class="app-nav">
+                <router-link to="/app">Home</router-link>
+                <router-link to="/app/repositories">Repositories</router-link>
+                <router-link to="/app/sc/create">Smart Contracts</router-link>
+                <a href="/logout">Logout</a>
+            </div>
+            <div class="card">
+                <router-view />
             </div>
         </div>
-        <router-view />
     </div>
 </template>
