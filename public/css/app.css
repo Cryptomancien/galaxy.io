@@ -202,14 +202,16 @@ main {
 }
 
 #landing {
-  background: #111;
+  background: #0d0f49;
+  background: radial-gradient(circle, black 0%, #3e3254 50%, black 100%);
   color: #fff;
-  padding: 1rem;
-  min-height: 30vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 2rem 0;
+  text-align: center;
+  min-height: 30vh;
 }
 
 #landing .title {
