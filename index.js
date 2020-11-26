@@ -14,7 +14,7 @@ const GithubStrategy = require('passport-github').Strategy
 const mongoose = require('mongoose')
 
 const FrontController = require('./controllers/FrontController')
-const ApiController = require('./controllers/ApiController')
+const RepositoriesController = require('./controllers/Api/RepositoriesController')
 const SmartsContractsController = require('./controllers/Api/SmartsContractsController')
 const ensureAuthenticated = require('./middleware/ensureAuthenticated')
 
@@ -47,7 +47,6 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-
 app.use(session({
 	secret: process.env.session,
 	proxy: true,
@@ -57,6 +56,8 @@ app.use(session({
 
 app.use(passport.initialize())
 app.use(passport.session())
+
+
 
 passport.serializeUser(async (user, done) => {
 
@@ -96,7 +97,7 @@ app.get('/login/github', passport.authenticate('github'))
 
 app.get('/login/github/callback', passport.authenticate('github', { failureRedirect: '/nope' }),
 	(request, response) => {
-		response.redirect('/')
+		response.redirect('/app')
 	}
 )
 
@@ -116,10 +117,20 @@ app.get('/app', ensureAuthenticated, (request, response) => {
 	response.render('app.html', data)
 })
 
-app.post('/api/sc/store', SmartsContractsController.store)
-
 app.get('/logout', FrontController.logout)
 
-app.get('/api/smarts-contracts', ApiController.getAllSmartsContracts)
+app.get('/api/repositories', RepositoriesController.index)
+app.post('/api/repositories', RepositoriesController.store)
+
+app.get('/api/sc', SmartsContractsController.all)
+app.post('/api/sc/store', SmartsContractsController.store)
+
+app.use((request, response) => {
+	if (request.user) {
+		return response.redirect('/app')
+	}
+
+	return response.redirect('/')
+})
 
 app.listen(port, () => console.log(`http://localhost:${port}`))

@@ -14,30 +14,23 @@ exports.all = async (request, response) => {
 }
 
 exports.store = async (request, response) => {
-    const config_file = request.body.config
-    const username = request.body.username
-    const repo = request.body.repo
 
-    console.log(request.body)
-
-    if ( ! config_file.smarts_contracts) {
-        return response.json('the file must contains a key called smarts_contracts')
+    const data = {
+        title: request.body.title,
+        description: request.body.description,
+        version: request.body.version,
+        file: request.body.file,
+        repository: request.body.repository,
+        username: request.body.username,
+        user_id: request.body.user_id,
+        content: ''
     }
 
-    for await (smart_contract of config_file.smarts_contracts) {
-        const file_to_parse = await `https://raw.githubusercontent.com/${username}/${repo}/main/${smart_contract.file}`
+    const url = `https://raw.githubusercontent.com/${data.username}/${data.repository}/main/${data.file}`
+    await axios.get(url).then(async resp => data.content = resp.body)
 
-        await axios.get(file_to_parse).then( async (resp) => {
 
-            const data = await {
-                title: smart_contract.title,
-                description: smart_contract.description,
-                version: smart_contract.version,
-                content: resp.data
-            }
+    await SmartContract.create(data)
 
-            await SmartContract.create(data)
-        })
-    }
-    await response.json('success')
+    return await response.json('success')
 }

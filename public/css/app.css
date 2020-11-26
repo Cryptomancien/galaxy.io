@@ -293,7 +293,7 @@ main {
   background: #000;
   display: flex;
   flex-direction: column;
-  width: 30vw;
+  width: 20vw;
 }
 
 .app-nav a {
