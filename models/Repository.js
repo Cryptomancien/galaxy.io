@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 const schema = new Schema({
     url: String,
     user_id: Number,
-    author: String,
+    username: String,
     config: {
         type: Map,
         of: String
