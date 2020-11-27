@@ -12,6 +12,10 @@ exports.index = async (request, response) => {
     response.render('index.html', data)
 }
 
+exports.getStarted = async (request, response) => {
+    response.render('get-started.html')
+}
+
 exports.search = async (request, response) => {
     let data = {
         isAuth: request.isAuthenticated()

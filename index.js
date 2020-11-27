@@ -87,6 +87,8 @@ passport.deserializeUser((user, done) => {
 
 app.get('/', FrontController.index)
 
+app.get('/get-started', FrontController.getStarted)
+
 app.get('/search', FrontController.search)
 
 app.get('/smart-contract/:id', FrontController.smartContract)
