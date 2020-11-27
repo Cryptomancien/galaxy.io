@@ -1,6 +1,11 @@
 <template>
     <div class="container">
-        <div class="card">
+        <div class="card card-mb-a">
+            <div class="card-body">
+                <router-link to="/app">Home</router-link>
+            </div>
+        </div>
+        <div class="card card-mb-a">
             <div class="card-body">
                 <div class="flex-between">
                     <h4>Repositories</h4>
@@ -29,9 +34,7 @@
                         <th>Version</th>
                         <th>Created_at</th>
                         <th>Updated_at</th>
-                        <!--
                         <th>Refresh</th>
-                         -->
                     </thead>
                     <tbody>
                         <tr v-if="smart_contracts.length" v-for="smart_contract in smart_contracts">
@@ -41,9 +44,7 @@
                             <td>{{ smart_contract.version }}</td>
                             <td>{{ smart_contract.created_at }}</td>
                             <td>{{ smart_contract.updated_at }}</td>
-                            <!--
                             <td><button>refresh</button></td>
-                             -->
                         </tr>
                     </tbody>
                 </table>
@@ -61,18 +62,24 @@ export default {
     components: {
     },
     mounted() {
-        const user_data = document.querySelector('#username')
-        this.username = user_data.innerText
-        this.id = user_data.dataset.id
-
+        this.fetchRepositories()
         this.fetchSmartContracts()
     },
     data() {
         return {
-            smart_contracts: []
+            repositories: [],
+            smart_contracts: [],
         }
     },
     methods: {
+
+        async fetchRepositories() {
+            const url = '/api/repositories'
+            const response = await axios.get(url)
+            const data = await response.data
+            this.repositories = data
+        },
+
         async fetchSmartContracts() {
             const url = `/api/sc`
             const response = await axios.get(url)

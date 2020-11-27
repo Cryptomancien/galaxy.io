@@ -1,13 +1,19 @@
 <template>
     <div class="container">
+        <div class="card card-mb-a">
+            <div class="card-body">
+                <router-link to="/app">Home</router-link> /
+                <router-link to="/app/repositories">Repositories</router-link>
+            </div>
+        </div>
         <div class="card">
             <div class="card-body">
-
-                <div class="button">
-                    <router-link to="/app/repositories/create">Create Repository</router-link>
+                <div class="flex-between">
+                    <h1>Repositories</h1>
+                    <router-link to="/app/repositories/create">Create repository</router-link>
                 </div>
 
-                <table v-for="repository in repositories ">
+                <table>
                     <thead>
                         <th>Url</th>
                         <th>Created_at</th>
@@ -15,31 +21,14 @@
                         <th>Refresh</th>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr v-if="repositories.length" v-for="repository in repositories">
                             <td>{{ repository.url }}</td>
                             <td>{{ repository.created_at }}</td>
                             <td>{{ repository.updated_at }}</td>
                             <td><button>refresh</button></td>
                         </tr>
-                        <tr>
-                            <td colspan="4">
-                                <table>
-                                    <thead>
-                                        <th>Title</th>
-                                        <th>Description</th>
-                                        <th>File</th>
-                                        <th>Refresh</th>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="smart_contract in repository.smart_contracts">
-                                            <td>{{ smart_contract.title }}</td>
-                                            <td>{{ smart_contract.description }}</td>
-                                            <td>{{ smart_contract.file }}</td>
-                                            <td><button>Refresh</button></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </td>
+                        <tr v-else>
+                            <td colspan="4">No repository</td>
                         </tr>
                     </tbody>
                 </table>
@@ -59,72 +48,7 @@
         data() {
             return {
                 repositories: [
-                    {
-                        url: 'github.com/toto/toto',
-                        created_at: '10/20/20',
-                        updated_at: '10/20/20',
-                        smart_contracts: [
-                            {
-                                title: 'hello world',
-                                description: 'a simple hello world',
-                                file: 'hello_world.bas'
-                            },
-                            {
-                                title: 'hello world',
-                                description: 'a simple hello world',
-                                file: 'hello_world.bas'
-                            },
-                            {
-                                title: 'hello world',
-                                description: 'a simple hello world',
-                                file: 'hello_world.bas'
-                            },
-                        ]
-                    },
-                    {
-                        url: 'github.com/toto/toto',
-                        created_at: '10/20/20',
-                        updated_at: '10/20/20',
-                        smart_contracts: [
-                            {
-                                title: 'hello world',
-                                description: 'a simple hello world',
-                                file: 'hello_world.bas'
-                            },
-                            {
-                                title: 'hello world',
-                                description: 'a simple hello world',
-                                file: 'hello_world.bas'
-                            },
-                            {
-                                title: 'hello world',
-                                description: 'a simple hello world',
-                                file: 'hello_world.bas'
-                            },
-                        ]
-                    },
-                    {
-                        url: 'github.com/toto/toto',
-                        created_at: '10/20/20',
-                        updated_at: '10/20/20',
-                        smart_contracts: [
-                            {
-                                title: 'hello world',
-                                description: 'a simple hello world',
-                                file: 'hello_world.bas'
-                            },
-                            {
-                                title: 'hello world',
-                                description: 'a simple hello world',
-                                file: 'hello_world.bas'
-                            },
-                            {
-                                title: 'hello world',
-                                description: 'a simple hello world',
-                                file: 'hello_world.bas'
-                            },
-                        ]
-                    }
+
                 ]
             }
         },

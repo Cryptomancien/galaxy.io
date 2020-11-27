@@ -1,10 +1,17 @@
 <template>
     <div class="container">
+        <div class="card card-mb-a">
+            <div class="card-body">
+                <router-link to="/app">Home</router-link> /
+                <router-link to="/app/repositories">Repositories</router-link> /
+                <router-link to="/app/repositories/create">Create</router-link>
+            </div>
+        </div>
         <div class="card">
             <div class="card-body">
                 <h1>Create new SC</h1>
 
-                <form action="" @submit.prevent="handleForm">
+                <form @submit.prevent="loadConfig">
                     <div class="form-group">
                         <input type="text" v-model="url" placeholder="https://github.com/you/repository" required>
                     </div>
@@ -14,13 +21,15 @@
                 </form>
                 <hr>
 
-                <div v-if="smart_contracts.length" v-for="smart_contract in smart_contracts">
-                    <form @submit.prevent="add(smart_contract)">
+                <div v-if="smart_contracts.length">
+                    <div v-for="smart_contract in smart_contracts">
                         <div>Title: {{ smart_contract.title }}</div>
                         <div>Description: {{ smart_contract.description }}</div>
                         <div>File: {{ smart_contract.file }}</div>
                         <div>Version: {{ smart_contract.version }}</div>
-                        <button type="submit">Add in database</button>
+                    </div>
+                    <form @submit.prevent="validate">
+                        <button>Validate</button>
                     </form>
                 </div>
             </div>
@@ -35,24 +44,20 @@
     export default {
         name: 'Create',
         mounted() {
-            const user_data = document.querySelector('#username')
-            this.username = user_data.innerText
-            this.id = user_data.dataset.id
+            const user = document.querySelector('#username')
+            this.username = user.innerText
         },
         data() {
             return {
-                id: '',
                 username: '',
                 url: '',
-                repo: '',
+                repository: '',
                 config: {},
-
-                loading: false,
                 smart_contracts: []
             }
         },
         methods: {
-            async handleForm() {
+            async loadConfig() {
                 if ( ! this.url) {
                     swal("Error", 'the repo must be valid. Example: https://github.com/<account>/<repository>', "error");
                     return
@@ -68,12 +73,12 @@
                     return
                 }
 
-                let repo = this.url
-                repo = repo.split('/')
-                repo = repo.pop()
-                this.repo = repo
+                let repository = this.url
+                repository = repository.split('/')
+                repository = repository.pop()
+                this.repository = repository
 
-                let url = `https://raw.githubusercontent.com/${this.username}/${this.repo}/main/galaxy.json`
+                let url = `https://raw.githubusercontent.com/${this.username}/${this.repository}/main/galaxy.json`
 
                 let response = await axios.get(url)
                 let data = await response.data
@@ -85,9 +90,25 @@
 
                 this.smart_contracts = data.smart_contracts
             },
-            async add(smart_contract) {
+            async validate() {
 
-                const data = {
+                let url = ''
+                let data = {}
+                let response
+
+                url = '/api/repository/store'
+                data = {
+                    url: this.url,
+                    repository: this.repository,
+                    config: this.smart_contracts,
+                }
+
+                console.log(data)
+                console.log(this.smart_contracts)
+                return
+                //response = axios.post(url, data)
+                /*
+                 data = {
                     title: smart_contract.title,
                     description: smart_contract.description,
                     version: smart_contract.version,
@@ -98,11 +119,13 @@
                 }
 
 
-                const url = '/api/sc/store'
+                url = '/api/sc/store'
                 const response = await axios.post(url, data)
                 if (response.data === 'success') {
                     swal('Success', 'Smart Contract created', 'success')
                 }
+
+                 */
             }
         },
     }

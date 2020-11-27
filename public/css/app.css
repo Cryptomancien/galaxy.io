@@ -294,6 +294,7 @@ main {
   display: flex;
   flex-direction: column;
   width: 20vw;
+  min-height: 50vh;
 }
 
 .app-nav a {
@@ -305,5 +306,9 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.card-mb-a {
+  margin-bottom: 1rem;
 }
 
