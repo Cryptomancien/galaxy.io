@@ -21,7 +21,7 @@ exports.search = async (request, response) => {
     const smarts_contracts = await SmartContract.find({}).sort({created_at: -1})
 
     let data = {
-        isAuth: request.isAuthenticated(),
+        user: request.user,
         smarts_contracts
     }
 
