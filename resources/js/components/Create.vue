@@ -1,37 +1,43 @@
 <template>
-    <div class="container">
-        <div class="card card-mb-a">
-            <div class="card-body">
-                <router-link to="/app">Home</router-link> /
-                <router-link to="/app/repositories">Repositories</router-link> /
-                <router-link to="/app/repositories/create">Create</router-link>
-            </div>
+    <div class="card mb-2">
+        <div class="card-content">
+            <nav class="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                    <li><router-link to="/app">Home</router-link></li>
+                    <li><router-link to="/app/repositories">Repositories</router-link></li>
+                    <li class="is-active"><a href="#" aria-current="page">Create</a></li>
+                </ul>
+            </nav>
         </div>
-        <div class="card">
-            <div class="card-body">
-                <h1>Create new SC</h1>
-
-                <form @submit.prevent="loadConfig">
-                    <div class="form-group">
-                        <input type="text" v-model="url" placeholder="https://github.com/you/repository" required>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h1 class="card-header-title">Create new repository</h1>
+        </div>
+        <div class="card-content">
+            <form @submit.prevent="loadConfig">
+                <div class="field has-addons">
+                    <div class="control">
+                        <input type="text" class="input " placeholder="https://github.com/<username>/<repository>">
+                        <small>https://github.com/username/repository</small>
                     </div>
-                    <div class="form-group">
-                        <button type="submit">Go</button>
+                    <div class="control">
+                        <button type="submit" class="button is-info">GO</button>
                     </div>
-                </form>
-                <hr>
-
-                <div v-if="smart_contracts.length">
-                    <div v-for="smart_contract in smart_contracts">
-                        <div>Title: {{ smart_contract.title }}</div>
-                        <div>Description: {{ smart_contract.description }}</div>
-                        <div>File: {{ smart_contract.file }}</div>
-                        <div>Version: {{ smart_contract.version }}</div>
-                    </div>
-                    <form @submit.prevent="validate">
-                        <button>Validate</button>
-                    </form>
                 </div>
+            </form>
+            <hr>
+
+            <div v-if="smart_contracts.length">
+                <div v-for="smart_contract in smart_contracts">
+                    <div>Title: {{ smart_contract.title }}</div>
+                    <div>Description: {{ smart_contract.description }}</div>
+                    <div>File: {{ smart_contract.file }}</div>
+                    <div>Version: {{ smart_contract.version }}</div>
+                </div>
+                <form @submit.prevent="validate">
+                    <button>Validate</button>
+                </form>
             </div>
         </div>
     </div>
