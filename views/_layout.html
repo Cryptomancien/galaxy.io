@@ -30,51 +30,47 @@
 					<div class="navbar-start">
 
 						<div class="navbar-item search-bar-container">
-							<form action="/search">
+							<form action="/search" class="">
 								<div class="field has-addons">
 									<div class="control has-icons-left">
-										<input type="text" class="input " placeholder="Input number in seconds">
+										<input type="text" class="input has-background-grey-lighter is-medium" placeholder="Search smart contracts">
 									</div>
 									<div class="control">
-										<a class="button is-info">GO</a>
+										<a class="button is-dark is-medium">GO</a>
 									</div>
 								</div>
 							</form>
 						</div>
-
-						<a class="navbar-item">
-							Get started
-						</a>
 					</div>
 
 					<div class="navbar-end">
 						<div class="navbar-item">
 							{% if user %}
-							<div class="navbar-item has-dropdown is-hoverable">
-								<a href="/app" class="navbar-link">
-									<img src="{{ user['_json']['avatar_url'] }}" alt="">
-									{{ user.username }}
-								</a>
+								<div class="navbar-item has-dropdown is-hoverable">
+									<a href="/app" class="navbar-link">
+										<img src="{{ user['_json']['avatar_url'] }}" alt="">
+										<span id="username">{{ user.username }}</span>
+									</a>
 
-								<div class="navbar-dropdown">
-									<a href="/app/repositories" class="navbar-item">
-										Repositories
-									</a>
-									<a class="navbar-item">
-										Smart contracts
-									</a>
-									<hr class="navbar-divider">
-									<a href="/logout" class="navbar-item">
-										Logout
+									<div class="navbar-dropdown">
+										<a href="/app/repositories" class="navbar-item">
+											Repositories
+										</a>
+										<a class="navbar-item">
+											Smart contracts
+										</a>
+										<hr class="navbar-divider">
+										<a href="/logout" class="navbar-item">
+											Logout
+										</a>
+									</div>
+								</div>
+							{% else %}
+								<div class="buttons">
+									<a href="/login" class="button is-light">
+										Log in
 									</a>
 								</div>
-							</div>
-							{% else %}
-							<div class="buttons">
-								<a href="/login" class="button is-light">
-									Log in
-								</a>
-							</div>
 							{% endif %}
 						</div>
 					</div>
@@ -90,10 +86,16 @@
 		</main>
 
 		<footer class="footer has-background-black-ter">
-			<div class="container ">
-				<p>
-					<a href="https://dero.io">Dero.io</a>
-				</p>
+			<div class="container">
+				<div class="columns">
+					<div class="column">
+						<ul>
+							<li class="mb-2"><a href="https://dero.io">Dero the fatest anonymous blockchain</a></li>
+							<li class="mb-2"><a href="/search">Search smart contracts</a></li>
+							<li class="mb-2"><a href="/get-started">Get started</a></li>
+						</ul>
+					</div>
+				</div>
 			</div>
 		</footer>
 
