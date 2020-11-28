@@ -12,47 +12,76 @@
 		{% endblock %}
 	</head>
 	<body>
-		<header class="container">
-			<nav>
-				<div class="logo">
-					<a href="/">
-						<img src="/img/logo.svg" alt="">
+		<header class="">
+			<nav class="navbar container" role="navigation" aria-label="main navigation" id="navbar">
+				<div class="navbar-brand">
+					<a class="navbar-item" href="/">
+						<img src="/img/logo.svg" alt="" style="max-height: initial">
+					</a>
+
+					<a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+						<span aria-hidden="true"></span>
+						<span aria-hidden="true"></span>
+						<span aria-hidden="true"></span>
 					</a>
 				</div>
 
-				<div class="search-bar-container">
-					<form action="/search">
-						<input type="search" class="searchbar">
-						<button type="submit">Search</button>
-					</form>
-				</div>
+				<div id="navbarBasicExample" class="navbar-menu">
+					<div class="navbar-start">
 
-				<ul>
-					<!--
-					<li><a href="/login">Documentation</a></li>
-					 -->
-					<li>
-						{% if user %}
-							<ul class="menu-user-navbar">
-								<li class="link-app-container">
-									<a href="/app" title="Go to application">
-										<img src="{{ user['_json']['avatar_url'] }}" alt="">
-										<span id="username" data-id="{{ user.id }}">
-											{{ user.username }}
-										</span>
+						<div class="navbar-item search-bar-container">
+							<form action="/search">
+								<div class="field has-addons">
+									<div class="control has-icons-left">
+										<input type="text" class="input " placeholder="Input number in seconds">
+									</div>
+									<div class="control">
+										<a class="button is-info">GO</a>
+									</div>
+								</div>
+							</form>
+						</div>
+
+						<a class="navbar-item">
+							Get started
+						</a>
+					</div>
+
+					<div class="navbar-end">
+						<div class="navbar-item">
+							{% if user %}
+							<div class="navbar-item has-dropdown is-hoverable">
+								<a href="/app" class="navbar-link">
+									<img src="{{ user['_json']['avatar_url'] }}" alt="">
+									{{ user.username }}
+								</a>
+
+								<div class="navbar-dropdown">
+									<a href="/app/repositories" class="navbar-item">
+										Repositories
 									</a>
-								</li>
-								<li class="logout-container">
-									<a title="logout" href="/logout"><i class="fas fa-power-off"></i></a>
-								</li>
-							</ul>
-						{% else %}
-							<a href="/login">LOGIN</a>
-						{% endif %}
-					</li>
-				</ul>
+									<a class="navbar-item">
+										Smart contracts
+									</a>
+									<hr class="navbar-divider">
+									<a href="/logout" class="navbar-item">
+										Logout
+									</a>
+								</div>
+							</div>
+							{% else %}
+							<div class="buttons">
+								<a href="/login" class="button is-light">
+									Log in
+								</a>
+							</div>
+							{% endif %}
+						</div>
+					</div>
+				</div>
 			</nav>
 		</header>
+
 
 		<main>
 			{% block content %}
@@ -60,12 +89,14 @@
 			{% endblock %}
 		</main>
 
-		<footer>
-			<div class="container">
-				Privates smarts contracts are here
-
+		<footer class="footer has-background-black-ter">
+			<div class="container ">
+				<p>
+					<a href="https://dero.io">Dero.io</a>
+				</p>
 			</div>
 		</footer>
+
 		<script src="/js/index.js"></script>
 		{% block js %}
 		{% endblock %}

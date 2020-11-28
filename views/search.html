@@ -1,13 +1,40 @@
 {% extends "_layout.html" %}
 
 {% block content %}
-    <div class="container">
-        {% for i in [1,2,3,4,5,6,7,8,9] %}
-            <div class="card">
-                <div class="card-body">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing, elit. Molestiae!
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-two-thirds">
+                    {% for i in [1,2,3,4,5,6,7,8,9] %}
+                        <div class="card mb-2">
+                            <div class="card-content">
+                                <div class="has-text-weight-semibold">
+                                    title
+                                </div>
+                                <div>
+                                    Lorem, ipsum dolor sit amet consectetur adipisicing, elit. Molestiae!
+                                </div>
+                                <div>
+                                    <img src="" alt="">
+                                    user github.com/toto/toto
+                                </div>
+                            </div>
+                        </div>
+                    {%- endfor %}
+                </div>
+                <div class="column">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-header-title">
+                                Categories
+                            </div>
+                        </div>
+                        <div class="card-content">
+                           Coming soon
+                        </div>
+                    </div>
                 </div>
             </div>
-        {%- endfor %}
-    </div>
+        </div>
+    </section>
 {% endblock %}

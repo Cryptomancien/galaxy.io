@@ -1,14 +1,22 @@
 {% extends "_layout.html" %}
 
 {% block content %}
-	
-	<div class="container-login">
-		
-		<div class="title">
-			Login
-		</div>
+	<section class="section">
 
-		<a href="/login/github" class="btn-login-social"><i class="fab fa-github"></i> GITHUB</a>
-	</div>
-	
+		<div class="container">
+			<div class="column is-half" style="margin: 0 auto;">
+				<div class="card">
+					<div class="card-header">
+						<h1 class="card-header-title">Login</h1>
+					</div>
+					<div class="card-content">
+						<a href="/login/github" class="button is-medium is-ghost is-fullwidth"><i class="fab fa-github"></i> &nbsp; GITHUB </a>
+
+						<br>
+						<small>bitbucket, gitlab and gitea are coming. Stay tuned</small>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 {% endblock %}

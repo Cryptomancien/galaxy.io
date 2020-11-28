@@ -15,61 +15,57 @@
 		</div>
 	</section>
 
-	<section id="latest">
-		<h2 class="title">Latest</h2>
+	<section class="section" id="latest">
 		<div class="container">
-			
-			<div class="smart-contracts">
+			<h2 class="title has-text-centered is-size-3">
+				Latest smart contracts available
+			</h2>
+			<div class="columns is-multiline smart-contracts">
 				{% for smart_contract in smarts_contracts %}
-
-					<div class="card smart-contract">
-						<div class="card-body">
-							<div>
-								<a href="/smart-contract/{{ smart_contract.id }}">
-									{{ smart_contract.title }}
-								</a>
+					<div class="column is-one-third">
+						<div class="card smart-contract">
+							<div class="card-header">
+								<div class="card-header-title">
+									<a href="/smart-contract/{{ smart_contract.id }}">
+										{{ smart_contract.title }}
+									</a>
+								</div>
 							</div>
-							<div>
+							<div class="card-content">
 								{{ smart_contract.description }}
+							</div>
+							<div class="card-footer">
+								<a href="#" class="card-footer-item">github.com/toto/toto</a>
 							</div>
 						</div>
 					</div>
 				{%- endfor %}
-
-			</div>
-
-			<div class="categories">
-                <!--
-				<ul>
-					<li><a href="#">Defi</a></li>
-					<li><a href="#">Ecommerce</a></li>
-					<li><a href="#">Gambling</a></li>
-					<li><a href="#">Misc</a></li>
-					<li><a href="#">More categories</a></li>
-				</ul>
-				 -->
 			</div>
 		</div>
 	</section>
 
 	<section id="documentation">
 		<div class="container">
-
-			
-			<pre class="code">
-	// galaxy.json (at the root of your project)
-	{
-		smarts_contracts = [
-			{
-				"title": "My awesome smart contract",
-				"description": "a short description",
-				"version": "1.2.3",
-				"file": "hello_world.bas"
-			}
-		]
-	}
-			</pre>
+			<div class="columns is-align-items-center">
+				<div class="column">
+					<h3 class="title has-text-centered is-size-3">Simple configuration file</h3>
+				</div>
+				<div class="column">
+					<pre class="code">
+// galaxy.json (at the root of your project)
+{
+	smarts_contracts = [
+		{
+			"title": "My awesome smart contract",
+			"description": "a short description",
+			"version": "1.2.3",
+			"file": "hello_world.bas"
+		}
+	]
+}
+					</pre>
+				</div>
+			</div>
 		</div>
 	</section>
-
 {% endblock %}

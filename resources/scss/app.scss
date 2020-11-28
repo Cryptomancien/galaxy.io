@@ -1,17 +1,23 @@
-@import 'variables';
+//@import 'variables';
+/*
 @import 'table';
-@import 'nav';
 @import 'card';
 @import 'button';
 @import 'form';
 @import 'footer';
 
+ */
+
+@import 'nav';
+
+
+@import '../../node_modules/bulma/bulma';
+
+
 body {
 	background: #e5eaf1;
-	margin: 0;
-	padding: 0;
+
 	font-family: Arial;
-	letter-spacing: 1px;
 
 	a {
 		text-decoration: none;
@@ -19,136 +25,56 @@ body {
 	}
 }
 
-.container {
-	max-width: 1480px;
-	margin: 0 auto;
+#landing {
+    background: rgb(13,15,73);
+    background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(62,50,84,1) 50%, rgba(0,0,0,1) 100%);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+    text-align: center;
+    min-height: 30vh;
 
-	display: flex;
-	flex-direction: column;
+    .title {
+        font-size: 1.8rem;
+        margin-bottom: 4rem;
+        color: #fff;
+    }
 
-	.row {
-		display: flex;
-		flex-direction: row;
-	}
+    .btn-landing {
+        padding: 1rem 4rem;
+        margin: 1rem;
+
+        color: #fff;
+        text-decoration: none;
+        font-family: arial;
+
+        &:nth-child(1) {
+            background: $green;
+
+            &:hover {
+                background: lighten($green, 10%);
+            }
+        }
+
+        &:nth-child(2) {
+            background: $blue;
+
+            &:hover {
+                background: lighten($blue, 10%);
+            }
+        }
+    }
 }
-
-.container-login {
-	width: 40vw;
-	margin: 1rem auto;
-	padding: 1rem;
-	background: #fff;
-
-	.title {
-		margin: 1rem 0;
-		font-size: 1.4rem;
-		text-align: center;
-	}
-}
-
 
 main {
-	min-height: 50vh;
+    min-height: 50vh;
 }
 
-#landing {
-	background: rgb(13,15,73);
-	background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(62,50,84,1) 50%, rgba(0,0,0,1) 100%);
-	color: #fff;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	padding: 2rem 0;
-	text-align: center;
-	min-height: 30vh;
+/*
 
-	.title {
-		font-size: 1.8rem;
-		margin-bottom: 4rem;
-	}
-
-	.btn-landing {
-		padding: 1rem 4rem;
-		margin: 1rem;
-
-		color: #fff;
-		text-decoration: none;
-		font-family: arial;
-
-		&:nth-child(1) {
-			background: $green;
-
-			&:hover {
-				background: lighten($green, 10%);
-			}
-		}
-
-		&:nth-child(2) {
-			background: $blue;
-
-			&:hover {
-				background: lighten($blue, 10%);
-			}
-		}
-	}
-}
-
-#latest {
-	.title {
-		text-align: center;
-	}
-
-	.smart-contracts {
-		width: 80%;
-
-		display: flex;
-		justify-content: space-between;
-		flex-wrap: wrap;
-
-		.smart-contract {
-			width: 48%;
-			margin: .4rem;
-		}
-	}
-
-	.categories {
-
-		ul {
-			li {
-				list-style-type: none;
-				margin-bottom: 1rem;
-			}
-		}
-	}
-}
-
-#documentation {
-
-	.code {
-		background: #111;
-		color: #fff;
-		width: 100%;
-		padding: 2rem 0;
-		font-size: 1.4rem;
-	}
-}
-
-.btn-login-social {
-	border: 1px solid rgba(#000, 0.7);
-	padding: .6rem 2rem;
-	border-radius: 4px;
-	color: #000;
-	display: block;
-
-	&:hover {
-		background: rgba(#999, 0.7);
-	}
-
-	i {
-		margin-right: .6rem;
-		font-size: 1.4rem;
-	}
-}
 .app-nav {
 	background: #000;
 	display: flex;
@@ -173,3 +99,5 @@ main {
 .card-mb-a {
 	margin-bottom: 1rem;
 }
+
+ */
