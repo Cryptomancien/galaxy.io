@@ -1,8 +1,9 @@
 import { createWebHistory, createRouter } from 'vue-router'
 import Home from './components/Home'
 import Create from './components/Create'
-import Repositories from "./components/Repositories";
-import SmartContracts from "./components/SmartContracts";
+import Repositories from './components/Repositories';
+import SmartContracts from './components/SmartContracts';
+import Repository from './components/Repository'
 
 const routes = [
     {
@@ -19,6 +20,11 @@ const routes = [
         path: '/app/repositories/create',
         name: 'Create',
         component: Create
+    },
+    {
+        path: '/app/repositories/:id',
+        name: 'Repository',
+        component: Repository,
     },
     {
         path: '/app/sc',

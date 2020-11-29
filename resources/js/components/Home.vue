@@ -26,7 +26,12 @@
                 </thead>
                 <tbody>
                     <tr v-if="repositories.length" v-for="repository in repositories">
-
+                        <td>
+                            <router-link :to="'/app/repositories/' + repository['_id']">{{ repository.url }}</router-link>
+                        </td>
+                        <td>{{ repository['_id'] }}</td>
+                        <td>{{ repository.updated_at }}</td>
+                        <td><button class="button is-primary">Refresh</button></td>
                     </tr>
                     <tr v-else>
                         <td colspan="4">No repository</td>
@@ -90,14 +95,14 @@ export default {
     methods: {
 
         async fetchRepositories() {
-            const url = '/api/repositories'
+            const url = '/api/repositories?preview=1'
             const response = await axios.get(url)
             const data = await response.data
             this.repositories = data
         },
 
         async fetchSmartContracts() {
-            const url = `/api/sc`
+            const url = `/api/sc?preview=1`
             const response = await axios.get(url)
             const data = await response.data
             this.smart_contracts = data

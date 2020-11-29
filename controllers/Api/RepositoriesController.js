@@ -6,7 +6,7 @@ exports.index = async (request, response) => {
     }
 
     const repositories = await Repository.find({
-        user_id: request.params.id
+        user_id: request.user.id
     })
 
     return response.json(repositories)
@@ -17,16 +17,38 @@ exports.store = async (request, response) => {
         return response.json('you must to be logged')
     }
 
-    const config_file = request.body.config
-    const username = request.body.username
-    const user_id = request.body.user_id
-    const repo = request.body.repo
+    const url = request.body.url
+    const user_id = request.user.id
+    const username = request.user.username
+    const name = request.body.repository
+    const content = request.body.content
 
-    console.log(request.body)
-
-    if ( ! config_file.smarts_contracts) {
-        return response.json('the file must contains a key called smarts_contracts')
+    const data = {
+        url,
+        user_id,
+        username,
+        name,
+        content
     }
 
-    await response.json('Repository created')
+    await Repository.create(data)
+
+    await response.json('success')
+}
+
+exports.show = async (request, response) => {
+
+    const id = request.params.id
+
+    const repository = await Repository.findById(id)
+
+    await response.json(repository)
+}
+
+exports.destroy = async (request, response) => {
+    const id = request.params.id
+
+    await Repository.findByIdAndDelete(id)
+
+    await response.json('success')
 }

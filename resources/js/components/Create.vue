@@ -18,7 +18,7 @@
             <form @submit.prevent="loadConfig">
                 <div class="field has-addons">
                     <div class="control">
-                        <input type="text" class="input " placeholder="https://github.com/<username>/<repository>">
+                        <input type="text" class="input " placeholder="https://github.com/<username>/<repository>" v-model="url">
                         <small>https://github.com/username/repository</small>
                     </div>
                     <div class="control">
@@ -34,9 +34,10 @@
                     <div>Description: {{ smart_contract.description }}</div>
                     <div>File: {{ smart_contract.file }}</div>
                     <div>Version: {{ smart_contract.version }}</div>
+                    <hr>
                 </div>
                 <form @submit.prevent="validate">
-                    <button>Validate</button>
+                    <button class="button is-success is-medium is-fullwidth">Validate</button>
                 </form>
             </div>
         </div>
@@ -58,12 +59,13 @@
                 username: '',
                 url: '',
                 repository: '',
-                config: {},
-                smart_contracts: []
+                smart_contracts: [],
+                content: ''
             }
         },
         methods: {
             async loadConfig() {
+
                 if ( ! this.url) {
                     swal("Error", 'the repo must be valid. Example: https://github.com/<account>/<repository>', "error");
                     return
@@ -94,6 +96,8 @@
                     return
                 }
 
+                this.content = data
+
                 this.smart_contracts = data.smart_contracts
             },
             async validate() {
@@ -102,36 +106,24 @@
                 let data = {}
                 let response
 
-                url = '/api/repository/store'
+                url = '/api/repositories'
                 data = {
                     url: this.url,
                     repository: this.repository,
-                    config: this.smart_contracts,
+                    content: this.content
                 }
 
-                console.log(data)
-                console.log(this.smart_contracts)
-                return
-                //response = axios.post(url, data)
-                /*
-                 data = {
-                    title: smart_contract.title,
-                    description: smart_contract.description,
-                    version: smart_contract.version,
-                    file: smart_contract.file,
-                    username: this.username,
-                    repository: this.repo,
-                    user_id: this.id,
+                response = await axios.post(url, data)
+                data = await response.data
+
+                if (data === 'success') {
+                    this.$router.push('/app')
+                    //await this.createSmartContracts()
                 }
+            },
 
+            async createSmartContracts() {
 
-                url = '/api/sc/store'
-                const response = await axios.post(url, data)
-                if (response.data === 'success') {
-                    swal('Success', 'Smart Contract created', 'success')
-                }
-
-                 */
             }
         },
     }

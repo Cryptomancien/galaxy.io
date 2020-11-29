@@ -123,9 +123,12 @@ app.get('/logout', FrontController.logout)
 
 app.get('/api/repositories', RepositoriesController.index)
 app.post('/api/repositories', RepositoriesController.store)
+app.get('/api/repositories/:id', RepositoriesController.show)
+
+app.delete('/api/repositories/:id', RepositoriesController.destroy)
 
 app.get('/api/sc', SmartsContractsController.all)
-app.post('/api/sc/store', SmartsContractsController.store)
+app.post('/api/sc', SmartsContractsController.store)
 
 app.use((request, response) => {
 	if (request.user) {

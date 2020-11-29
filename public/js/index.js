@@ -11823,8 +11823,8 @@ __webpack_require__.r(__webpack_exports__);
       username: '',
       url: '',
       repository: '',
-      config: {},
-      smart_contracts: []
+      smart_contracts: [],
+      content: ''
     };
   },
 
@@ -11858,6 +11858,7 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
+      this.content = data;
       this.smart_contracts = data.smart_contracts;
     },
 
@@ -11865,33 +11866,21 @@ __webpack_require__.r(__webpack_exports__);
       let url = '';
       let data = {};
       let response;
-      url = '/api/repository/store';
+      url = '/api/repositories';
       data = {
         url: this.url,
         repository: this.repository,
-        config: this.smart_contracts
+        content: this.content
       };
-      console.log(data);
-      console.log(this.smart_contracts);
-      return; //response = axios.post(url, data)
+      response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, data);
+      data = await response.data;
 
-      /*
-       data = {
-          title: smart_contract.title,
-          description: smart_contract.description,
-          version: smart_contract.version,
-          file: smart_contract.file,
-          username: this.username,
-          repository: this.repo,
-          user_id: this.id,
+      if (data === 'success') {
+        this.$router.push('/app'); //await this.createSmartContracts()
       }
-        url = '/api/sc/store'
-      const response = await axios.post(url, data)
-      if (response.data === 'success') {
-          swal('Success', 'Smart Contract created', 'success')
-      }
-        */
-    }
+    },
+
+    async createSmartContracts() {}
 
   }
 });
@@ -11928,14 +11917,14 @@ __webpack_require__.r(__webpack_exports__);
 
   methods: {
     async fetchRepositories() {
-      const url = '/api/repositories';
+      const url = '/api/repositories?preview=1';
       const response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url);
       const data = await response.data;
       this.repositories = data;
     },
 
     async fetchSmartContracts() {
-      const url = `/api/sc`;
+      const url = `/api/sc?preview=1`;
       const response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url);
       const data = await response.data;
       this.smart_contracts = data;
@@ -11969,6 +11958,79 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     fetchRepositories() {
       console.log('wait');
+    }
+
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Repository.vue?vue&type=script&lang=js":
+/*!**************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/Repository.vue?vue&type=script&lang=js ***!
+  \**************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
+/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'Repository',
+
+  mounted() {
+    const id = window.location.pathname.split('/').pop(); // get the id in url
+
+    this.fetchRepository(id);
+  },
+
+  data() {
+    return {
+      repository: {},
+      smart_contracts: []
+    };
+  },
+
+  methods: {
+    async fetchRepository(id) {
+      const url = `/api/repositories/${id}`;
+      const response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url);
+      const data = await response.data;
+      this.repository = data;
+      let smart_contracts = [];
+      this.repository.content.smart_contracts.forEach(x => {
+        const o = {
+          title: x.title,
+          description: x.description,
+          file: x.file,
+          version: x.version
+        };
+        smart_contracts.push(o);
+      });
+      this.smart_contracts = smart_contracts;
+    },
+
+    async destroy(id) {
+      const confirm = await sweetalert__WEBPACK_IMPORTED_MODULE_1___default()('Are you sure to delete ?', {
+        buttons: ["Nope", true]
+      });
+
+      if (!confirm) {
+        return;
+      }
+
+      const url = `/api/repositories/${id}`;
+      const response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.delete(url);
+      const data = await response.data;
+
+      if (data === 'success') {
+        this.$router.push('/app');
+      }
     }
 
   }
@@ -12077,10 +12139,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={\"username\":\"data\",\"url\":\"data\",\"repository\":\"data\",\"config\":\"data\",\"smart_contracts\":\"data\",\"loadConfig\":\"options\",\"validate\":\"options\"}":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={"username":"data","url":"data","repository":"data","config":"data","smart_contracts":"data","loadConfig":"options","validate":"options"} ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={\"username\":\"data\",\"url\":\"data\",\"repository\":\"data\",\"smart_contracts\":\"data\",\"content\":\"data\",\"loadConfig\":\"options\",\"validate\":\"options\",\"createSmartContracts\":\"options\"}":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={"username":"data","url":"data","repository":"data","smart_contracts":"data","content":"data","loadConfig":"options","validate":"options","createSmartContracts":"options"} ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -12128,18 +12190,41 @@ const _hoisted_8 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createV
 const _hoisted_9 = {
   class: "card-content"
 };
+const _hoisted_10 = {
+  class: "field has-addons"
+};
+const _hoisted_11 = {
+  class: "control"
+};
 
-const _hoisted_10 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createStaticVNode"])("<div class=\"field has-addons\"><div class=\"control\"><input type=\"text\" class=\"input \" placeholder=\"https://github.com/&lt;username&gt;/&lt;repository&gt;\"><small>https://github.com/username/repository</small></div><div class=\"control\"><button type=\"submit\" class=\"button is-info\">GO</button></div></div>", 1);
-
-const _hoisted_11 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("hr", null, null, -1
+const _hoisted_12 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("small", null, "https://github.com/username/repository", -1
 /* HOISTED */
 );
 
-const _hoisted_12 = {
+const _hoisted_13 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
+  class: "control"
+}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+  type: "submit",
+  class: "button is-info"
+}, "GO")], -1
+/* HOISTED */
+);
+
+const _hoisted_14 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("hr", null, null, -1
+/* HOISTED */
+);
+
+const _hoisted_15 = {
   key: 0
 };
 
-const _hoisted_13 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", null, "Validate", -1
+const _hoisted_16 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("hr", null, null, -1
+/* HOISTED */
+);
+
+const _hoisted_17 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+  class: "button is-success is-medium is-fullwidth"
+}, "Validate", -1
 /* HOISTED */
 );
 
@@ -12157,10 +12242,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [_hoisted_5]),
     _: 1
   })]), _hoisted_6])])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_7, [_hoisted_8, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_9, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("form", {
-    onSubmit: _cache[1] || (_cache[1] = Object(vue__WEBPACK_IMPORTED_MODULE_0__["withModifiers"])((...args) => $options.loadConfig(...args), ["prevent"]))
-  }, [_hoisted_10], 32
+    onSubmit: _cache[2] || (_cache[2] = Object(vue__WEBPACK_IMPORTED_MODULE_0__["withModifiers"])((...args) => $options.loadConfig(...args), ["prevent"]))
+  }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_10, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_11, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
+    type: "text",
+    class: "input ",
+    placeholder: "https://github.com/<username>/<repository>",
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => $data.url = $event)
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $data.url]]), _hoisted_12]), _hoisted_13])], 32
   /* HYDRATE_EVENTS */
-  ), _hoisted_11, $data.smart_contracts.length ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", _hoisted_12, [(Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])($data.smart_contracts, smart_contract => {
+  ), _hoisted_14, $data.smart_contracts.length ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", _hoisted_15, [(Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])($data.smart_contracts, smart_contract => {
     return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", null, "Title: " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(smart_contract.title), 1
     /* TEXT */
     ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", null, "Description: " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(smart_contract.description), 1
@@ -12169,12 +12261,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* TEXT */
     ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", null, "Version: " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(smart_contract.version), 1
     /* TEXT */
-    )]);
+    ), _hoisted_16]);
   }), 256
   /* UNKEYED_FRAGMENT */
   )), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("form", {
-    onSubmit: _cache[2] || (_cache[2] = Object(vue__WEBPACK_IMPORTED_MODULE_0__["withModifiers"])((...args) => $options.validate(...args), ["prevent"]))
-  }, [_hoisted_13], 32
+    onSubmit: _cache[3] || (_cache[3] = Object(vue__WEBPACK_IMPORTED_MODULE_0__["withModifiers"])((...args) => $options.validate(...args), ["prevent"]))
+  }, [_hoisted_17], 32
   /* HYDRATE_EVENTS */
   )])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__["createCommentVNode"])("v-if", true)])])], 64
   /* STABLE_FRAGMENT */
@@ -12240,21 +12332,27 @@ const _hoisted_12 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["create
 /* HOISTED */
 );
 
-const _hoisted_13 = {
+const _hoisted_13 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+  class: "button is-primary"
+}, "Refresh")], -1
+/* HOISTED */
+);
+
+const _hoisted_14 = {
   key: 1
 };
 
-const _hoisted_14 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", {
+const _hoisted_15 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", {
   colspan: "4"
 }, "No repository", -1
 /* HOISTED */
 );
 
-const _hoisted_15 = {
+const _hoisted_16 = {
   class: "card"
 };
 
-const _hoisted_16 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
+const _hoisted_17 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
   class: "card-header"
 }, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h4", {
   class: "card-header-title"
@@ -12262,26 +12360,26 @@ const _hoisted_16 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["create
 /* HOISTED */
 );
 
-const _hoisted_17 = {
+const _hoisted_18 = {
   class: "card-content"
 };
-const _hoisted_18 = {
+const _hoisted_19 = {
   class: "table is-stripped"
 };
 
-const _hoisted_19 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("thead", null, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "Title"), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "Description"), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "File"), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "Version"), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "Created_at"), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "Updated_at"), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "Refresh")], -1
+const _hoisted_20 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("thead", null, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "Title"), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "Description"), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "File"), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "Version"), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "Created_at"), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "Updated_at"), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "Refresh")], -1
 /* HOISTED */
 );
 
-const _hoisted_20 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", null, "refresh")], -1
+const _hoisted_21 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", null, "refresh")], -1
 /* HOISTED */
 );
 
-const _hoisted_21 = {
+const _hoisted_22 = {
   key: 1
 };
 
-const _hoisted_22 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, "No smart contract available", -1
+const _hoisted_23 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, "No smart contract available", -1
 /* HOISTED */
 );
 
@@ -12302,10 +12400,23 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   })]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("table", _hoisted_11, [_hoisted_12, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("tbody", null, [$data.repositories.length ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], {
     key: 0
   }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])($data.repositories, repository => {
-    return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("tr");
+    return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("tr", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_router_link, {
+      to: '/app/repositories/' + repository['_id']
+    }, {
+      default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(repository.url), 1
+      /* TEXT */
+      )]),
+      _: 2
+    }, 1032
+    /* PROPS, DYNAMIC_SLOTS */
+    , ["to"])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(repository['_id']), 1
+    /* TEXT */
+    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(repository.updated_at), 1
+    /* TEXT */
+    ), _hoisted_13]);
   }), 256
   /* UNKEYED_FRAGMENT */
-  )) : (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("tr", _hoisted_13, [_hoisted_14]))])])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_15, [_hoisted_16, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_17, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("table", _hoisted_18, [_hoisted_19, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("tbody", null, [$data.smart_contracts.length ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], {
+  )) : (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("tr", _hoisted_14, [_hoisted_15]))])])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_16, [_hoisted_17, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_18, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("table", _hoisted_19, [_hoisted_20, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("tbody", null, [$data.smart_contracts.length ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], {
     key: 0
   }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])($data.smart_contracts, smart_contract => {
     return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("tr", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(smart_contract.title), 1
@@ -12320,10 +12431,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* TEXT */
     ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(smart_contract.updated_at), 1
     /* TEXT */
-    ), _hoisted_20]);
+    ), _hoisted_21]);
   }), 256
   /* UNKEYED_FRAGMENT */
-  )) : (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("tr", _hoisted_21, [_hoisted_22]))])])])])], 64
+  )) : (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("tr", _hoisted_22, [_hoisted_23]))])])])])], 64
   /* STABLE_FRAGMENT */
   );
 }
@@ -12438,6 +12549,62 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   )) : (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("tr", _hoisted_15, [_hoisted_16]))])])])])], 64
   /* STABLE_FRAGMENT */
   );
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Repository.vue?vue&type=template&id=7f3dd2f5&bindings={\"repository\":\"data\",\"smart_contracts\":\"data\",\"fetchRepository\":\"options\",\"destroy\":\"options\"}":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/Repository.vue?vue&type=template&id=7f3dd2f5&bindings={"repository":"data","smart_contracts":"data","fetchRepository":"options","destroy":"options"} ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm-bundler.js");
+
+const _hoisted_1 = {
+  class: "card mb-2"
+};
+const _hoisted_2 = {
+  class: "card-header"
+};
+const _hoisted_3 = {
+  class: "card-header-title is-size-4"
+};
+const _hoisted_4 = {
+  class: "card-content"
+};
+
+const _hoisted_5 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+  type: "submit",
+  class: "button is-danger"
+}, "Delete", -1
+/* HOISTED */
+);
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_2, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h1", _hoisted_3, "Repository " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($data.repository.url), 1
+  /* TEXT */
+  )]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_4, [(Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])($data.smart_contracts, sc => {
+    return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(sc.title), 1
+    /* TEXT */
+    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(sc.description), 1
+    /* TEXT */
+    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(sc.file), 1
+    /* TEXT */
+    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(sc.version), 1
+    /* TEXT */
+    )]);
+  }), 256
+  /* UNKEYED_FRAGMENT */
+  )), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("form", {
+    onSubmit: _cache[1] || (_cache[1] = Object(vue__WEBPACK_IMPORTED_MODULE_0__["withModifiers"])($event => $options.destroy($data.repository._id), ["prevent"]))
+  }, [_hoisted_5], 32
+  /* HYDRATE_EVENTS */
+  )])]);
 }
 
 /***/ }),
@@ -16659,12 +16826,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Create_vue_vue_type_template_id_67c71db2_bindings_username_data_url_data_repository_data_config_data_smart_contracts_data_loadConfig_options_validate_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Create.vue?vue&type=template&id=67c71db2&bindings={"username":"data","url":"data","repository":"data","config":"data","smart_contracts":"data","loadConfig":"options","validate":"options"} */ "./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={\"username\":\"data\",\"url\":\"data\",\"repository\":\"data\",\"config\":\"data\",\"smart_contracts\":\"data\",\"loadConfig\":\"options\",\"validate\":\"options\"}");
+/* harmony import */ var _Create_vue_vue_type_template_id_67c71db2_bindings_username_data_url_data_repository_data_smart_contracts_data_content_data_loadConfig_options_validate_options_createSmartContracts_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Create.vue?vue&type=template&id=67c71db2&bindings={"username":"data","url":"data","repository":"data","smart_contracts":"data","content":"data","loadConfig":"options","validate":"options","createSmartContracts":"options"} */ "./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={\"username\":\"data\",\"url\":\"data\",\"repository\":\"data\",\"smart_contracts\":\"data\",\"content\":\"data\",\"loadConfig\":\"options\",\"validate\":\"options\",\"createSmartContracts\":\"options\"}");
 /* harmony import */ var _Create_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Create.vue?vue&type=script&lang=js */ "./resources/js/components/Create.vue?vue&type=script&lang=js");
 /* empty/unused harmony star reexport */
 
 
-_Create_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _Create_vue_vue_type_template_id_67c71db2_bindings_username_data_url_data_repository_data_config_data_smart_contracts_data_loadConfig_options_validate_options___WEBPACK_IMPORTED_MODULE_0__["render"]
+_Create_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _Create_vue_vue_type_template_id_67c71db2_bindings_username_data_url_data_repository_data_smart_contracts_data_content_data_loadConfig_options_validate_options_createSmartContracts_options___WEBPACK_IMPORTED_MODULE_0__["render"]
 /* hot reload */
 if (false) {}
 
@@ -16690,17 +16857,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={\"username\":\"data\",\"url\":\"data\",\"repository\":\"data\",\"config\":\"data\",\"smart_contracts\":\"data\",\"loadConfig\":\"options\",\"validate\":\"options\"}":
-/*!*****************************************************************************************************************************************************************************************************************************!*\
-  !*** ./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={"username":"data","url":"data","repository":"data","config":"data","smart_contracts":"data","loadConfig":"options","validate":"options"} ***!
-  \*****************************************************************************************************************************************************************************************************************************/
+/***/ "./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={\"username\":\"data\",\"url\":\"data\",\"repository\":\"data\",\"smart_contracts\":\"data\",\"content\":\"data\",\"loadConfig\":\"options\",\"validate\":\"options\",\"createSmartContracts\":\"options\"}":
+/*!***************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={"username":"data","url":"data","repository":"data","smart_contracts":"data","content":"data","loadConfig":"options","validate":"options","createSmartContracts":"options"} ***!
+  \***************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_Create_vue_vue_type_template_id_67c71db2_bindings_username_data_url_data_repository_data_config_data_smart_contracts_data_loadConfig_options_validate_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib!../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../node_modules/vue-loader/dist??ref--28-0!./Create.vue?vue&type=template&id=67c71db2&bindings={"username":"data","url":"data","repository":"data","config":"data","smart_contracts":"data","loadConfig":"options","validate":"options"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={\"username\":\"data\",\"url\":\"data\",\"repository\":\"data\",\"config\":\"data\",\"smart_contracts\":\"data\",\"loadConfig\":\"options\",\"validate\":\"options\"}");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_Create_vue_vue_type_template_id_67c71db2_bindings_username_data_url_data_repository_data_config_data_smart_contracts_data_loadConfig_options_validate_options___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_Create_vue_vue_type_template_id_67c71db2_bindings_username_data_url_data_repository_data_smart_contracts_data_content_data_loadConfig_options_validate_options_createSmartContracts_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib!../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../node_modules/vue-loader/dist??ref--28-0!./Create.vue?vue&type=template&id=67c71db2&bindings={"username":"data","url":"data","repository":"data","smart_contracts":"data","content":"data","loadConfig":"options","validate":"options","createSmartContracts":"options"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={\"username\":\"data\",\"url\":\"data\",\"repository\":\"data\",\"smart_contracts\":\"data\",\"content\":\"data\",\"loadConfig\":\"options\",\"validate\":\"options\",\"createSmartContracts\":\"options\"}");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_Create_vue_vue_type_template_id_67c71db2_bindings_username_data_url_data_repository_data_smart_contracts_data_content_data_loadConfig_options_validate_options_createSmartContracts_options___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 
 
@@ -16818,6 +16985,62 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Repository.vue":
+/*!************************************************!*\
+  !*** ./resources/js/components/Repository.vue ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Repository_vue_vue_type_template_id_7f3dd2f5_bindings_repository_data_smart_contracts_data_fetchRepository_options_destroy_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Repository.vue?vue&type=template&id=7f3dd2f5&bindings={"repository":"data","smart_contracts":"data","fetchRepository":"options","destroy":"options"} */ "./resources/js/components/Repository.vue?vue&type=template&id=7f3dd2f5&bindings={\"repository\":\"data\",\"smart_contracts\":\"data\",\"fetchRepository\":\"options\",\"destroy\":\"options\"}");
+/* harmony import */ var _Repository_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Repository.vue?vue&type=script&lang=js */ "./resources/js/components/Repository.vue?vue&type=script&lang=js");
+/* empty/unused harmony star reexport */
+
+
+_Repository_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _Repository_vue_vue_type_template_id_7f3dd2f5_bindings_repository_data_smart_contracts_data_fetchRepository_options_destroy_options___WEBPACK_IMPORTED_MODULE_0__["render"]
+/* hot reload */
+if (false) {}
+
+_Repository_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].__file = "resources/js/components/Repository.vue"
+
+/* harmony default export */ __webpack_exports__["default"] = (_Repository_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
+/***/ }),
+
+/***/ "./resources/js/components/Repository.vue?vue&type=script&lang=js":
+/*!************************************************************************!*\
+  !*** ./resources/js/components/Repository.vue?vue&type=script&lang=js ***!
+  \************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_index_js_ref_28_0_Repository_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib!../../../node_modules/vue-loader/dist??ref--28-0!./Repository.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Repository.vue?vue&type=script&lang=js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_index_js_ref_28_0_Repository_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+/* empty/unused harmony star reexport */ 
+
+/***/ }),
+
+/***/ "./resources/js/components/Repository.vue?vue&type=template&id=7f3dd2f5&bindings={\"repository\":\"data\",\"smart_contracts\":\"data\",\"fetchRepository\":\"options\",\"destroy\":\"options\"}":
+/*!**************************************************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Repository.vue?vue&type=template&id=7f3dd2f5&bindings={"repository":"data","smart_contracts":"data","fetchRepository":"options","destroy":"options"} ***!
+  \**************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_Repository_vue_vue_type_template_id_7f3dd2f5_bindings_repository_data_smart_contracts_data_fetchRepository_options_destroy_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib!../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../node_modules/vue-loader/dist??ref--28-0!./Repository.vue?vue&type=template&id=7f3dd2f5&bindings={"repository":"data","smart_contracts":"data","fetchRepository":"options","destroy":"options"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Repository.vue?vue&type=template&id=7f3dd2f5&bindings={\"repository\":\"data\",\"smart_contracts\":\"data\",\"fetchRepository\":\"options\",\"destroy\":\"options\"}");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_Repository_vue_vue_type_template_id_7f3dd2f5_bindings_repository_data_smart_contracts_data_fetchRepository_options_destroy_options___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/SmartContracts.vue":
 /*!****************************************************!*\
   !*** ./resources/js/components/SmartContracts.vue ***!
@@ -16889,7 +17112,26 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-Object(vue__WEBPACK_IMPORTED_MODULE_0__["createApp"])(_components_App__WEBPACK_IMPORTED_MODULE_1__["default"]).use(_router__WEBPACK_IMPORTED_MODULE_2__["default"]).mount('#app');
+Object(vue__WEBPACK_IMPORTED_MODULE_0__["createApp"])(_components_App__WEBPACK_IMPORTED_MODULE_1__["default"]).use(_router__WEBPACK_IMPORTED_MODULE_2__["default"]).mount('#app'); // nav
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Get all "navbar-burger" elements
+  const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0); // Check if there are any navbar burgers
+
+  if ($navbarBurgers.length > 0) {
+    // Add a click event on each of them
+    $navbarBurgers.forEach(el => {
+      el.addEventListener('click', () => {
+        // Get the target from the "data-target" attribute
+        const target = el.dataset.target;
+        const $target = document.getElementById(target); // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+
+        el.classList.toggle('is-active');
+        $target.classList.toggle('is-active');
+      });
+    });
+  }
+});
 
 /***/ }),
 
@@ -16907,6 +17149,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Create__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Create */ "./resources/js/components/Create.vue");
 /* harmony import */ var _components_Repositories__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Repositories */ "./resources/js/components/Repositories.vue");
 /* harmony import */ var _components_SmartContracts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/SmartContracts */ "./resources/js/components/SmartContracts.vue");
+/* harmony import */ var _components_Repository__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Repository */ "./resources/js/components/Repository.vue");
+
 
 
 
@@ -16924,6 +17168,10 @@ const routes = [{
   path: '/app/repositories/create',
   name: 'Create',
   component: _components_Create__WEBPACK_IMPORTED_MODULE_2__["default"]
+}, {
+  path: '/app/repositories/:id',
+  name: 'Repository',
+  component: _components_Repository__WEBPACK_IMPORTED_MODULE_5__["default"]
 }, {
   path: '/app/sc',
   name: 'SmartContracts',
