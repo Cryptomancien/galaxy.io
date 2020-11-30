@@ -1,4 +1,3 @@
-export function V(url) {
-    console.log(url)
+export function validateUrlConfig(url) {
+    alert('e')
 }
-
