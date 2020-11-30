@@ -19,6 +19,11 @@ const schema = new Schema({
     }
 })
 
+schema.methods.loadSmartContractsFiles = () => {
+    //console.log(this)
+    //return 'hello'
+}
+
 const model = mongoose.model('Repository', schema)
 
 module.exports = model

@@ -130,6 +130,8 @@ app.delete('/api/repositories/:id', RepositoriesController.destroy)
 app.get('/api/sc', SmartsContractsController.all)
 app.post('/api/sc', SmartsContractsController.store)
 
+app.get('/test', RepositoriesController.test)
+
 app.use((request, response) => {
 	if (request.user) {
 		return response.redirect('/app')
