@@ -1,6 +1,6 @@
 const Repository = require('../../models/Repository')
 const SmartContract = require('../../models/SmartContract')
-
+const toml = require('toml')
 const axios = require('axios')
 
 exports.index = async (request, response) => {
@@ -23,7 +23,7 @@ exports.store = async (request, response) => {
     const url = request.body.url
     const user_id = request.user.id
     const username = request.user.username
-    const name = request.body.repository
+    const name = request.body.name
     const content = request.body.content
 
     const data = {
@@ -44,6 +44,23 @@ exports.show = async (request, response) => {
     const id = request.params.id
 
     const repository = await Repository.findById(id)
+
+    await response.json(repository)
+}
+
+exports.update = async (request, response) => {
+    const id = request.params.id
+
+    const repository = await Repository.findById(id)
+
+    const url = `https://raw.githubusercontent.com/${repository.username}/${repository.name}/main/galaxy.json`
+
+    const resp = await axios.get(url)
+    const data = await resp.data
+
+    repository.content = await data
+
+    await repository.save()
 
     await response.json(repository)
 }

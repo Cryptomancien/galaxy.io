@@ -17,21 +17,23 @@
                 <router-link to="/app/repositories/create" class="button is-info">Create new repository</router-link>
             </div>
 
-            <table class="table is-stripped">
+            <table class="table is-stripped is-fullwidth is-hoverable is-bordered">
                 <thead>
-                    <th>Url</th>
-                    <th>Created_at</th>
-                    <th>Updated_at</th>
+                    <th>Name</th>
+                    <th>Number SC</th>
+                    <th>Created at</th>
+                    <th>Updated at</th>
                     <th>Refresh</th>
                 </thead>
                 <tbody>
                     <tr v-if="repositories.length" v-for="repository in repositories">
                         <td>
-                            <router-link :to="'/app/repositories/' + repository['_id']">{{ repository.url }}</router-link>
+                            <router-link :to="'/app/repositories/' + repository['_id']">{{ repository.name }}</router-link>
                         </td>
-                        <td>{{ repository['_id'] }}</td>
+                        <td>{{ 'todo' }}</td>
+                        <td>{{ repository.created_at }}</td>
                         <td>{{ repository.updated_at }}</td>
-                        <td><button class="button is-primary">Refresh</button></td>
+                        <td><button class="button is-primary" @click="refresh(repository._id)">Refresh</button></td>
                     </tr>
                     <tr v-else>
                         <td colspan="4">No repository</td>
@@ -45,7 +47,7 @@
             <h4 class="card-header-title">Smart Contracts</h4>
         </div>
         <div class="card-content">
-            <table class="table is-stripped">
+            <table class="table is-stripped is-fullwidth is-hoverable is-bordered">
                 <thead>
                     <th>Title</th>
                     <th>Description</th>
@@ -53,7 +55,6 @@
                     <th>Version</th>
                     <th>Created_at</th>
                     <th>Updated_at</th>
-                    <th>Refresh</th>
                 </thead>
                 <tbody>
                     <tr v-if="smart_contracts.length" v-for="smart_contract in smart_contracts">
@@ -63,10 +64,9 @@
                         <td>{{ smart_contract.version }}</td>
                         <td>{{ smart_contract.created_at }}</td>
                         <td>{{ smart_contract.updated_at }}</td>
-                        <td><button>refresh</button></td>
                     </tr>
                     <tr v-else>
-                        <td>No smart contract available</td>
+                        <td colspan="6">No smart contract available</td>
                     </tr>
                 </tbody>
             </table>
@@ -77,6 +77,7 @@
 <script>
 
 import axios from 'axios'
+import swal from 'sweetalert'
 
 export default {
     name: 'Home',
@@ -106,6 +107,18 @@ export default {
             const response = await axios.get(url)
             const data = await response.data
             this.smart_contracts = data
+        },
+
+        async refresh(id) {
+            const url = `/api/repositories/${id}`
+            const response = await axios.put(url)
+
+            if ( ! response.statis === 200) {
+                swal('Error', 'Something is wrong', 'error')
+            }
+            else {
+                swal('Success', 'Updated', 'success')
+            }
         }
     }
 }

@@ -46,7 +46,9 @@
 
 <script>
     import axios from 'axios'
-    import swal from 'sweetalert';
+    import swal from 'sweetalert'
+
+    import {validateUrlConfig, parseRepository} from '../helpers/create'
 
     export default {
         name: 'Create',
@@ -65,26 +67,15 @@
         },
         methods: {
             async loadConfig() {
-
-                if ( ! this.url) {
-                    swal("Error", 'the repo must be valid. Example: https://github.com/<account>/<repository>', "error");
+                // Validate the url
+                const error = validateUrlConfig(this.url, this.username)
+                if (error) {
+                    swal('Error', error, 'error')
                     return
                 }
 
-                if ( ! this.url.startsWith('https://github.com/')) {
-                    swal('Error', 'the repo must be valid. Example: https://github.com/<account>/<repository>', 'error')
-                    return
-                }
-
-                if ( ! this.url.includes(this.username)) {
-                    swal('Error', 'you are the owner of the repository, all right ?', 'error')
-                    return
-                }
-
-                let repository = this.url
-                repository = repository.split('/')
-                repository = repository.pop()
-                this.repository = repository
+                // Get the repository
+                this.repository = this.url.split('/').pop()
 
                 let url = `https://raw.githubusercontent.com/${this.username}/${this.repository}/main/galaxy.json`
 
@@ -102,6 +93,14 @@
             },
             async validate() {
 
+                await this.saveRepository()
+                await this.saveSmartContracts()
+
+                await this.$router.push('/app')
+                swal('Success', 'All fine', 'success')
+            },
+
+            async saveRepository() {
                 let url = ''
                 let data = {}
                 let response
@@ -109,22 +108,47 @@
                 url = '/api/repositories'
                 data = {
                     url: this.url,
-                    repository: this.repository,
+                    name: this.repository,
                     content: this.content
                 }
 
                 response = await axios.post(url, data)
                 data = await response.data
-
-                if (data === 'success') {
-                    this.$router.push('/app')
-                    //await this.createSmartContracts()
-                }
             },
 
-            async createSmartContracts() {
+            async saveSmartContracts() {
 
-            }
+                async function getContent(file, username, repository) {
+                    try {
+                        const url = `https://raw.githubusercontent.com/${username}/${repository}/main/${file}`
+                        const response = await axios.get(url)
+                        const data = await response.data
+                        return data
+                    } catch (error) {
+                        console.error(error)
+                    }
+                }
+
+                this.smart_contracts.forEach( sc => {
+
+                    let data_to_post = {
+                        title: sc.title,
+                        description: sc.description,
+                        file: sc.file,
+                        version: sc.version,
+                        repository: this.repository,
+                        content: getContent(sc.file, this.$data.username, this.$data.repository)
+                    }
+
+                    console.log(data_to_post)
+
+                    axios.post('/api/sc', data_to_post).then(response => {
+                        console.log(response.data)
+                    })
+               })
+            },
         },
     }
+
+
 </script>

@@ -21,9 +21,9 @@ exports.store = async (request, response) => {
         version: request.body.version,
         file: request.body.file,
         repository: request.body.repository,
-        username: request.body.username,
-        user_id: request.body.user_id,
-        content: ''
+        username: request.user.username,
+        user_id: request.user.user_id,
+        content: request.body.content
     }
 
     const url = `https://raw.githubusercontent.com/${data.username}/${data.repository}/main/${data.file}`

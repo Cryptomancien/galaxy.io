@@ -1,20 +1,27 @@
 <template>
     <div class="card mb-2">
-        <div class="card-header">
-            <h1 class="card-header-title is-size-4">Repository {{ repository.url }}</h1>
+        <div class="card-header is-justify-content-space-between is-align-items-center">
+            <h1 class="card-header-title">Repository: {{ repository.name }}</h1>
+            <form @submit.prevent="destroy">
+                <button type="submit" class="button is-danger is-small">Delete</button>
+            </form>
         </div>
         <div class="card-content">
-
-            <div v-for="sc in smart_contracts">
-                <div>{{ sc.title }}</div>
-                <div>{{ sc.description }}</div>
-                <div>{{ sc.file }}</div>
-                <div>{{ sc.version }}</div>
+            <div class="mb-2">
+                Link: <a :href="repository.url" target="_blank">{{ repository.url }}</a>
+            </div>
+            <div class="mb-2">
+                <button class="button is-primary" @click="refresh">Refresh</button>
             </div>
 
-            <form @submit.prevent="destroy(repository._id)">
-                <button type="submit" class="button is-danger">Delete</button>
-            </form>
+            <h2 class="is-size-4 mb-2">Smart contracts in this repository</h2>
+            <div class="box" v-for="sc in smart_contracts">
+                <div class="mb-2">Title: {{ sc.title }}</div>
+                <div class="mb-2">Description: {{ sc.description }}</div>
+                <div class="mb-2">File: {{ sc.file }}</div>
+                <div class="mb-2">Version: {{ sc.version }}</div>
+                <div class="mb-2">Content: {{ sc.content }}</div>
+            </div>
         </div>
     </div>
 </template>
@@ -49,6 +56,22 @@ export default {
 
             this.repository = data
 
+            await this.fixSmartContracts()
+        },
+
+        async refresh() {
+            const id = this.repository._id
+            const url = `/api/repositories/${id}`
+            const response = await axios.put(url)
+            const data = await response.data
+
+            this.repository = data
+            await this.fixSmartContracts()
+
+            await swal('Success', 'Repository and smart contracts updated', 'success')
+        },
+
+        async fixSmartContracts() {
             let smart_contracts = []
             this.repository.content.smart_contracts.forEach((x) => {
                 const o = {
@@ -64,7 +87,7 @@ export default {
             this.smart_contracts = smart_contracts
         },
 
-        async destroy(id) {
+        async destroy() {
 
             const confirm = await swal('Are you sure to delete ?', {
                 buttons: ["Nope", true],
@@ -74,7 +97,7 @@ export default {
                 return
             }
 
-            const url = `/api/repositories/${id}`
+            const url = `/api/repositories/${this.repository._id}`
             const response = await axios.delete(url)
             const data = await response.data
 
@@ -83,6 +106,5 @@ export default {
             }
         }
     }
-
 }
 </script>

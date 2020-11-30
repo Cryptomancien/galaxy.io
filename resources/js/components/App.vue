@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-2">
+    <div class="mt-2">
         <div class="columns">
             <div class="column is-one-quarter app-nav">
                 <router-link to="/app">Home</router-link>

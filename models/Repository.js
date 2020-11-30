@@ -19,6 +19,11 @@ const schema = new Schema({
     }
 })
 
+schema.pre('save', (next) => {
+    this.updated_at = Date.now()
+    next()
+})
+
 schema.methods.loadSmartContractsFiles = () => {
     //console.log(this)
     //return 'hello'
