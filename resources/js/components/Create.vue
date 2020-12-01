@@ -62,7 +62,8 @@
                 url: '',
                 repository: '',
                 smart_contracts: [],
-                content: ''
+                content: '',
+                repository_id: ''
             }
         },
         methods: {
@@ -126,29 +127,34 @@
                         return data
                     } catch (error) {
                         console.error(error)
+                        throw new Error(error)
                     }
                 }
 
-                this.smart_contracts.forEach( sc => {
-
+                for await (let sc of this.smart_contracts) {
                     let data_to_post = {
                         title: sc.title,
                         description: sc.description,
                         file: sc.file,
                         version: sc.version,
                         repository: this.repository,
-                        content: getContent(sc.file, this.$data.username, this.$data.repository)
+                        content:  ''
                     }
 
-                    console.log(data_to_post)
+                    const content = await getContent(sc.file, this.$data.username, this.$data.repository)
 
-                    axios.post('/api/sc', data_to_post).then(response => {
+                    data_to_post.content = await content
+
+                    const url = '/api/sc'
+                    const response = await axios.post(url, data_to_post)
+                    if (response.status === 200) {
                         console.log(response.data)
-                    })
-               })
+                    }
+                    else {
+                        throw new Error('something is wrong')
+                    }
+                }
             },
         },
     }
-
-
 </script>

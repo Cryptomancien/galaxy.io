@@ -109,12 +109,7 @@ app.get('/app', ensureAuthenticated, (request, response) => {
 		user: request.user
 	}
 
-	//console.log(data)
-
 	console.log('--------')
-
-	//const url = 'https://api.github.com/repos/netwarp/galaxy-hello-world/contents/galaxy.json'
-	//axios(url).then(resp => console.log(resp))
 
 	response.render('app.html', data)
 })
@@ -129,6 +124,7 @@ app.delete('/api/repositories/:id', RepositoriesController.destroy)
 
 app.get('/api/sc', SmartsContractsController.all)
 app.post('/api/sc', SmartsContractsController.store)
+app.get('/api/sc/:id', SmartsContractsController.show)
 
 app.get('/test', RepositoriesController.test)
 

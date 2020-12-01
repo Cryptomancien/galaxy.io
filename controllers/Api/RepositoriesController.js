@@ -22,7 +22,7 @@ exports.store = async (request, response) => {
 
     const url = request.body.url
     const user_id = request.user.id
-    const username = request.user.username
+    const username = request.user.login
     const name = request.body.name
     const content = request.body.content
 
@@ -34,9 +34,9 @@ exports.store = async (request, response) => {
         content
     }
 
-    await Repository.create(data)
+    const repository = await Repository.create(data)
 
-    await response.json('success')
+    await response.json(repository)
 }
 
 exports.show = async (request, response) => {
