@@ -6,19 +6,36 @@ const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, pr
     dialect: 'postgres'
 })
 
-const Repository = sequelize.define('repository', {
+const Contract = sequelize.define('contract', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    name: {
+    title: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    description: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    file: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    version: {
         type: Sequelize.STRING,
         allowNull: false
     },
     content: {
         type: Sequelize.TEXT,
         allowNull: false
+    },
+    repository_id: {
+        type: Sequelize.INTEGER,
+        references: 'repositories',
+        referencesKey: 'id',
     },
     user_id: {
         type: Sequelize.INTEGER,
@@ -29,7 +46,8 @@ const Repository = sequelize.define('repository', {
     updatedAt: {type: Sequelize.DATE, field: 'updated_at'},
 }, {
     sequelize,
-    modelName: 'Repository'
+    modelName: 'Contract'
 })
 
-module.exports = Repository
+module.exports = Contract
+

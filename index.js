@@ -10,7 +10,6 @@ const passport = require('passport')
 const session = require('express-session')
 const GithubStrategy = require('passport-github').Strategy
 
-const mongoose = require('mongoose')
 
 const FrontController = require('./controllers/FrontController')
 const RepositoriesController = require('./controllers/Api/RepositoriesController')
@@ -23,8 +22,6 @@ nunjucks.configure('views', {
 	watch: true,
 })
 
-mongoose.connect('mongodb://localhost:27017/galaxy', { useNewUrlParser: true, useUnifiedTopology: true })
-mongoose.set('useCreateIndex', true)
 
 const User = require('./models/User')
 
@@ -57,20 +54,18 @@ app.use(passport.session())
 
 passport.serializeUser(async (user, done) => {
 
-	await User.findOneAndUpdate(
-		{
-			id: user['_json']['id'],
-		},
-		{
+	const u = await User.findByPk(user.id)
+	if (u === null) {
+
+		const data = {
+			id: user.id,
 			username: user.username,
 			avatar_url: user['_json']['avatar_url'],
 			provider: user.provider
-		},
-		{
-			upsert: true,
-			setDefaultsOnInsert: true
 		}
-	)
+
+		await User.create(data)
+	}
 
 	await console.log(user)
 	await done(null, user)

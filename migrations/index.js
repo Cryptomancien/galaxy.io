@@ -23,7 +23,7 @@ async function tryConnect() {
 
 
 async function getMigrations() {
-    let sql = await readFile(__dirname + '/' + 'mail.sql', 'utf-8')
+    let sql = await readFile(__dirname + '/' + 'main.sql', 'utf-8')
     return sql
 }
 getMigrations().then(data => {

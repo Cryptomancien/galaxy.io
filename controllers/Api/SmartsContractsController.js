@@ -1,4 +1,4 @@
-const SmartContract = require('../../models/SmartContract')
+const SmartContract = require('../../models/Contract')
 const axios = require('axios')
 
 exports.all = async (request, response) => {

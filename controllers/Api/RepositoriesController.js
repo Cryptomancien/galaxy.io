@@ -1,5 +1,5 @@
 const Repository = require('../../models/Repository')
-const SmartContract = require('../../models/SmartContract')
+const SmartContract = require('../../models/Contract')
 const toml = require('toml')
 const axios = require('axios')
 
