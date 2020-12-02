@@ -9,7 +9,8 @@
     "watch": "npm run development -- --watch",
     "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
     "prod": "npm run production",
-    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "migrate": "node migrations/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -25,9 +26,12 @@
     "nunjucks": "^3.2.2",
     "passport": "^0.4.1",
     "passport-github": "^1.1.0",
+    "pg": "^8.5.1",
+    "pg-hstore": "^2.3.3",
     "prismjs": "^1.22.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "sequelize": "^6.3.5",
     "sweetalert": "^2.1.2",
     "toml": "^3.0.0",
     "vue": "^3.0.2",
