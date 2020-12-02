@@ -21,12 +21,16 @@
             <table class="table is-stripped is-fullwidth is-hoverable is-bordered">
                 <thead>
                     <th>Title</th>
+                    <th>Description</th>
                     <th>File</th>
                     <th>Version</th>
                 </thead>
                 <tbody>
-                    <tr v-if="contracts.length" v-for="smart_contract in smart_contracts">
-                        <td>{{ contracts.repository }}</td>
+                    <tr v-if="contracts.length" v-for="contract in contracts">
+                        <td>{{ contract.title }}</td>
+                        <td>{{ contract.description }}</td>
+                        <td>{{ contract.file }}</td>
+                        <td>{{ contract.version }}</td>
                     </tr>
                     <tr v-else>
                         <td colspan="3">
@@ -51,7 +55,7 @@
         },
 
         mounted() {
-            this.fetchSmartContracts()
+            this.fetchContracts()
         },
 
         data() {
@@ -61,7 +65,7 @@
         },
 
         methods: {
-            async fetchSmartContracts() {
+            async fetchContracts() {
                 const url = '/api/contracts'
                 const response = await axios.get(url)
                 const data = await response.data

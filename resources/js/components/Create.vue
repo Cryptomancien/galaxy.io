@@ -47,6 +47,7 @@
 <script>
     import axios from 'axios'
     import swal from 'sweetalert'
+    import toml from 'toml'
 
     import {validateUrlConfig, parseRepository} from '../helpers/create'
 
@@ -78,19 +79,29 @@
                 // Get the repository
                 this.repository = this.url.split('/').pop()
 
-                let url = `https://raw.githubusercontent.com/${this.username}/${this.repository}/main/galaxy.json`
+                let url = `https://raw.githubusercontent.com/${this.username}/${this.repository}/main/sc.toml`
 
                 let response = await axios.get(url)
                 let data = await response.data
+                data = toml.parse(data)
 
-                if ( ! data.smart_contracts) {
+                if ( ! data.sc) {
                     swal('Error', 'No smart contract found', 'error')
                     return
                 }
 
-                this.content = data
+                this.content = JSON.stringify(data)
 
-                this.smart_contracts = data.smart_contracts
+                for (const contract of data.sc) {
+                    this.smart_contracts.push({
+                        title: contract.title,
+                        description: contract.description,
+                        file: contract.file,
+                        version: contract.version,
+                    })
+                }
+
+                console.log(this.smart_contracts)
             },
             async validate() {
 

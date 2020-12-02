@@ -1,3 +1,5 @@
+const Contract = require('./Contract')
+
 require('dotenv').config()
 const { Sequelize, Model, DataTypes } = require("sequelize");
 
@@ -34,6 +36,11 @@ const Repository = sequelize.define('repository', {
 }, {
     sequelize,
     modelName: 'Repository'
+})
+
+Repository.hasMany(Contract, {
+    foreignKey: 'repository_id',
+    foreignKeyConstraint: true
 })
 
 module.exports = Repository

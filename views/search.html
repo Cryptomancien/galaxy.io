@@ -5,22 +5,22 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-two-thirds">
-                    {% for sc in smart_contracts %}
-                        <pre>{{ sc | dump }}</pre>
+                    {% for contract in contracts %}
+                        <pre>{{ contract | dump }}</pre>
                         <div class="card mb-2">
                             <div class="card-content">
                                 <div class="has-text-weight-semibold">
-                                    {{ sc.title }}
+                                    {{ contract.title }}
                                 </div>
                                 <div>
-                                    {{ sc.description }}
+                                    {{ contract.description }}
                                 </div>
                                 <div>
-                                    {{ sc.version }}
+                                    {{ contract.version }}
                                 </div>
                                 <div>
                                     <img src="" alt="">
-                                    {{ sc.url }}
+                                    {{ contract.url }}
                                 </div>
                             </div>
                         </div>

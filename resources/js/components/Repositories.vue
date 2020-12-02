@@ -29,9 +29,9 @@
                 <tbody>
                     <tr v-if="repositories.length" v-for="repository in repositories">
                         <td>{{ repository.url }}</td>
-                        <td>{{ repository.created_at }}</td>
-                        <td>{{ repository.updated_at }}</td>
-                        <td><button>refresh</button></td>
+                        <td>{{ repository.createdAt }}</td>
+                        <td>{{ repository.updatedAt }}</td>
+                        <td><button class="button is-primary">refresh</button></td>
                     </tr>
                     <tr v-else>
                         <td colspan="4">No repository</td>

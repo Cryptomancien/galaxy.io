@@ -28,11 +28,11 @@
                 <tbody>
                     <tr v-if="repositories.length" v-for="repository in repositories">
                         <td>
-                            <router-link :to="'/app/repositories/' + repository['_id']">{{ repository.name }}</router-link>
+                            <router-link :to="'/app/repositories/' + repository.id">{{ repository.name }}</router-link>
                         </td>
-                        <td>{{ 'todo' }}</td>
-                        <td>{{ repository.created_at }}</td>
-                        <td>{{ repository.updated_at }}</td>
+                        <td>{{ 'todzo' }}</td>
+                        <td>{{ repository.createdAt }}</td>
+                        <td>{{ repository.updatedAt }}</td>
                         <td><button class="button is-primary" @click="refresh(repository._id)">Refresh</button></td>
                     </tr>
                     <tr v-else>
@@ -62,8 +62,8 @@
                         <td>{{ contract.description }}</td>
                         <td>{{ contract.file }}</td>
                         <td>{{ contract.version }}</td>
-                        <td>{{ contract.created_at }}</td>
-                        <td>{{ contract.updated_at }}</td>
+                        <td>{{ contract.createdAt }}</td>
+                        <td>{{ contract.updatedAt }}</td>
                     </tr>
                     <tr v-else>
                         <td colspan="6">No contract available</td>
@@ -114,7 +114,7 @@ export default {
             const url = `/api/repositories/${id}`
             const response = await axios.put(url)
 
-            if ( ! response.statis === 200) {
+            if ( ! response.status === 200) {
                 swal('Error', 'Something is wrong', 'error')
             }
             else {

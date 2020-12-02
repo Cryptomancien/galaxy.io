@@ -47,7 +47,16 @@ exports.show = async (request, response) => {
 
     const id = request.params.id
 
-    const repository = await Repository.findByPk(id)
+    const repository = await Repository.findOne({
+        where: {
+            id
+        },
+        include: {
+            model: Contract,
+            as: 'contracts',
+            required: false
+        }
+    })
 
     await response.json(repository)
 }
@@ -72,9 +81,15 @@ exports.update = async (request, response) => {
 exports.destroy = async (request, response) => {
     const id = request.params.id
 
-    await Repository.findByIdAndDelete(id)
+    const repository = await Repository.findByPk(id)
 
-    await response.json('success')
+    if (repository.user_id == request.user.id) {
+        await repository.destroy()
+        await response.json(true)
+    }
+    else {
+        await response.json(false)
+    }
 }
 
 exports.test = async (request, response) => {

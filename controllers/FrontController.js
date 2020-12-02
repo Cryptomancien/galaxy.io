@@ -24,11 +24,11 @@ exports.search = async (request, response) => {
 
     const search = await request.query.search ?? ''
 
-    const smart_contracts = await SmartContract.find({}).sort({created_at: -1})
+    const contracts = await Contract.findAll()
 
     let data = {
         user: request.user,
-        smart_contracts
+        contracts
     }
 
     return await response.render('search.html', data)
@@ -36,10 +36,10 @@ exports.search = async (request, response) => {
 
 exports.smartContract = async (request, response) => {
     const id = await request.params.id
-    const smart_contract = await SmartContract.findById(id)
+    const contracts = await Contract.findByPk(id)
 
     const data = {
-        smart_contract
+        contracts
     }
 
     response.render('smart-contract.html', data)

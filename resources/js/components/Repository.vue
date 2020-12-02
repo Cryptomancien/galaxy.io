@@ -14,13 +14,18 @@
                 <button class="button is-primary" @click="refresh">Refresh</button>
             </div>
 
-            <h2 class="is-size-4 mb-2">Smart contracts in this repository</h2>
-            <div class="box" v-for="sc in smart_contracts">
-                <div class="mb-2">Title: {{ sc.title }}</div>
-                <div class="mb-2">Description: {{ sc.description }}</div>
-                <div class="mb-2">File: {{ sc.file }}</div>
-                <div class="mb-2">Version: {{ sc.version }}</div>
-                <div class="mb-2">Content: {{ sc.content }}</div>
+            <h2 class="is-size-4 mb-2">Contracts in this repository</h2>
+            <div class="box" v-for="contract in repository.contracts">
+                <div class="mb-2">Title: {{ contract.title }}</div>
+                <div class="mb-2">Description: {{ contract.description }}</div>
+                <div class="mb-2">File: {{ contract.file }}</div>
+                <div class="mb-2">Version: {{ contract.version }}</div>
+                <div class="mb-2">
+                    Content:
+<pre>
+{{ contract.content }}
+</pre>
+                </div>
             </div>
         </div>
     </div>
@@ -36,11 +41,13 @@ export default {
 
     mounted() {
         const id = window.location.pathname.split('/').pop() // get the id in url
+        this.id = id
         this.fetchRepository(id)
     },
 
     data() {
         return {
+            id: null,
             repository: {},
             smart_contracts: []
         }
@@ -55,36 +62,18 @@ export default {
             const data = await response.data
 
             this.repository = data
-
-            await this.fixSmartContracts()
         },
 
         async refresh() {
-            const id = this.repository._id
+            const id = this.id
             const url = `/api/repositories/${id}`
+
             const response = await axios.put(url)
             const data = await response.data
 
             this.repository = data
-            await this.fixSmartContracts()
 
             await swal('Success', 'Repository and smart contracts updated', 'success')
-        },
-
-        async fixSmartContracts() {
-            let smart_contracts = []
-            this.repository.content.smart_contracts.forEach((x) => {
-                const o = {
-                    title: x.title,
-                    description: x.description,
-                    file: x.file,
-                    version: x.version,
-                }
-
-                smart_contracts.push(o)
-            })
-
-            this.smart_contracts = smart_contracts
         },
 
         async destroy() {
@@ -97,12 +86,17 @@ export default {
                 return
             }
 
-            const url = `/api/repositories/${this.repository._id}`
+            const url = `/api/repositories/${this.id}`
             const response = await axios.delete(url)
+            console.log(response)
             const data = await response.data
 
-            if (data === 'success') {
+            if (data === true) {
                 this.$router.push('/app')
+                swal('Success', 'Repository deleted and all his contracts', 'success')
+            }
+            else {
+                swal('Error', 'Try later', 'error')
             }
         }
     }
