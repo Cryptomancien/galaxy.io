@@ -1,22 +1,19 @@
-const SmartContract = require('../models/Contract')
+const Contract = require('../models/Contract')
 
 exports.index = async (request, response) => {
 
-    /*
-    const smarts_contracts = await SmartContract.findAll({
+    const contracts = await Contract.findAll({
         order: [
             ['id', 'DESC']
         ]
     })
 
-     */
-
     const data = {
         user: request.user,
-     //   smarts_contracts
+        contracts
     }
 
-    response.render('index.html', data)
+    await response.render('index.html', data)
 }
 
 exports.getStarted = async (request, response) => {

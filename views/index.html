@@ -26,18 +26,18 @@
 				Latest smart contracts available
 			</h2>
 			<div class="columns is-multiline smart-contracts">
-				{% for smart_contract in smarts_contracts %}
+				{% for contract in contracts %}
 					<div class="column is-one-third">
 						<div class="card smart-contract">
 							<div class="card-header">
 								<div class="card-header-title">
-									<a href="/smart-contract/{{ smart_contract.id }}">
-										{{ smart_contract.title }}
+									<a href="/smart-contract/{{ contract.id }}">
+										{{ contract.title }}
 									</a>
 								</div>
 							</div>
 							<div class="card-content">
-								{{ smart_contract.description }}
+								{{ contract.description }}
 							</div>
 							<div class="card-footer">
 								<a href="#" class="card-footer-item">github.com/toto/toto</a>
