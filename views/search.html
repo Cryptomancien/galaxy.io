@@ -5,22 +5,26 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-two-thirds">
-                    {% for i in [1,2,3,4,5,6,7,8,9] %}
+                    {% for sc in smart_contracts %}
+                        <pre>{{ sc | dump }}</pre>
                         <div class="card mb-2">
                             <div class="card-content">
                                 <div class="has-text-weight-semibold">
-                                    title
+                                    {{ sc.title }}
                                 </div>
                                 <div>
-                                    Lorem, ipsum dolor sit amet consectetur adipisicing, elit. Molestiae!
+                                    {{ sc.description }}
+                                </div>
+                                <div>
+                                    {{ sc.version }}
                                 </div>
                                 <div>
                                     <img src="" alt="">
-                                    user github.com/toto/toto
+                                    {{ sc.url }}
                                 </div>
                             </div>
                         </div>
-                    {%- endfor %}
+                    {% endfor %}
                 </div>
                 <div class="column">
                     <div class="card">

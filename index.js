@@ -3,7 +3,6 @@ const app = express()
 const bodyParser = require('body-parser')
 const port = 8080
 const  nunjucks = require('nunjucks')
-const axios = require('axios');
 
 require('dotenv').config()
 
@@ -26,9 +25,8 @@ nunjucks.configure('views', {
 
 mongoose.connect('mongodb://localhost:27017/galaxy', { useNewUrlParser: true, useUnifiedTopology: true })
 mongoose.set('useCreateIndex', true)
-const User = require('./models/User')
-const SmartContract = require('./models/SmartContract')
 
+const User = require('./models/User')
 
 passport.use(
 	new GithubStrategy(
@@ -57,8 +55,6 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-
-
 passport.serializeUser(async (user, done) => {
 
 	await User.findOneAndUpdate(
@@ -80,10 +76,7 @@ passport.serializeUser(async (user, done) => {
 	await done(null, user)
 })
 
-passport.deserializeUser((user, done) => {
-	done(null, user)
-})
-
+passport.deserializeUser((user, done) =>  done(null, user) )
 
 app.get('/', FrontController.index)
 

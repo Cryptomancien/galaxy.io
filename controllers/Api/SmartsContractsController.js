@@ -13,6 +13,8 @@ exports.all = async (request, response) => {
     return response.json(smarts_contracts)
 }
 
+
+// TODO get repository id + user_id
 exports.store = async (request, response) => {
 
 
