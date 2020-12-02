@@ -115,6 +115,8 @@
 
                 response = await axios.post(url, data)
                 data = await response.data
+                const id = data.id
+                this.repository_id = id
             },
 
             async saveSmartContracts() {
@@ -138,14 +140,15 @@
                         file: sc.file,
                         version: sc.version,
                         repository: this.repository,
-                        content:  ''
+                        content:  '',
+                        repository_id: this.repository_id
                     }
 
                     const content = await getContent(sc.file, this.$data.username, this.$data.repository)
 
                     data_to_post.content = await content
 
-                    const url = '/api/sc'
+                    const url = '/api/contracts'
                     const response = await axios.post(url, data_to_post)
                     if (response.status === 200) {
                         console.log(response.data)

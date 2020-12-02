@@ -36,7 +36,7 @@
                         <td><button class="button is-primary" @click="refresh(repository._id)">Refresh</button></td>
                     </tr>
                     <tr v-else>
-                        <td colspan="4">No repository</td>
+                        <td colspan="5">No repository</td>
                     </tr>
                 </tbody>
             </table>
@@ -57,16 +57,16 @@
                     <th>Updated_at</th>
                 </thead>
                 <tbody>
-                    <tr v-if="smart_contracts.length" v-for="smart_contract in smart_contracts">
-                        <td>{{ smart_contract.title }}</td>
-                        <td>{{ smart_contract.description }}</td>
-                        <td>{{ smart_contract.file }}</td>
-                        <td>{{ smart_contract.version }}</td>
-                        <td>{{ smart_contract.created_at }}</td>
-                        <td>{{ smart_contract.updated_at }}</td>
+                    <tr v-if="contracts.length" v-for="contract in contracts">
+                        <td>{{ contract.title }}</td>
+                        <td>{{ contract.description }}</td>
+                        <td>{{ contract.file }}</td>
+                        <td>{{ contract.version }}</td>
+                        <td>{{ contract.created_at }}</td>
+                        <td>{{ contract.updated_at }}</td>
                     </tr>
                     <tr v-else>
-                        <td colspan="6">No smart contract available</td>
+                        <td colspan="6">No contract available</td>
                     </tr>
                 </tbody>
             </table>
@@ -82,15 +82,16 @@ import swal from 'sweetalert'
 export default {
     name: 'Home',
     components: {
+
     },
     mounted() {
         this.fetchRepositories()
-        this.fetchSmartContracts()
+        this.fetchContracts()
     },
     data() {
         return {
             repositories: [],
-            smart_contracts: [],
+            contracts: [],
         }
     },
     methods: {
@@ -102,11 +103,11 @@ export default {
             this.repositories = data
         },
 
-        async fetchSmartContracts() {
-            const url = `/api/sc?preview=1`
+        async fetchContracts() {
+            const url = `/api/contracts?preview=1`
             const response = await axios.get(url)
             const data = await response.data
-            this.smart_contracts = data
+            this.contracts = data
         },
 
         async refresh(id) {

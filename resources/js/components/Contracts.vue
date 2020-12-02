@@ -5,7 +5,7 @@
                 <ul>
                     <li><router-link to="/app">Home</router-link></li>
                     <li><router-link to="/app/repositories">Repositories</router-link></li>
-                    <li class="is-active"><router-link to="/app/sc">Smart Contracts</router-link></li>
+                    <li class="is-active"><router-link to="/app/contracts">Contracts</router-link></li>
                 </ul>
             </nav>
         </div>
@@ -18,15 +18,15 @@
             <div class="mb-2">
                 <router-link to="/app/repositories/create" class="button is-info">Create new repository</router-link>
             </div>
-            <table class="table is-stripped">
+            <table class="table is-stripped is-fullwidth is-hoverable is-bordered">
                 <thead>
                     <th>Title</th>
                     <th>File</th>
                     <th>Version</th>
                 </thead>
                 <tbody>
-                    <tr v-if="smart_contracts.length" v-for="smart_contract in smart_contracts">
-                        <td>{{ smart_contract.repository }}</td>
+                    <tr v-if="contracts.length" v-for="smart_contract in smart_contracts">
+                        <td>{{ contracts.repository }}</td>
                     </tr>
                     <tr v-else>
                         <td colspan="3">
@@ -44,7 +44,7 @@
     import axios from 'axios'
 
     export default {
-        name: 'SmartContracts',
+        name: 'Contracts',
 
         components: {
 
@@ -56,16 +56,16 @@
 
         data() {
             return {
-                smart_contracts: []
+                contracts: []
             }
         },
 
         methods: {
             async fetchSmartContracts() {
-                const url = '/api/sc'
+                const url = '/api/contracts'
                 const response = await axios.get(url)
                 const data = await response.data
-                this.smart_contracts = data
+                this.contracts = data
             }
         }
     }

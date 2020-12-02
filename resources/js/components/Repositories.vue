@@ -19,7 +19,7 @@
                 <router-link to="/app/repositories/create" class="button is-info">Create new repository</router-link>
             </div>
 
-            <table class="table is-stripped">
+            <table class="table is-stripped is-fullwidth is-hoverable is-bordered">
                 <thead>
                     <th>Url</th>
                     <th>Created_at</th>
@@ -43,11 +43,14 @@
 </template>
 
 <script>
+    import axios from 'axios'
+    import swal from 'sweetalert'
+
     export default {
         name: 'Repositories',
 
         mounted() {
-
+            this.fetchRepositories()
         },
 
         data() {
@@ -59,8 +62,11 @@
         },
 
         methods: {
-            fetchRepositories() {
-                console.log('wait')
+            async fetchRepositories() {
+                const url = '/api/repositories'
+                const response = await axios.get(url)
+                const data = await response.data
+                this.repositories = data
             }
         }
     }

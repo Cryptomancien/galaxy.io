@@ -13,7 +13,7 @@ const GithubStrategy = require('passport-github').Strategy
 
 const FrontController = require('./controllers/FrontController')
 const RepositoriesController = require('./controllers/Api/RepositoriesController')
-const SmartsContractsController = require('./controllers/Api/SmartsContractsController')
+const ContractsController = require('./controllers/Api/ContractsController')
 const ensureAuthenticated = require('./middleware/ensureAuthenticated')
 
 nunjucks.configure('views', {
@@ -110,9 +110,9 @@ app.get('/api/repositories/:id', RepositoriesController.show)
 app.put('/api/repositories/:id', RepositoriesController.update)
 app.delete('/api/repositories/:id', RepositoriesController.destroy)
 
-app.get('/api/sc', SmartsContractsController.all)
-app.post('/api/sc', SmartsContractsController.store)
-app.get('/api/sc/:id', SmartsContractsController.show)
+app.get('/api/contracts', ContractsController.all)
+app.post('/api/contracts', ContractsController.store)
+app.get('/api/contracts/:id', ContractsController.show)
 
 app.get('/test', RepositoriesController.test)
 

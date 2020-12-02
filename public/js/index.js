@@ -11795,6 +11795,45 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Contracts.vue?vue&type=script&lang=js":
+/*!*************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/Contracts.vue?vue&type=script&lang=js ***!
+  \*************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'Contracts',
+  components: {},
+
+  mounted() {
+    this.fetchSmartContracts();
+  },
+
+  data() {
+    return {
+      contracts: []
+    };
+  },
+
+  methods: {
+    async fetchSmartContracts() {
+      const url = '/api/contracts';
+      const response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url);
+      const data = await response.data;
+      this.contracts = data;
+    }
+
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Create.vue?vue&type=script&lang=js":
 /*!**********************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/Create.vue?vue&type=script&lang=js ***!
@@ -11875,6 +11914,8 @@ __webpack_require__.r(__webpack_exports__);
       };
       response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, data);
       data = await response.data;
+      const id = data.id;
+      this.repository_id = id;
     },
 
     async saveSmartContracts() {
@@ -11897,11 +11938,12 @@ __webpack_require__.r(__webpack_exports__);
           file: sc.file,
           version: sc.version,
           repository: this.repository,
-          content: ''
+          content: '',
+          repository_id: this.repository_id
         };
         const content = await getContent(sc.file, this.$data.username, this.$data.repository);
         data_to_post.content = await content;
-        const url = '/api/sc';
+        const url = '/api/contracts';
         const response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, data_to_post);
 
         if (response.status === 200) {
@@ -11938,13 +11980,13 @@ __webpack_require__.r(__webpack_exports__);
 
   mounted() {
     this.fetchRepositories();
-    this.fetchSmartContracts();
+    this.fetchContracts();
   },
 
   data() {
     return {
       repositories: [],
-      smart_contracts: []
+      contracts: []
     };
   },
 
@@ -11956,11 +11998,11 @@ __webpack_require__.r(__webpack_exports__);
       this.repositories = data;
     },
 
-    async fetchSmartContracts() {
-      const url = `/api/sc?preview=1`;
+    async fetchContracts() {
+      const url = `/api/contracts?preview=1`;
       const response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url);
       const data = await response.data;
-      this.smart_contracts = data;
+      this.contracts = data;
     },
 
     async refresh(id) {
@@ -11988,10 +12030,18 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
+/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_1__);
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Repositories',
 
-  mounted() {},
+  mounted() {
+    this.fetchRepositories();
+  },
 
   data() {
     return {
@@ -12000,8 +12050,11 @@ __webpack_require__.r(__webpack_exports__);
   },
 
   methods: {
-    fetchRepositories() {
-      console.log('wait');
+    async fetchRepositories() {
+      const url = '/api/repositories';
+      const response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url);
+      const data = await response.data;
+      this.repositories = data;
     }
 
   }
@@ -12096,45 +12149,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js?!./resources/js/components/SmartContracts.vue?vue&type=script&lang=js":
-/*!******************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/SmartContracts.vue?vue&type=script&lang=js ***!
-  \******************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'SmartContracts',
-  components: {},
-
-  mounted() {
-    this.fetchSmartContracts();
-  },
-
-  data() {
-    return {
-      smart_contracts: []
-    };
-  },
-
-  methods: {
-    async fetchSmartContracts() {
-      const url = '/api/sc';
-      const response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url);
-      const data = await response.data;
-      this.smart_contracts = data;
-    }
-
-  }
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/App.vue?vue&type=template&id=332fccf4":
 /*!**********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/App.vue?vue&type=template&id=332fccf4 ***!
@@ -12161,7 +12175,7 @@ const _hoisted_4 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createT
 
 const _hoisted_5 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])("Repositories");
 
-const _hoisted_6 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])("Smart Contracts");
+const _hoisted_6 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])("Contracts");
 
 const _hoisted_7 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("a", {
   href: "/logout"
@@ -12188,11 +12202,128 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [_hoisted_5]),
     _: 1
   }), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_router_link, {
-    to: "/app/sc"
+    to: "/app/contracts"
   }, {
     default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [_hoisted_6]),
     _: 1
   }), _hoisted_7]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_8, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_router_view)])])]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Contracts.vue?vue&type=template&id=103c0346&bindings={\"contracts\":\"data\",\"fetchSmartContracts\":\"options\"}":
+/*!******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/Contracts.vue?vue&type=template&id=103c0346&bindings={"contracts":"data","fetchSmartContracts":"options"} ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm-bundler.js");
+
+const _hoisted_1 = {
+  class: "card mb-2"
+};
+const _hoisted_2 = {
+  class: "card-content"
+};
+const _hoisted_3 = {
+  class: "breadcrumb",
+  "aria-label": "breadcrumbs"
+};
+
+const _hoisted_4 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])("Home");
+
+const _hoisted_5 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])("Repositories");
+
+const _hoisted_6 = {
+  class: "is-active"
+};
+
+const _hoisted_7 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])("Contracts");
+
+const _hoisted_8 = {
+  class: "card"
+};
+
+const _hoisted_9 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
+  class: "card-header"
+}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h1", {
+  class: "card-header-title"
+}, "Smart Contracts")], -1
+/* HOISTED */
+);
+
+const _hoisted_10 = {
+  class: "card-content"
+};
+const _hoisted_11 = {
+  class: "mb-2"
+};
+
+const _hoisted_12 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])("Create new repository");
+
+const _hoisted_13 = {
+  class: "table is-stripped is-fullwidth is-hoverable is-bordered"
+};
+
+const _hoisted_14 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("thead", null, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "Title"), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "File"), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "Version")], -1
+/* HOISTED */
+);
+
+const _hoisted_15 = {
+  key: 1
+};
+const _hoisted_16 = {
+  colspan: "3"
+};
+
+const _hoisted_17 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])(" No smart contract yet. ");
+
+const _hoisted_18 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])("Create one");
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_router_link = Object(vue__WEBPACK_IMPORTED_MODULE_0__["resolveComponent"])("router-link");
+
+  return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_2, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("nav", _hoisted_3, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("ul", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("li", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_router_link, {
+    to: "/app"
+  }, {
+    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [_hoisted_4]),
+    _: 1
+  })]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("li", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_router_link, {
+    to: "/app/repositories"
+  }, {
+    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [_hoisted_5]),
+    _: 1
+  })]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("li", _hoisted_6, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_router_link, {
+    to: "/app/contracts"
+  }, {
+    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [_hoisted_7]),
+    _: 1
+  })])])])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_8, [_hoisted_9, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_10, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_11, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_router_link, {
+    to: "/app/repositories/create",
+    class: "button is-info"
+  }, {
+    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [_hoisted_12]),
+    _: 1
+  })]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("table", _hoisted_13, [_hoisted_14, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("tbody", null, [$data.contracts.length ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], {
+    key: 0
+  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])(_ctx.smart_contracts, smart_contract => {
+    return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("tr", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($data.contracts.repository), 1
+    /* TEXT */
+    )]);
+  }), 256
+  /* UNKEYED_FRAGMENT */
+  )) : (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("tr", _hoisted_15, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", _hoisted_16, [_hoisted_17, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_router_link, {
+    to: "/app/repositories/create"
+  }, {
+    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [_hoisted_18]),
+    _: 1
+  })])]))])])])])], 64
+  /* STABLE_FRAGMENT */
+  );
 }
 
 /***/ }),
@@ -12333,10 +12464,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Home.vue?vue&type=template&id=f2b6376c&bindings={\"repositories\":\"data\",\"smart_contracts\":\"data\",\"fetchRepositories\":\"options\",\"fetchSmartContracts\":\"options\",\"refresh\":\"options\"}":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/Home.vue?vue&type=template&id=f2b6376c&bindings={"repositories":"data","smart_contracts":"data","fetchRepositories":"options","fetchSmartContracts":"options","refresh":"options"} ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Home.vue?vue&type=template&id=f2b6376c&bindings={\"repositories\":\"data\",\"contracts\":\"data\",\"fetchRepositories\":\"options\",\"fetchContracts\":\"options\",\"refresh\":\"options\"}":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/Home.vue?vue&type=template&id=f2b6376c&bindings={"repositories":"data","contracts":"data","fetchRepositories":"options","fetchContracts":"options","refresh":"options"} ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -12399,7 +12530,7 @@ const _hoisted_14 = {
 };
 
 const _hoisted_15 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", {
-  colspan: "4"
+  colspan: "5"
 }, "No repository", -1
 /* HOISTED */
 );
@@ -12433,7 +12564,7 @@ const _hoisted_21 = {
 
 const _hoisted_22 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", {
   colspan: "6"
-}, "No smart contract available", -1
+}, "No contract available", -1
 /* HOISTED */
 );
 
@@ -12475,20 +12606,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     , ["onClick"])])]);
   }), 256
   /* UNKEYED_FRAGMENT */
-  )) : (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("tr", _hoisted_14, [_hoisted_15]))])])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_16, [_hoisted_17, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_18, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("table", _hoisted_19, [_hoisted_20, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("tbody", null, [$data.smart_contracts.length ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], {
+  )) : (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("tr", _hoisted_14, [_hoisted_15]))])])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_16, [_hoisted_17, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_18, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("table", _hoisted_19, [_hoisted_20, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("tbody", null, [$data.contracts.length ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], {
     key: 0
-  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])($data.smart_contracts, smart_contract => {
-    return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("tr", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(smart_contract.title), 1
+  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])($data.contracts, contract => {
+    return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("tr", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(contract.title), 1
     /* TEXT */
-    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(smart_contract.description), 1
+    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(contract.description), 1
     /* TEXT */
-    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(smart_contract.file), 1
+    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(contract.file), 1
     /* TEXT */
-    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(smart_contract.version), 1
+    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(contract.version), 1
     /* TEXT */
-    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(smart_contract.created_at), 1
+    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(contract.created_at), 1
     /* TEXT */
-    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(smart_contract.updated_at), 1
+    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(contract.updated_at), 1
     /* TEXT */
     )]);
   }), 256
@@ -12553,7 +12684,7 @@ const _hoisted_10 = {
 const _hoisted_11 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])("Create new repository");
 
 const _hoisted_12 = {
-  class: "table is-stripped"
+  class: "table is-stripped is-fullwidth is-hoverable is-bordered"
 };
 
 const _hoisted_13 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("thead", null, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "Url"), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "Created_at"), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "Updated_at"), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "Refresh")], -1
@@ -12708,123 +12839,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 256
   /* UNKEYED_FRAGMENT */
   ))])]);
-}
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/SmartContracts.vue?vue&type=template&id=99d265fa&bindings={\"smart_contracts\":\"data\",\"fetchSmartContracts\":\"options\"}":
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/SmartContracts.vue?vue&type=template&id=99d265fa&bindings={"smart_contracts":"data","fetchSmartContracts":"options"} ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm-bundler.js");
-
-const _hoisted_1 = {
-  class: "card mb-2"
-};
-const _hoisted_2 = {
-  class: "card-content"
-};
-const _hoisted_3 = {
-  class: "breadcrumb",
-  "aria-label": "breadcrumbs"
-};
-
-const _hoisted_4 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])("Home");
-
-const _hoisted_5 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])("Repositories");
-
-const _hoisted_6 = {
-  class: "is-active"
-};
-
-const _hoisted_7 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])("Smart Contracts");
-
-const _hoisted_8 = {
-  class: "card"
-};
-
-const _hoisted_9 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
-  class: "card-header"
-}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h1", {
-  class: "card-header-title"
-}, "Smart Contracts")], -1
-/* HOISTED */
-);
-
-const _hoisted_10 = {
-  class: "card-content"
-};
-const _hoisted_11 = {
-  class: "mb-2"
-};
-
-const _hoisted_12 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])("Create new repository");
-
-const _hoisted_13 = {
-  class: "table is-stripped"
-};
-
-const _hoisted_14 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("thead", null, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "Title"), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "File"), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, "Version")], -1
-/* HOISTED */
-);
-
-const _hoisted_15 = {
-  key: 1
-};
-const _hoisted_16 = {
-  colspan: "3"
-};
-
-const _hoisted_17 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])(" No smart contract yet. ");
-
-const _hoisted_18 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])("Create one");
-
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_router_link = Object(vue__WEBPACK_IMPORTED_MODULE_0__["resolveComponent"])("router-link");
-
-  return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_2, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("nav", _hoisted_3, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("ul", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("li", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_router_link, {
-    to: "/app"
-  }, {
-    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [_hoisted_4]),
-    _: 1
-  })]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("li", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_router_link, {
-    to: "/app/repositories"
-  }, {
-    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [_hoisted_5]),
-    _: 1
-  })]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("li", _hoisted_6, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_router_link, {
-    to: "/app/sc"
-  }, {
-    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [_hoisted_7]),
-    _: 1
-  })])])])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_8, [_hoisted_9, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_10, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_11, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_router_link, {
-    to: "/app/repositories/create",
-    class: "button is-info"
-  }, {
-    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [_hoisted_12]),
-    _: 1
-  })]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("table", _hoisted_13, [_hoisted_14, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("tbody", null, [$data.smart_contracts.length ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], {
-    key: 0
-  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])($data.smart_contracts, smart_contract => {
-    return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("tr", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(smart_contract.repository), 1
-    /* TEXT */
-    )]);
-  }), 256
-  /* UNKEYED_FRAGMENT */
-  )) : (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("tr", _hoisted_15, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", _hoisted_16, [_hoisted_17, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_router_link, {
-    to: "/app/repositories/create"
-  }, {
-    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [_hoisted_18]),
-    _: 1
-  })])]))])])])])], 64
-  /* STABLE_FRAGMENT */
-  );
 }
 
 /***/ }),
@@ -16920,6 +16934,62 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Contracts.vue":
+/*!***********************************************!*\
+  !*** ./resources/js/components/Contracts.vue ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Contracts_vue_vue_type_template_id_103c0346_bindings_contracts_data_fetchSmartContracts_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Contracts.vue?vue&type=template&id=103c0346&bindings={"contracts":"data","fetchSmartContracts":"options"} */ "./resources/js/components/Contracts.vue?vue&type=template&id=103c0346&bindings={\"contracts\":\"data\",\"fetchSmartContracts\":\"options\"}");
+/* harmony import */ var _Contracts_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Contracts.vue?vue&type=script&lang=js */ "./resources/js/components/Contracts.vue?vue&type=script&lang=js");
+/* empty/unused harmony star reexport */
+
+
+_Contracts_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _Contracts_vue_vue_type_template_id_103c0346_bindings_contracts_data_fetchSmartContracts_options___WEBPACK_IMPORTED_MODULE_0__["render"]
+/* hot reload */
+if (false) {}
+
+_Contracts_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].__file = "resources/js/components/Contracts.vue"
+
+/* harmony default export */ __webpack_exports__["default"] = (_Contracts_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
+/***/ }),
+
+/***/ "./resources/js/components/Contracts.vue?vue&type=script&lang=js":
+/*!***********************************************************************!*\
+  !*** ./resources/js/components/Contracts.vue?vue&type=script&lang=js ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_index_js_ref_28_0_Contracts_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib!../../../node_modules/vue-loader/dist??ref--28-0!./Contracts.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Contracts.vue?vue&type=script&lang=js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_index_js_ref_28_0_Contracts_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+/* empty/unused harmony star reexport */ 
+
+/***/ }),
+
+/***/ "./resources/js/components/Contracts.vue?vue&type=template&id=103c0346&bindings={\"contracts\":\"data\",\"fetchSmartContracts\":\"options\"}":
+/*!*******************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Contracts.vue?vue&type=template&id=103c0346&bindings={"contracts":"data","fetchSmartContracts":"options"} ***!
+  \*******************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_Contracts_vue_vue_type_template_id_103c0346_bindings_contracts_data_fetchSmartContracts_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib!../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../node_modules/vue-loader/dist??ref--28-0!./Contracts.vue?vue&type=template&id=103c0346&bindings={"contracts":"data","fetchSmartContracts":"options"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Contracts.vue?vue&type=template&id=103c0346&bindings={\"contracts\":\"data\",\"fetchSmartContracts\":\"options\"}");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_Contracts_vue_vue_type_template_id_103c0346_bindings_contracts_data_fetchSmartContracts_options___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Create.vue":
 /*!********************************************!*\
   !*** ./resources/js/components/Create.vue ***!
@@ -16985,12 +17055,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Home_vue_vue_type_template_id_f2b6376c_bindings_repositories_data_smart_contracts_data_fetchRepositories_options_fetchSmartContracts_options_refresh_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Home.vue?vue&type=template&id=f2b6376c&bindings={"repositories":"data","smart_contracts":"data","fetchRepositories":"options","fetchSmartContracts":"options","refresh":"options"} */ "./resources/js/components/Home.vue?vue&type=template&id=f2b6376c&bindings={\"repositories\":\"data\",\"smart_contracts\":\"data\",\"fetchRepositories\":\"options\",\"fetchSmartContracts\":\"options\",\"refresh\":\"options\"}");
+/* harmony import */ var _Home_vue_vue_type_template_id_f2b6376c_bindings_repositories_data_contracts_data_fetchRepositories_options_fetchContracts_options_refresh_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Home.vue?vue&type=template&id=f2b6376c&bindings={"repositories":"data","contracts":"data","fetchRepositories":"options","fetchContracts":"options","refresh":"options"} */ "./resources/js/components/Home.vue?vue&type=template&id=f2b6376c&bindings={\"repositories\":\"data\",\"contracts\":\"data\",\"fetchRepositories\":\"options\",\"fetchContracts\":\"options\",\"refresh\":\"options\"}");
 /* harmony import */ var _Home_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Home.vue?vue&type=script&lang=js */ "./resources/js/components/Home.vue?vue&type=script&lang=js");
 /* empty/unused harmony star reexport */
 
 
-_Home_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _Home_vue_vue_type_template_id_f2b6376c_bindings_repositories_data_smart_contracts_data_fetchRepositories_options_fetchSmartContracts_options_refresh_options___WEBPACK_IMPORTED_MODULE_0__["render"]
+_Home_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _Home_vue_vue_type_template_id_f2b6376c_bindings_repositories_data_contracts_data_fetchRepositories_options_fetchContracts_options_refresh_options___WEBPACK_IMPORTED_MODULE_0__["render"]
 /* hot reload */
 if (false) {}
 
@@ -17016,17 +17086,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Home.vue?vue&type=template&id=f2b6376c&bindings={\"repositories\":\"data\",\"smart_contracts\":\"data\",\"fetchRepositories\":\"options\",\"fetchSmartContracts\":\"options\",\"refresh\":\"options\"}":
-/*!********************************************************************************************************************************************************************************************************************!*\
-  !*** ./resources/js/components/Home.vue?vue&type=template&id=f2b6376c&bindings={"repositories":"data","smart_contracts":"data","fetchRepositories":"options","fetchSmartContracts":"options","refresh":"options"} ***!
-  \********************************************************************************************************************************************************************************************************************/
+/***/ "./resources/js/components/Home.vue?vue&type=template&id=f2b6376c&bindings={\"repositories\":\"data\",\"contracts\":\"data\",\"fetchRepositories\":\"options\",\"fetchContracts\":\"options\",\"refresh\":\"options\"}":
+/*!*********************************************************************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Home.vue?vue&type=template&id=f2b6376c&bindings={"repositories":"data","contracts":"data","fetchRepositories":"options","fetchContracts":"options","refresh":"options"} ***!
+  \*********************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_Home_vue_vue_type_template_id_f2b6376c_bindings_repositories_data_smart_contracts_data_fetchRepositories_options_fetchSmartContracts_options_refresh_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib!../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../node_modules/vue-loader/dist??ref--28-0!./Home.vue?vue&type=template&id=f2b6376c&bindings={"repositories":"data","smart_contracts":"data","fetchRepositories":"options","fetchSmartContracts":"options","refresh":"options"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Home.vue?vue&type=template&id=f2b6376c&bindings={\"repositories\":\"data\",\"smart_contracts\":\"data\",\"fetchRepositories\":\"options\",\"fetchSmartContracts\":\"options\",\"refresh\":\"options\"}");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_Home_vue_vue_type_template_id_f2b6376c_bindings_repositories_data_smart_contracts_data_fetchRepositories_options_fetchSmartContracts_options_refresh_options___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_Home_vue_vue_type_template_id_f2b6376c_bindings_repositories_data_contracts_data_fetchRepositories_options_fetchContracts_options_refresh_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib!../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../node_modules/vue-loader/dist??ref--28-0!./Home.vue?vue&type=template&id=f2b6376c&bindings={"repositories":"data","contracts":"data","fetchRepositories":"options","fetchContracts":"options","refresh":"options"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Home.vue?vue&type=template&id=f2b6376c&bindings={\"repositories\":\"data\",\"contracts\":\"data\",\"fetchRepositories\":\"options\",\"fetchContracts\":\"options\",\"refresh\":\"options\"}");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_Home_vue_vue_type_template_id_f2b6376c_bindings_repositories_data_contracts_data_fetchRepositories_options_fetchContracts_options_refresh_options___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 
 
@@ -17144,62 +17214,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/SmartContracts.vue":
-/*!****************************************************!*\
-  !*** ./resources/js/components/SmartContracts.vue ***!
-  \****************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _SmartContracts_vue_vue_type_template_id_99d265fa_bindings_smart_contracts_data_fetchSmartContracts_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SmartContracts.vue?vue&type=template&id=99d265fa&bindings={"smart_contracts":"data","fetchSmartContracts":"options"} */ "./resources/js/components/SmartContracts.vue?vue&type=template&id=99d265fa&bindings={\"smart_contracts\":\"data\",\"fetchSmartContracts\":\"options\"}");
-/* harmony import */ var _SmartContracts_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SmartContracts.vue?vue&type=script&lang=js */ "./resources/js/components/SmartContracts.vue?vue&type=script&lang=js");
-/* empty/unused harmony star reexport */
-
-
-_SmartContracts_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _SmartContracts_vue_vue_type_template_id_99d265fa_bindings_smart_contracts_data_fetchSmartContracts_options___WEBPACK_IMPORTED_MODULE_0__["render"]
-/* hot reload */
-if (false) {}
-
-_SmartContracts_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].__file = "resources/js/components/SmartContracts.vue"
-
-/* harmony default export */ __webpack_exports__["default"] = (_SmartContracts_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"]);
-
-/***/ }),
-
-/***/ "./resources/js/components/SmartContracts.vue?vue&type=script&lang=js":
-/*!****************************************************************************!*\
-  !*** ./resources/js/components/SmartContracts.vue?vue&type=script&lang=js ***!
-  \****************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_index_js_ref_28_0_SmartContracts_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib!../../../node_modules/vue-loader/dist??ref--28-0!./SmartContracts.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js?!./resources/js/components/SmartContracts.vue?vue&type=script&lang=js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_index_js_ref_28_0_SmartContracts_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]; });
-
-/* empty/unused harmony star reexport */ 
-
-/***/ }),
-
-/***/ "./resources/js/components/SmartContracts.vue?vue&type=template&id=99d265fa&bindings={\"smart_contracts\":\"data\",\"fetchSmartContracts\":\"options\"}":
-/*!******************************************************************************************************************************************************!*\
-  !*** ./resources/js/components/SmartContracts.vue?vue&type=template&id=99d265fa&bindings={"smart_contracts":"data","fetchSmartContracts":"options"} ***!
-  \******************************************************************************************************************************************************/
-/*! exports provided: render */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_SmartContracts_vue_vue_type_template_id_99d265fa_bindings_smart_contracts_data_fetchSmartContracts_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib!../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../node_modules/vue-loader/dist??ref--28-0!./SmartContracts.vue?vue&type=template&id=99d265fa&bindings={"smart_contracts":"data","fetchSmartContracts":"options"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/SmartContracts.vue?vue&type=template&id=99d265fa&bindings={\"smart_contracts\":\"data\",\"fetchSmartContracts\":\"options\"}");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_SmartContracts_vue_vue_type_template_id_99d265fa_bindings_smart_contracts_data_fetchSmartContracts_options___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-
-
-/***/ }),
-
 /***/ "./resources/js/helpers/create.js":
 /*!****************************************!*\
   !*** ./resources/js/helpers/create.js ***!
@@ -17285,7 +17299,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Home__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Home */ "./resources/js/components/Home.vue");
 /* harmony import */ var _components_Create__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Create */ "./resources/js/components/Create.vue");
 /* harmony import */ var _components_Repositories__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Repositories */ "./resources/js/components/Repositories.vue");
-/* harmony import */ var _components_SmartContracts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/SmartContracts */ "./resources/js/components/SmartContracts.vue");
+/* harmony import */ var _components_Contracts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Contracts */ "./resources/js/components/Contracts.vue");
 /* harmony import */ var _components_Repository__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Repository */ "./resources/js/components/Repository.vue");
 
 
@@ -17310,9 +17324,9 @@ const routes = [{
   name: 'Repository',
   component: _components_Repository__WEBPACK_IMPORTED_MODULE_5__["default"]
 }, {
-  path: '/app/sc',
-  name: 'SmartContracts',
-  component: _components_SmartContracts__WEBPACK_IMPORTED_MODULE_4__["default"]
+  path: '/app/contracts',
+  name: 'Contracts',
+  component: _components_Contracts__WEBPACK_IMPORTED_MODULE_4__["default"]
 }];
 const router = Object(vue_router__WEBPACK_IMPORTED_MODULE_0__["createRouter"])({
   history: Object(vue_router__WEBPACK_IMPORTED_MODULE_0__["createWebHistory"])(),

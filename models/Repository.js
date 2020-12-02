@@ -12,6 +12,10 @@ const Repository = sequelize.define('repository', {
         primaryKey: true,
         autoIncrement: true,
     },
+    url: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     name: {
         type: Sequelize.STRING,
         allowNull: false
