@@ -50,6 +50,7 @@ const Contract = sequelize.define('contract', {
 })
 
 const User = require('./User')
+const Repository = require('./Repository')
 
 Contract.belongsTo(User, {
     foreignKey: 'user_id',

@@ -14,8 +14,10 @@
                     <h2 class="is-size-5 mb-2">{{ contract.description }}</h2>
                     <div class="mb-2">{{ contract.file }}</div>
                     <div class="mb-2">{{ contract.version }}</div>
-                    <div class="mb-5">
-                        <a href="{{ contract.url }}"></a>
+                    <div class="is-flex is-align-items-center mb-2">
+                        <img src="{{ contract.user.avatar_url }}" alt="" style="width: 30px;">
+                        &nbsp;
+                        <span>{{ contract.user.username }}</span>
                     </div>
 
 <pre>

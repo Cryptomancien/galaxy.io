@@ -31,7 +31,7 @@
 						<div class="card smart-contract">
 							<div class="card-header">
 								<div class="card-header-title">
-									<a href="/smart-contract/{{ contract.id }}">
+									<a href="/contract/{{ contract.id }}">
 										{{ contract.title }}
 									</a>
 								</div>
@@ -40,7 +40,11 @@
 								{{ contract.description }}
 							</div>
 							<div class="card-footer">
-								<a href="#" class="card-footer-item">github.com/toto/toto</a>
+								<a href="#" class="card-footer-item is-flex is-align-content-center is-justify-content-start">
+                                    <img src="{{ contract.user.avatar_url }}" alt="" style="width: 30px;">
+                                    &nbsp;
+                                    <span>{{ contract.user.username }}</span>
+                                </a>
 							</div>
 						</div>
 					</div>

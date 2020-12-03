@@ -5,6 +5,9 @@ const Contract = require('../models/Contract')
 exports.index = async (request, response) => {
 
     const contracts = await Contract.findAll({
+        include: [
+          User
+        ],
         order: [
             ['id', 'DESC']
         ]
@@ -42,7 +45,14 @@ exports.search = async (request, response) => {
 
 exports.contract = async (request, response) => {
     const id = await request.params.id
-    const contract = await Contract.findByPk(id)
+    const contract = await Contract.findOne({
+        where: {
+            id
+        },
+        include: [
+            User
+        ]
+    })
 
     const data = {
         contract
