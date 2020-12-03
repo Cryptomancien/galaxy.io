@@ -39,7 +39,7 @@ exports.search = async (request, response) => {
     return await response.render('search.html', data)
 }
 
-exports.smartContract = async (request, response) => {
+exports.contract = async (request, response) => {
     const id = await request.params.id
     const contracts = await Contract.findByPk(id)
 

@@ -79,7 +79,7 @@ app.get('/get-started', FrontController.getStarted)
 
 app.get('/search', FrontController.search)
 
-app.get('/smart-contract/:id', FrontController.smartContract)
+app.get('/contract/:id', FrontController.contract)
 
 app.get('/login', FrontController.login)
 
