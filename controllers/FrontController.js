@@ -61,6 +61,30 @@ exports.contract = async (request, response) => {
     response.render('contract.html', data)
 }
 
+exports.user = async (request, response) => {
+
+    const username = request.params.username
+
+    const user = await User.findOne({
+        where: {
+            username
+        },
+    })
+
+    const contracts = await Contract.findAll({
+        where: {
+            user_id: user.id
+        }
+    })
+
+    const data = {
+        user,
+        contracts
+    }
+
+    await response.render('user.html', data)
+}
+
 exports.login = async (request, response) => {
     let data = {
         isAuth: request.isAuthenticated()

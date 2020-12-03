@@ -28,6 +28,7 @@
     "passport-github": "^1.1.0",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
+    "pm2": "^4.5.0",
     "prismjs": "^1.22.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

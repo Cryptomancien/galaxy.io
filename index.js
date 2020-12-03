@@ -81,6 +81,8 @@ app.get('/search', FrontController.search)
 
 app.get('/contract/:id', FrontController.contract)
 
+app.get('/user/:username', FrontController.user)
+
 app.get('/login', FrontController.login)
 
 app.get('/login/github', passport.authenticate('github'))
