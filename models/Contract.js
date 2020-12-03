@@ -49,5 +49,12 @@ const Contract = sequelize.define('contract', {
     modelName: 'Contract'
 })
 
+const User = require('./User')
+
+Contract.belongsTo(User, {
+    foreignKey: 'user_id',
+    foreignKeyConstraint: true
+})
+
 module.exports = Contract
 

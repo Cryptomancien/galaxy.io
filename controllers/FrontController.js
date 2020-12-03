@@ -1,3 +1,4 @@
+const User = require('../models/User')
 const Contract = require('../models/Contract')
 
 exports.index = async (request, response) => {
@@ -24,7 +25,11 @@ exports.search = async (request, response) => {
 
     const search = await request.query.search ?? ''
 
-    const contracts = await Contract.findAll()
+    const contracts = await Contract.findAll({
+        include: [
+            User
+        ]
+    })
 
     let data = {
         user: request.user,

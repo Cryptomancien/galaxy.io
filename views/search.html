@@ -6,21 +6,22 @@
             <div class="columns">
                 <div class="column is-two-thirds">
                     {% for contract in contracts %}
-                        <pre>{{ contract | dump }}</pre>
                         <div class="card mb-2">
                             <div class="card-content">
-                                <div class="has-text-weight-semibold">
-                                    {{ contract.title }}
+                                <div class="has-text-weight-semibold mb-2">
+                                    <a href="/smart-contract/{{ contract.id }}">{{ contract.title }}</a>
                                 </div>
-                                <div>
+                                <div class="mb-2">
                                     {{ contract.description }}
                                 </div>
-                                <div>
+                                <div class="mb-2">
                                     {{ contract.version }}
                                 </div>
                                 <div>
-                                    <img src="" alt="">
-                                    {{ contract.url }}
+                                    <a class="is-flex  is-align-items-center">
+                                        <img src="{{ contract.user.avatar_url }}" alt="" width="40px">
+                                        <span>{{ contract.user.username }}</span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
