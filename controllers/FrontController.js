@@ -1,4 +1,5 @@
 const User = require('../models/User')
+const Repository = require('../models/Repository')
 const Contract = require('../models/Contract')
 
 exports.index = async (request, response) => {
@@ -41,13 +42,13 @@ exports.search = async (request, response) => {
 
 exports.contract = async (request, response) => {
     const id = await request.params.id
-    const contracts = await Contract.findByPk(id)
+    const contract = await Contract.findByPk(id)
 
     const data = {
-        contracts
+        contract
     }
 
-    response.render('smart-contract.html', data)
+    response.render('contract.html', data)
 }
 
 exports.login = async (request, response) => {

@@ -10,24 +10,19 @@
         <div class="container">
             <div class="card mb-2">
                 <div class="card-content">
-                    <h1 class="is-size-3">{{ smart_contract.title }}</h1>
-                    <h2 class="is-size-5">{{ smart_contract.description }}</h2>
-                    
+                    <h1 class="is-size-3 mb-2">{{ contract.title }}</h1>
+                    <h2 class="is-size-5 mb-2">{{ contract.description }}</h2>
+                    <div class="mb-2">{{ contract.file }}</div>
+                    <div class="mb-2">{{ contract.version }}</div>
                     <div class="mb-5">
-                        <img src="" alt=""> <a href="#">https://github.com/{{ smart_contract.author }}</a>
+                        <a href="{{ contract.url }}"></a>
                     </div>
 
 <pre>
 <code class="lang-c">
-{{ smart_contract.content }}
+{{ contract.content }}
 </code>
 </pre>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-content">
-                    By the same developer:
                 </div>
             </div>
         </div>
