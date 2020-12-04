@@ -11843,129 +11843,59 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
-/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var toml__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! toml */ "./node_modules/toml/index.js");
-/* harmony import */ var toml__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(toml__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _helpers_create__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../helpers/create */ "./resources/js/helpers/create.js");
-
-
+/* harmony import */ var toml__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! toml */ "./node_modules/toml/index.js");
+/* harmony import */ var toml__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(toml__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _helpers_create__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../helpers/create */ "./resources/js/helpers/create.js");
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Create',
 
-  mounted() {
-    const user = document.querySelector('#username');
-    this.username = user.innerText;
+  async mounted() {
+    const user = document.querySelector('#user');
+    this.user.id = user.dataset.id;
+    this.user.username = user.dataset.username;
+    this.repositories = await Object(_helpers_create__WEBPACK_IMPORTED_MODULE_1__["getRepositoriesByUser"])(this.user.username);
   },
 
   data() {
     return {
-      username: '',
-      url: '',
-      repository: '',
-      smart_contracts: [],
-      content: '',
-      repository_id: ''
+      user: {
+        id: '',
+        username: ''
+      },
+      repositories: [],
+      repository_input: '',
+      repository: {
+        id: '',
+        public_id: '',
+        url: '',
+        name: '',
+        content: ''
+      },
+      contracts: []
     };
   },
 
   methods: {
-    async loadConfig() {
-      // Validate the url
-      const error = Object(_helpers_create__WEBPACK_IMPORTED_MODULE_3__["validateUrlConfig"])(this.url, this.username);
-
-      if (error) {
-        sweetalert__WEBPACK_IMPORTED_MODULE_1___default()('Error', error, 'error');
-        return;
-      } // Get the repository
-
-
-      this.repository = this.url.split('/').pop();
-      let url = `https://raw.githubusercontent.com/${this.username}/${this.repository}/main/sc.toml`;
-      let response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url);
-      let data = await response.data;
-      data = toml__WEBPACK_IMPORTED_MODULE_2___default.a.parse(data);
-
-      if (!data.sc) {
-        sweetalert__WEBPACK_IMPORTED_MODULE_1___default()('Error', 'No smart contract found', 'error');
-        return;
-      }
-
-      this.content = JSON.stringify(data);
-
-      for (const contract of data.sc) {
-        this.smart_contracts.push({
-          title: contract.title,
-          description: contract.description,
-          file: contract.file,
-          version: contract.version
-        });
-      }
-
-      console.log(this.smart_contracts);
+    async handleSelect() {
+      let repository = JSON.parse(this.repository_input);
+      this.repository.public_id = repository.public_id;
+      this.repository.url = repository.url;
+      this.repository.name = repository.name;
+      this.repository.content = await Object(_helpers_create__WEBPACK_IMPORTED_MODULE_1__["getConfig"])(this.user.username, JSON.parse(this.repository_input).name);
+      let contracts = this.repository.content;
+      contracts = toml__WEBPACK_IMPORTED_MODULE_0___default.a.parse(contracts);
+      contracts = contracts.sc;
+      this.contracts = contracts;
+      await this.validate();
     },
 
     async validate() {
-      await this.saveRepository();
-      await this.saveSmartContracts();
+      const repository = await Object(_helpers_create__WEBPACK_IMPORTED_MODULE_1__["saveRepository"])(this.repository);
+      await Object(_helpers_create__WEBPACK_IMPORTED_MODULE_1__["saveContracts"])(this.contracts, repository.id);
       await this.$router.push('/app');
-      sweetalert__WEBPACK_IMPORTED_MODULE_1___default()('Success', 'All fine', 'success');
-    },
-
-    async saveRepository() {
-      let url = '';
-      let data = {};
-      let response;
-      url = '/api/repositories';
-      data = {
-        url: this.url,
-        name: this.repository,
-        content: this.content
-      };
-      response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, data);
-      data = await response.data;
-      const id = data.id;
-      this.repository_id = id;
-    },
-
-    async saveSmartContracts() {
-      async function getContent(file, username, repository) {
-        try {
-          const url = `https://raw.githubusercontent.com/${username}/${repository}/main/${file}`;
-          const response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url);
-          const data = await response.data;
-          return data;
-        } catch (error) {
-          console.error(error);
-          throw new Error(error);
-        }
-      }
-
-      for await (let sc of this.smart_contracts) {
-        let data_to_post = {
-          title: sc.title,
-          description: sc.description,
-          file: sc.file,
-          version: sc.version,
-          repository: this.repository,
-          content: '',
-          repository_id: this.repository_id
-        };
-        const content = await getContent(sc.file, this.$data.username, this.$data.repository);
-        data_to_post.content = await content;
-        const url = '/api/contracts';
-        const response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, data_to_post);
-
-        if (response.status === 200) {
-          console.log(response.data);
-        } else {
-          throw new Error('something is wrong');
-        }
-      }
+      swal('Success', 'All fine', 'success');
     }
 
   }
@@ -11986,11 +11916,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
 /* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Create__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Create */ "./resources/js/components/Create.vue");
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Home',
-  components: {},
+  components: {
+    Create: _Create__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
 
   mounted() {
     this.fetchRepositories();
@@ -12338,10 +12272,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={\"username\":\"data\",\"url\":\"data\",\"repository\":\"data\",\"smart_contracts\":\"data\",\"content\":\"data\",\"repository_id\":\"data\",\"loadConfig\":\"options\",\"validate\":\"options\",\"saveRepository\":\"options\",\"saveSmartContracts\":\"options\"}":
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={"username":"data","url":"data","repository":"data","smart_contracts":"data","content":"data","repository_id":"data","loadConfig":"options","validate":"options","saveRepository":"options","saveSmartContracts":"options"} ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={\"user\":\"data\",\"repositories\":\"data\",\"repository_input\":\"data\",\"repository\":\"data\",\"contracts\":\"data\",\"handleSelect\":\"options\",\"validate\":\"options\"}":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={"user":"data","repositories":"data","repository_input":"data","repository":"data","contracts":"data","handleSelect":"options","validate":"options"} ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -12395,10 +12329,9 @@ const _hoisted_10 = {
 const _hoisted_11 = {
   class: "control"
 };
-
-const _hoisted_12 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("small", null, "https://github.com/username/repository", -1
-/* HOISTED */
-);
+const _hoisted_12 = {
+  class: "select"
+};
 
 const _hoisted_13 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
   class: "control"
@@ -12413,17 +12346,18 @@ const _hoisted_14 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["create
 /* HOISTED */
 );
 
-const _hoisted_15 = {
-  key: 0
-};
-
-const _hoisted_16 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("hr", null, null, -1
+const _hoisted_15 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("hr", null, null, -1
 /* HOISTED */
 );
 
-const _hoisted_17 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
-  class: "button is-success is-medium is-fullwidth"
-}, "Validate", -1
+const _hoisted_16 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
+  class: "field"
+}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
+  class: "control"
+}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+  type: "submit",
+  class: "button is-success"
+}, "Validate")])], -1
 /* HOISTED */
 );
 
@@ -12441,33 +12375,44 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [_hoisted_5]),
     _: 1
   })]), _hoisted_6])])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_7, [_hoisted_8, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_9, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("form", {
-    onSubmit: _cache[2] || (_cache[2] = Object(vue__WEBPACK_IMPORTED_MODULE_0__["withModifiers"])((...args) => $options.loadConfig(...args), ["prevent"]))
-  }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_10, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_11, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
-    type: "text",
-    class: "input ",
-    placeholder: "https://github.com/<username>/<repository>",
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => $data.url = $event)
-  }, null, 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $data.url]]), _hoisted_12]), _hoisted_13])], 32
-  /* HYDRATE_EVENTS */
-  ), _hoisted_14, $data.smart_contracts.length ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", _hoisted_15, [(Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])($data.smart_contracts, smart_contract => {
-    return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", null, "Title: " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(smart_contract.title), 1
-    /* TEXT */
-    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", null, "Description: " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(smart_contract.description), 1
-    /* TEXT */
-    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", null, "File: " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(smart_contract.file), 1
-    /* TEXT */
-    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", null, "Version: " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(smart_contract.version), 1
-    /* TEXT */
-    ), _hoisted_16]);
+    onSubmit: _cache[2] || (_cache[2] = Object(vue__WEBPACK_IMPORTED_MODULE_0__["withModifiers"])((...args) => $options.handleSelect(...args), ["prevent"]))
+  }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_10, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_11, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_12, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("select", {
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => $data.repository_input = $event)
+  }, [(Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])($data.repositories, repository => {
+    return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("option", {
+      value: JSON.stringify({
+        public_id: repository.id,
+        name: repository.name,
+        url: repository.html_url,
+        content: ''
+      })
+    }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(repository.name), 9
+    /* TEXT, PROPS */
+    , ["value"]);
   }), 256
   /* UNKEYED_FRAGMENT */
-  )), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("form", {
-    onSubmit: _cache[3] || (_cache[3] = Object(vue__WEBPACK_IMPORTED_MODULE_0__["withModifiers"])((...args) => $options.validate(...args), ["prevent"]))
-  }, [_hoisted_17], 32
+  ))], 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelSelect"], $data.repository_input]])])]), _hoisted_13])], 32
   /* HYDRATE_EVENTS */
-  )])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__["createCommentVNode"])("v-if", true)])])], 64
+  ), _hoisted_14, $data.contracts.length ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("form", {
+    key: 0,
+    onSubmit: _cache[3] || (_cache[3] = Object(vue__WEBPACK_IMPORTED_MODULE_0__["withModifiers"])((...args) => $options.validate(...args), ["prevent"]))
+  }, [(Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])($data.contracts, contract => {
+    return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", null, "Name: " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(contract.title), 1
+    /* TEXT */
+    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", null, "Description: " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(contract.description), 1
+    /* TEXT */
+    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", null, "File: " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(contract.file), 1
+    /* TEXT */
+    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", null, "Version: " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(contract.version), 1
+    /* TEXT */
+    )]);
+  }), 256
+  /* UNKEYED_FRAGMENT */
+  )), _hoisted_15, _hoisted_16], 32
+  /* HYDRATE_EVENTS */
+  )) : Object(vue__WEBPACK_IMPORTED_MODULE_0__["createCommentVNode"])("v-if", true)])])], 64
   /* STABLE_FRAGMENT */
   );
 }
@@ -12581,7 +12526,7 @@ const _hoisted_22 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["create
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_router_link = Object(vue__WEBPACK_IMPORTED_MODULE_0__["resolveComponent"])("router-link");
 
-  return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_2, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("nav", _hoisted_3, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("ul", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("li", _hoisted_4, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_router_link, {
+  return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createCommentVNode"])("\n    <Create></Create>\n    <hr>\n     "), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_2, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("nav", _hoisted_3, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("ul", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("li", _hoisted_4, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_router_link, {
     to: "/app"
   }, {
     default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [_hoisted_5]),
@@ -21093,12 +21038,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Create_vue_vue_type_template_id_67c71db2_bindings_username_data_url_data_repository_data_smart_contracts_data_content_data_repository_id_data_loadConfig_options_validate_options_saveRepository_options_saveSmartContracts_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Create.vue?vue&type=template&id=67c71db2&bindings={"username":"data","url":"data","repository":"data","smart_contracts":"data","content":"data","repository_id":"data","loadConfig":"options","validate":"options","saveRepository":"options","saveSmartContracts":"options"} */ "./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={\"username\":\"data\",\"url\":\"data\",\"repository\":\"data\",\"smart_contracts\":\"data\",\"content\":\"data\",\"repository_id\":\"data\",\"loadConfig\":\"options\",\"validate\":\"options\",\"saveRepository\":\"options\",\"saveSmartContracts\":\"options\"}");
+/* harmony import */ var _Create_vue_vue_type_template_id_67c71db2_bindings_user_data_repositories_data_repository_input_data_repository_data_contracts_data_handleSelect_options_validate_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Create.vue?vue&type=template&id=67c71db2&bindings={"user":"data","repositories":"data","repository_input":"data","repository":"data","contracts":"data","handleSelect":"options","validate":"options"} */ "./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={\"user\":\"data\",\"repositories\":\"data\",\"repository_input\":\"data\",\"repository\":\"data\",\"contracts\":\"data\",\"handleSelect\":\"options\",\"validate\":\"options\"}");
 /* harmony import */ var _Create_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Create.vue?vue&type=script&lang=js */ "./resources/js/components/Create.vue?vue&type=script&lang=js");
 /* empty/unused harmony star reexport */
 
 
-_Create_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _Create_vue_vue_type_template_id_67c71db2_bindings_username_data_url_data_repository_data_smart_contracts_data_content_data_repository_id_data_loadConfig_options_validate_options_saveRepository_options_saveSmartContracts_options___WEBPACK_IMPORTED_MODULE_0__["render"]
+_Create_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _Create_vue_vue_type_template_id_67c71db2_bindings_user_data_repositories_data_repository_input_data_repository_data_contracts_data_handleSelect_options_validate_options___WEBPACK_IMPORTED_MODULE_0__["render"]
 /* hot reload */
 if (false) {}
 
@@ -21124,17 +21069,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={\"username\":\"data\",\"url\":\"data\",\"repository\":\"data\",\"smart_contracts\":\"data\",\"content\":\"data\",\"repository_id\":\"data\",\"loadConfig\":\"options\",\"validate\":\"options\",\"saveRepository\":\"options\",\"saveSmartContracts\":\"options\"}":
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={"username":"data","url":"data","repository":"data","smart_contracts":"data","content":"data","repository_id":"data","loadConfig":"options","validate":"options","saveRepository":"options","saveSmartContracts":"options"} ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={\"user\":\"data\",\"repositories\":\"data\",\"repository_input\":\"data\",\"repository\":\"data\",\"contracts\":\"data\",\"handleSelect\":\"options\",\"validate\":\"options\"}":
+/*!****************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={"user":"data","repositories":"data","repository_input":"data","repository":"data","contracts":"data","handleSelect":"options","validate":"options"} ***!
+  \****************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_Create_vue_vue_type_template_id_67c71db2_bindings_username_data_url_data_repository_data_smart_contracts_data_content_data_repository_id_data_loadConfig_options_validate_options_saveRepository_options_saveSmartContracts_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib!../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../node_modules/vue-loader/dist??ref--28-0!./Create.vue?vue&type=template&id=67c71db2&bindings={"username":"data","url":"data","repository":"data","smart_contracts":"data","content":"data","repository_id":"data","loadConfig":"options","validate":"options","saveRepository":"options","saveSmartContracts":"options"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={\"username\":\"data\",\"url\":\"data\",\"repository\":\"data\",\"smart_contracts\":\"data\",\"content\":\"data\",\"repository_id\":\"data\",\"loadConfig\":\"options\",\"validate\":\"options\",\"saveRepository\":\"options\",\"saveSmartContracts\":\"options\"}");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_Create_vue_vue_type_template_id_67c71db2_bindings_username_data_url_data_repository_data_smart_contracts_data_content_data_repository_id_data_loadConfig_options_validate_options_saveRepository_options_saveSmartContracts_options___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_Create_vue_vue_type_template_id_67c71db2_bindings_user_data_repositories_data_repository_input_data_repository_data_contracts_data_handleSelect_options_validate_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib!../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../node_modules/vue-loader/dist??ref--28-0!./Create.vue?vue&type=template&id=67c71db2&bindings={"user":"data","repositories":"data","repository_input":"data","repository":"data","contracts":"data","handleSelect":"options","validate":"options"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Create.vue?vue&type=template&id=67c71db2&bindings={\"user\":\"data\",\"repositories\":\"data\",\"repository_input\":\"data\",\"repository\":\"data\",\"contracts\":\"data\",\"handleSelect\":\"options\",\"validate\":\"options\"}");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_Create_vue_vue_type_template_id_67c71db2_bindings_user_data_repositories_data_repository_input_data_repository_data_contracts_data_handleSelect_options_validate_options___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 
 
@@ -21312,32 +21257,99 @@ __webpack_require__.r(__webpack_exports__);
 /*!****************************************!*\
   !*** ./resources/js/helpers/create.js ***!
   \****************************************/
-/*! exports provided: validateUrlConfig, loadConfig */
+/*! exports provided: getRepositoriesByUser, getConfig, saveRepository, saveContracts */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "validateUrlConfig", function() { return validateUrlConfig; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadConfig", function() { return loadConfig; });
-function validateUrlConfig(url, username) {
-  let error = '';
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRepositoriesByUser", function() { return getRepositoriesByUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getConfig", function() { return getConfig; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "saveRepository", function() { return saveRepository; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "saveContracts", function() { return saveContracts; });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var toml__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! toml */ "./node_modules/toml/index.js");
+/* harmony import */ var toml__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(toml__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
+/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_2__);
 
-  if (!url) {
-    error = 'the repo must be valid. Example: https://github.com/<account>/<repository>';
-  }
 
-  if (!url.startsWith('https://github.com/')) {
-    error = 'the repo must be valid. Example: https://github.com/<account>/<repository>';
-  }
 
-  if (!url.includes(username)) {
-    error = 'you are the owner of the repository, all right ?';
-  }
-
-  return error;
+async function getRepositoriesByUser(user) {
+  const url = `https://api.github.com/users/${user}/repos`;
+  const response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url);
+  const data = await response.data;
+  return data;
 }
-function loadConfig(username, repository) {
-  let url = `https://raw.githubusercontent.com/${username}/${repository}/main/sc.toml`;
+async function getConfig(username, repository) {
+  const url = `https://raw.githubusercontent.com/${username}/${repository}/main/sc.toml`;
+  console.log(url);
+
+  try {
+    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url);
+    let data = await response.data; //data = toml.parse(data)
+
+    return data;
+  } catch (error) {
+    sweetalert__WEBPACK_IMPORTED_MODULE_2___default()('Error', 'sc.toml is missing in this repository', 'error');
+    console.log(error);
+    return;
+  }
+}
+async function saveRepository(reposotory) {
+  const url = '/api/repositories';
+  const data_post = {
+    public_id: reposotory.public_id,
+    url: reposotory.url,
+    name: reposotory.name,
+    content: reposotory.public_id
+  };
+
+  try {
+    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, data_post);
+    const data = await response.data;
+    console.log(data);
+    return data;
+  } catch (error) {
+    sweetalert__WEBPACK_IMPORTED_MODULE_2___default()('Error', 'The repository can not be saved, try later', 'error');
+    console.log(error);
+    return;
+  }
+}
+async function saveContracts(contracts, repository_id) {
+  async function getContent(username, repository, file) {
+    try {
+      const url = `https://raw.githubusercontent.com/${username}/${repository}/main/${file}`;
+      const response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url);
+      const data = await response.data;
+      return data;
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  }
+
+  const url = '/api/contracts';
+
+  for await (let contract of contracts) {
+    let data_post = {
+      title: contract.title,
+      description: contract.description,
+      file: contract.file,
+      version: contract.version,
+      content: '',
+      repository_id
+    };
+
+    try {
+      const response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, data_post);
+      const data = await response.data;
+    } catch (error) {
+      console.log(error);
+      sweetalert__WEBPACK_IMPORTED_MODULE_2___default()('Error', 'Can not save contract, try later', 'error');
+      return;
+    }
+  }
 }
 
 /***/ }),

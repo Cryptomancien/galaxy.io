@@ -48,7 +48,7 @@
 								<div class="navbar-item has-dropdown is-hoverable">
 									<a href="/app" class="navbar-link">
 										<img src="{{ user['_json']['avatar_url'] }}" alt="">
-										<span id="username">{{ user.username }}</span>
+										<span id="user" data-username="{{ user.username }}" data-id="{{ user.id }}">{{ user.username }}</span>
 									</a>
 
 									<div class="navbar-dropdown">

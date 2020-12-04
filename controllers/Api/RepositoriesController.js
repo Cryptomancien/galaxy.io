@@ -22,6 +22,7 @@ exports.store = async (request, response) => {
     }
 
     const url = request.body.url
+    const public_id = request.body.public_id
     const user_id = request.user.id
     const username = request.user.username
     const name = request.body.name
@@ -30,6 +31,7 @@ exports.store = async (request, response) => {
 
     const data = {
         url,
+        public_id,
         user_id,
         username,
         name,

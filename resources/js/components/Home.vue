@@ -1,4 +1,8 @@
 <template>
+    <!--
+    <Create></Create>
+    <hr>
+     -->
     <div class="card mb-2">
         <div class="card-content">
             <nav class="breadcrumb" aria-label="breadcrumbs">
@@ -78,11 +82,12 @@
 
 import axios from 'axios'
 import swal from 'sweetalert'
+import Create from "./Create";
 
 export default {
     name: 'Home',
     components: {
-
+        Create
     },
     mounted() {
         this.fetchRepositories()

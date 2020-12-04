@@ -15,11 +15,26 @@
             <h1 class="card-header-title">Create new repository</h1>
         </div>
         <div class="card-content">
-            <form @submit.prevent="loadConfig">
+            <form @submit.prevent="handleSelect">
                 <div class="field has-addons">
                     <div class="control">
-                        <input type="text" class="input " placeholder="https://github.com/<username>/<repository>" v-model="url">
-                        <small>https://github.com/username/repository</small>
+                        <div class="select">
+                            <select v-model="repository_input">
+                                <option
+                                    v-for="repository in repositories"
+                                    :value="JSON.stringify(
+                                        {
+                                            public_id: repository.id,
+                                            name: repository.name,
+                                            url: repository.html_url,
+                                            content: ''
+                                        }
+                                    )"
+                                >
+                                    {{ repository.name }}
+                                </option>
+                            </select>
+                        </div>
                     </div>
                     <div class="control">
                         <button type="submit" class="button is-info">GO</button>
@@ -27,148 +42,82 @@
                 </div>
             </form>
             <hr>
-
-            <div v-if="smart_contracts.length">
-                <div v-for="smart_contract in smart_contracts">
-                    <div>Title: {{ smart_contract.title }}</div>
-                    <div>Description: {{ smart_contract.description }}</div>
-                    <div>File: {{ smart_contract.file }}</div>
-                    <div>Version: {{ smart_contract.version }}</div>
-                    <hr>
+            <form v-if="contracts.length" @submit.prevent="validate">
+                <div v-for="contract in contracts">
+                    <div>Name: {{ contract.title }}</div>
+                    <div>Description: {{ contract.description }}</div>
+                    <div>File: {{ contract.file }}</div>
+                    <div>Version: {{ contract.version }}</div>
                 </div>
-                <form @submit.prevent="validate">
-                    <button class="button is-success is-medium is-fullwidth">Validate</button>
-                </form>
-            </div>
+                <hr>
+                <div class="field">
+                    <div class="control">
+                        <button type="submit" class="button is-success">Validate</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </template>
 
 <script>
-    import axios from 'axios'
-    import swal from 'sweetalert'
-    import toml from 'toml'
-
-    import {validateUrlConfig, parseRepository} from '../helpers/create'
+    import toml from "toml";
+    import { getRepositoriesByUser, getConfig, saveRepository, saveContracts } from '../helpers/create'
 
     export default {
         name: 'Create',
-        mounted() {
-            const user = document.querySelector('#username')
-            this.username = user.innerText
+
+        async mounted() {
+            const user = document.querySelector('#user')
+            this.user.id = user.dataset.id
+            this.user.username = user.dataset.username
+
+            this.repositories = await getRepositoriesByUser(this.user.username)
         },
         data() {
             return {
-                username: '',
-                url: '',
-                repository: '',
-                smart_contracts: [],
-                content: '',
-                repository_id: ''
+                user: {
+                    id: '',
+                    username: '',
+                },
+                repositories: [],
+                repository_input: '',
+                repository: {
+                    id: '',
+                    public_id: '',
+                    url: '',
+                    name: '',
+                    content: ''
+                },
+                contracts: []
             }
         },
         methods: {
-            async loadConfig() {
-                // Validate the url
-                const error = validateUrlConfig(this.url, this.username)
-                if (error) {
-                    swal('Error', error, 'error')
-                    return
-                }
 
-                // Get the repository
-                this.repository = this.url.split('/').pop()
+            async handleSelect() {
 
-                let url = `https://raw.githubusercontent.com/${this.username}/${this.repository}/main/sc.toml`
+                let repository = JSON.parse(this.repository_input)
+                this.repository.public_id = repository.public_id
+                this.repository.url = repository.url
+                this.repository.name = repository.name
+                this.repository.content = await getConfig(this.user.username, JSON.parse(this.repository_input).name )
 
-                let response = await axios.get(url)
-                let data = await response.data
-                data = toml.parse(data)
+                let contracts = this.repository.content
+                contracts = toml.parse(contracts)
+                contracts = contracts.sc
+                this.contracts = contracts
 
-                if ( ! data.sc) {
-                    swal('Error', 'No smart contract found', 'error')
-                    return
-                }
-
-                this.content = JSON.stringify(data)
-
-                for (const contract of data.sc) {
-                    this.smart_contracts.push({
-                        title: contract.title,
-                        description: contract.description,
-                        file: contract.file,
-                        version: contract.version,
-                    })
-                }
-
-                console.log(this.smart_contracts)
+                await this.validate()
             },
-            async validate() {
 
-                await this.saveRepository()
-                await this.saveSmartContracts()
+            async validate() {
+                const repository = await saveRepository(this.repository)
+                await saveContracts(this.contracts, repository.id)
 
                 await this.$router.push('/app')
                 swal('Success', 'All fine', 'success')
             },
 
-            async saveRepository() {
-                let url = ''
-                let data = {}
-                let response
-
-                url = '/api/repositories'
-                data = {
-                    url: this.url,
-                    name: this.repository,
-                    content: this.content
-                }
-
-                response = await axios.post(url, data)
-                data = await response.data
-                const id = data.id
-                this.repository_id = id
-            },
-
-            async saveSmartContracts() {
-
-                async function getContent(file, username, repository) {
-                    try {
-                        const url = `https://raw.githubusercontent.com/${username}/${repository}/main/${file}`
-                        const response = await axios.get(url)
-                        const data = await response.data
-                        return data
-                    } catch (error) {
-                        console.error(error)
-                        throw new Error(error)
-                    }
-                }
-
-                for await (let sc of this.smart_contracts) {
-                    let data_to_post = {
-                        title: sc.title,
-                        description: sc.description,
-                        file: sc.file,
-                        version: sc.version,
-                        repository: this.repository,
-                        content:  '',
-                        repository_id: this.repository_id
-                    }
-
-                    const content = await getContent(sc.file, this.$data.username, this.$data.repository)
-
-                    data_to_post.content = await content
-
-                    const url = '/api/contracts'
-                    const response = await axios.post(url, data_to_post)
-                    if (response.status === 200) {
-                        console.log(response.data)
-                    }
-                    else {
-                        throw new Error('something is wrong')
-                    }
-                }
-            },
         },
     }
 </script>
