@@ -67,7 +67,7 @@ exports.user = async (request, response) => {
 
     const username = request.params.username
 
-    const user = await User.findOne({
+    const u = await User.findOne({
         where: {
             username
         },
@@ -75,12 +75,13 @@ exports.user = async (request, response) => {
 
     const contracts = await Contract.findAll({
         where: {
-            user_id: user.id
+            user_id: u.id
         }
     })
 
     const data = {
-        user,
+        user: request.user,
+        u,
         contracts
     }
 
