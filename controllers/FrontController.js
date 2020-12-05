@@ -2,16 +2,18 @@ const User = require('../models/User')
 const Repository = require('../models/Repository')
 const Contract = require('../models/Contract')
 
+require('dotenv').config()
+const { Sequelize, Model, DataTypes, QueryTypes } = require("sequelize");
+
+const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, process.env.DB_PASSWORD, {
+    host: 'localhost',
+    dialect: 'postgres'
+})
+
 exports.index = async (request, response) => {
 
-    const contracts = await Contract.findAll({
-        include: [
-          User
-        ],
-        order: [
-            ['id', 'DESC']
-        ]
-    })
+    const sql = 'select contracts.*, users.username, users.avatar_url from contracts left join users on users.id = contracts.user_id LIMIT 9;'
+    const contracts = await sequelize.query(sql, { type: QueryTypes.SELECT });
 
     const data = {
         user: request.user,
