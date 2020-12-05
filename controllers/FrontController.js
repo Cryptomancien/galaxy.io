@@ -12,7 +12,7 @@ const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, pr
 
 exports.index = async (request, response) => {
 
-    const sql = 'select contracts.*, users.username, users.avatar_url from contracts left join users on users.id = contracts.user_id LIMIT 9;'
+    const sql = 'select contracts.*, users.username, users.avatar_url from contracts left join users on users.id = contracts.user_id order by id desc LIMIT 9;'
     const contracts = await sequelize.query(sql, { type: QueryTypes.SELECT });
 
     const data = {
