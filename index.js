@@ -116,7 +116,7 @@ app.get('/api/contracts', ContractsController.all)
 app.post('/api/contracts', ContractsController.store)
 app.get('/api/contracts/:id', ContractsController.show)
 
-app.get('/test', RepositoriesController.test)
+app.get('/test', RepositoriesController.home)
 
 app.use((request, response) => {
 	if (request.user) {

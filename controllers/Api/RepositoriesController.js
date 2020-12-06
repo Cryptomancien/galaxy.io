@@ -1,3 +1,11 @@
+require('dotenv').config()
+const { Sequelize, Model, DataTypes, QueryTypes } = require("sequelize");
+
+const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, process.env.DB_PASSWORD, {
+    host: 'localhost',
+    dialect: 'postgres'
+})
+
 const Repository = require('../../models/Repository')
 const Contract = require('../../models/Contract')
 const axios = require('axios')
@@ -46,6 +54,9 @@ exports.store = async (request, response) => {
 }
 
 exports.show = async (request, response) => {
+    if ( ! request.user) {
+        return response.json('you must to be logged')
+    }
 
     const id = request.params.id
 
@@ -64,6 +75,10 @@ exports.show = async (request, response) => {
 }
 
 exports.update = async (request, response) => {
+    if ( ! request.user) {
+        return response.json('you must to be logged')
+    }
+
     const id = request.params.id
 
     const repository = await Repository.findByPk(id)
@@ -81,6 +96,10 @@ exports.update = async (request, response) => {
 }
 
 exports.destroy = async (request, response) => {
+    if ( ! request.user) {
+        return response.json('you must to be logged')
+    }
+
     const id = request.params.id
 
     const repository = await Repository.findByPk(id)
@@ -92,6 +111,20 @@ exports.destroy = async (request, response) => {
     else {
         await response.json(false)
     }
+}
+
+exports.home = async (request, response) => {
+
+    const sql = `
+        select *
+        from repositories
+                 left join contracts on repositories.id = contracts.repository_id
+        where contracts.user_id = 8652937
+        group by repositories.id, contracts.id;
+    `
+    const repositories = await sequelize.query(sql, { type: QueryTypes.SELECT })
+
+    response.json(repositories)
 }
 
 exports.test = async (request, response) => {

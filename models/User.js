@@ -6,7 +6,7 @@ const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, pr
     dialect: 'postgres'
 })
 
-const User = sequelize.define('user', {
+const User = sequelize.define('User', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -28,7 +28,40 @@ const User = sequelize.define('user', {
     updatedAt: {type: Sequelize.DATE, field: 'updated_at'},
 }, {
     sequelize,
-    modelName: 'User'
+    modelName: 'User',
+    tableName: 'users'
+})
+
+const Repository = require('./Repository')
+const Contract = require('./Contract')
+
+User.hasMany(Repository, {
+    as: 'repositories',
+    foreignKey: 'user_id'
+})
+
+User.hasMany(Contract, {
+    as: 'contracts',
+    foreignKey: 'user_id'
+})
+
+Repository.hasMany(Contract, {
+    as: 'contracts',
+    foreignKey: 'user_id'
+})
+
+Repository.belongsTo(User, {
+    foreignKey: 'user_id',
+    foreignKeyConstraint: true
+})
+
+Contract.belongsTo(Repository, {
+    foreignKey: 'repository_id',
+    foreignKeyConstraint: true
+})
+Contract.belongsTo(User,{
+    foreignKey: 'user_id',
+    foreignKeyConstraint: true,
 })
 
 module.exports = User

@@ -13,7 +13,7 @@ const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, pr
 exports.index = async (request, response) => {
 
     const sql = 'select contracts.*, users.username, users.avatar_url from contracts left join users on users.id = contracts.user_id order by id desc LIMIT 9;'
-    const contracts = await sequelize.query(sql, { type: QueryTypes.SELECT });
+    const contracts = await sequelize.query(sql, { type: QueryTypes.SELECT })
 
     const data = {
         user: request.user,
@@ -30,12 +30,9 @@ exports.getStarted = async (request, response) => {
 exports.search = async (request, response) => {
 
     const search = await request.query.search ?? ''
+    const sql = 'select contracts.*, users.username, users.avatar_url from contracts left join users on users.id = contracts.user_id order by id desc;'
 
-    const contracts = await Contract.findAll({
-        include: [
-            User
-        ]
-    })
+    const contracts = await sequelize.query(sql, { type: QueryTypes.SELECT })
 
     let data = {
         user: request.user,
@@ -47,14 +44,10 @@ exports.search = async (request, response) => {
 
 exports.contract = async (request, response) => {
     const id = await request.params.id
-    const contract = await Contract.findOne({
-        where: {
-            id
-        },
-        include: [
-            User
-        ]
-    })
+    const sql = `select contracts.*, users.username, users.avatar_url from contracts left join users on users.id = contracts.user_id WHERE contracts.id = ${id} LIMIT 1;`
+
+    let contract = await sequelize.query(sql, { type: QueryTypes.SELECT })
+    contract = contract[0]
 
     const data = {
         contract
@@ -65,7 +58,7 @@ exports.contract = async (request, response) => {
 
 exports.user = async (request, response) => {
 
-    const username = request.params.username
+    const username = await request.params.username
 
     const u = await User.findOne({
         where: {
@@ -76,7 +69,10 @@ exports.user = async (request, response) => {
     const contracts = await Contract.findAll({
         where: {
             user_id: u.id
-        }
+        },
+        order: [
+            ['id', 'desc']
+        ]
     })
 
     const data = {
