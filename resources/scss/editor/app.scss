@@ -1,0 +1,129 @@
+body {
+    background: #0d0f49;
+    margin: 0;
+    padding: 0;
+    font-family: Arial;
+    color: #fff;
+}
+
+#app {
+    display: flex;
+
+    ul {
+        margin: 0;
+        padding: 0;
+
+        li {
+            list-style-type: none;
+        }
+    }
+
+    .side-panel {
+        background: #2a2c3f;
+        width: 4rem;
+        height: 100vh;
+
+        display: flex;
+        flex-direction: column;
+        // justify-content: center;
+        align-items: center;
+        font-size: 1.4rem;
+        color: #fff;
+
+        i {
+            width: 100%;
+            padding: 1rem;
+            text-align: center;
+
+            &.active {
+                background: #249bb8;
+            }
+        }
+    }
+
+    .manager-panel {
+        display: flex;
+        width: 22rem;
+        background: #34385a;
+        padding: 1rem;
+
+        .files-explorer {
+
+            li.folder {
+                margin-bottom: 1rem;
+
+                li.file {
+                    margin: 0.4rem 1rem;
+                }
+            }
+
+            .bi-folder2-open {
+                font-size: 1.1rem;
+                margin-right: .4rem;
+            }
+
+            .bi-file-earmark {
+                font-size: 1.1rem;
+                margin-right: .4rem;
+            }
+        }
+    }
+
+    .main-panel {
+        width: 100%;
+        background: #2a2c3f;
+
+        .editor-wrapper {
+            display: flex;
+
+            .lines {
+                background: #1a3439;
+                width: 2rem;
+                text-align: center;
+                font-size: 1.2rem;
+            }
+
+            .editor {
+                width: 100%;
+                height: 70vh;
+                box-sizing:border-box;
+                font-family: Arial;
+                background: #112a37;
+                color: #fff;
+
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                font-family: "Monsterrat";
+                font-size: 1.2rem;
+
+            }
+        }
+
+        .terminal {
+            background: #0a0a0a;
+            height: 30vh;
+
+            display: flex;
+            flex-direction: column;
+
+
+            .terminal-header {
+                display: flex;
+                padding: 1rem;
+                background: #00e7eb;
+            }
+
+            .terminal-body {
+                padding: 1rem;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+

@@ -1,0 +1,114 @@
+body {
+  background: #0d0f49;
+  margin: 0;
+  padding: 0;
+  font-family: Arial;
+  color: #fff;
+}
+
+#app {
+  display: flex;
+}
+
+#app ul {
+  margin: 0;
+  padding: 0;
+}
+
+#app ul li {
+  list-style-type: none;
+}
+
+#app .side-panel {
+  background: #2a2c3f;
+  width: 4rem;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.4rem;
+  color: #fff;
+}
+
+#app .side-panel i {
+  width: 100%;
+  padding: 1rem;
+  text-align: center;
+}
+
+#app .side-panel i.active {
+  background: #249bb8;
+}
+
+#app .manager-panel {
+  display: flex;
+  width: 22rem;
+  background: #34385a;
+  padding: 1rem;
+}
+
+#app .manager-panel .files-explorer li.folder {
+  margin-bottom: 1rem;
+}
+
+#app .manager-panel .files-explorer li.folder li.file {
+  margin: 0.4rem 1rem;
+}
+
+#app .manager-panel .files-explorer .bi-folder2-open {
+  font-size: 1.1rem;
+  margin-right: 0.4rem;
+}
+
+#app .manager-panel .files-explorer .bi-file-earmark {
+  font-size: 1.1rem;
+  margin-right: 0.4rem;
+}
+
+#app .main-panel {
+  width: 100%;
+  background: #2a2c3f;
+}
+
+#app .main-panel .editor-wrapper {
+  display: flex;
+}
+
+#app .main-panel .editor-wrapper .lines {
+  background: #1a3439;
+  width: 2rem;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+#app .main-panel .editor-wrapper .editor {
+  width: 100%;
+  height: 70vh;
+  box-sizing: border-box;
+  font-family: Arial;
+  background: #112a37;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  font-family: "Monsterrat";
+  font-size: 1.2rem;
+}
+
+#app .main-panel .terminal {
+  background: #0a0a0a;
+  height: 30vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#app .main-panel .terminal .terminal-header {
+  display: flex;
+  padding: 1rem;
+  background: #00e7eb;
+}
+
+#app .main-panel .terminal .terminal-body {
+  padding: 1rem;
+}
+
