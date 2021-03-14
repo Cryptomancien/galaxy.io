@@ -54594,7 +54594,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 function create_fragment(ctx) {
-  var div4;
+  var div5;
   var div0;
   var t2;
   var div1;
@@ -54602,9 +54602,11 @@ function create_fragment(ctx) {
   var div2;
   var t7;
   var div3;
+  var t9;
+  var div4;
   return {
     c: function c() {
-      div4 = Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["element"])("div");
+      div5 = Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["element"])("div");
       div0 = Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["element"])("div");
       div0.textContent = "foo: ".concat(foo);
       t2 = Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["space"])();
@@ -54616,22 +54618,27 @@ function create_fragment(ctx) {
       t7 = Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["space"])();
       div3 = Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["element"])("div");
       div3.innerHTML = "bool:\n        <input type=\"text\"/>";
+      t9 = Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["space"])();
+      div4 = Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["element"])("div");
+      div4.innerHTML = "<button type=\"button\">Compile</button>";
     },
     m: function m(target, anchor) {
-      Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["insert"])(target, div4, anchor);
-      Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["append"])(div4, div0);
-      Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["append"])(div4, t2);
-      Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["append"])(div4, div1);
-      Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["append"])(div4, t5);
-      Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["append"])(div4, div2);
-      Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["append"])(div4, t7);
-      Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["append"])(div4, div3);
+      Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["insert"])(target, div5, anchor);
+      Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["append"])(div5, div0);
+      Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["append"])(div5, t2);
+      Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["append"])(div5, div1);
+      Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["append"])(div5, t5);
+      Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["append"])(div5, div2);
+      Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["append"])(div5, t7);
+      Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["append"])(div5, div3);
+      Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["append"])(div5, t9);
+      Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["append"])(div5, div4);
     },
     p: svelte_internal__WEBPACK_IMPORTED_MODULE_0__["noop"],
     i: svelte_internal__WEBPACK_IMPORTED_MODULE_0__["noop"],
     o: svelte_internal__WEBPACK_IMPORTED_MODULE_0__["noop"],
     d: function d(detaching) {
-      if (detaching) Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["detach"])(div4);
+      if (detaching) Object(svelte_internal__WEBPACK_IMPORTED_MODULE_0__["detach"])(div5);
     }
   };
 }
