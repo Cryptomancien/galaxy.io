@@ -96,3 +96,7 @@ exports.logout = async (request, response) => {
     request.logout()
     response.redirect('/')
 }
+
+exports.play = async (request, response) => {
+    response.render('play.html')
+}

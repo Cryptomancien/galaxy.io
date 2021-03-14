@@ -93,6 +93,8 @@ app.get('/login/github/callback', passport.authenticate('github', { failureRedir
 	}
 )
 
+app.get('/play', FrontController.play)
+
 app.get('/app', ensureAuthenticated, (request, response) => {
 
 	let data = {

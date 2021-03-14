@@ -15,12 +15,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@codemirror/basic-setup": "^0.18.0",
     "axios": "^0.21.0",
     "body-parser": "^1.19.0",
     "bulma": "^0.9.1",
     "dotenv": "^6.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "laravel-mix-svelte": "^0.4.0",
     "mongoose": "^5.10.15",
     "nodemon": "^2.0.6",
     "nunjucks": "^3.2.2",
@@ -48,6 +50,9 @@
     "resolve-url-loader": "^3.1.0",
     "sass": "^1.29.0",
     "sass-loader": "^8.0.2",
-    "vue-loader": "^16.0.0-rc.1"
+    "svelte": "^3.35.0",
+    "svelte-loader": "^3.0.0",
+    "vue-loader": "^16.0.0-rc.1",
+    "vue-template-compiler": "^2.6.12"
   }
 }

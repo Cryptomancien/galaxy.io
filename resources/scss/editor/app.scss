@@ -83,30 +83,11 @@ body {
         width: 100%;
         background: #2a2c3f;
 
-        .editor-wrapper {
-            display: flex;
+        .editor {
+            font-size: 1.1rem;
 
-            .lines {
-                background: #1a3439;
-                width: 2rem;
-                text-align: center;
-                font-size: 1.2rem;
-            }
-
-            .editor {
-                width: 100%;
-                height: 70vh;
-                box-sizing:border-box;
-                font-family: Arial;
-                background: #112a37;
-                color: #fff;
-
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                font-family: "Monsterrat";
-                font-size: 1.2rem;
-
+            .ͼ2 .cm-activeLine {
+                background: rgba(#34383c, 0.4);
             }
         }
 
