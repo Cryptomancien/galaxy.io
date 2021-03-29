@@ -5,6 +5,11 @@
     import {EditorView, keymap} from "@codemirror/view"
     import {defaultTabBinding} from "@codemirror/commands"
 
+    // theme
+
+    // end theme
+
+
     onMount(async () => {
 
         const baseTheme = EditorView.baseTheme({

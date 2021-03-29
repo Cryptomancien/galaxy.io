@@ -5,7 +5,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial;
-  color: #fff;
+  color: #a2a3bd;
 }
 
 #app {
@@ -55,7 +55,7 @@ body {
 #app .manager-panel {
   display: flex;
   width: 22rem;
-  background: #34385a;
+  background: #222336;
   padding: 1rem;
 }
 

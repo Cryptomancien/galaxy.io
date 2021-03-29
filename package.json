@@ -23,6 +23,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "laravel-mix-svelte": "^0.4.0",
+    "lezer": "^0.13.4",
     "mongoose": "^5.10.15",
     "nodemon": "^2.0.6",
     "nunjucks": "^3.2.2",
