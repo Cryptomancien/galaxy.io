@@ -1,3 +1,51 @@
+import dotenv from 'dotenv'
+dotenv.config()
+
+import Sequelize from "sequelize";
+const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, process.env.DB_PASSWORD, {
+    host: 'localhost',
+    dialect: 'postgres'
+})
+import QueryTypes from "sequelize";
+
+const FrontController = {
+
+    async index(request, response) {
+        const sql = 'select contracts.*, users.username, users.avatar_url from contracts left join users on users.id = contracts.user_id order by id desc LIMIT 9;'
+        let contracts = await sequelize.query(sql, { type: QueryTypes.SELECT })
+        contracts = contracts[0]
+
+        const data = {
+            user: request.user,
+            contracts
+        }
+
+
+        await response.render('index.html', data)
+    },
+
+    async getStarted(request, response) {
+        response.render('get-started.html')
+    },
+
+    async search(request, response) {
+        const search = await request.query.search ?? ''
+        const sql = 'select contracts.*, users.username, users.avatar_url from contracts left join users on users.id = contracts.user_id order by id desc;'
+
+        let contracts = await sequelize.query(sql, { type: QueryTypes.SELECT })
+        contracts = contracts[0]
+
+        let data = {
+            user: request.user,
+            contracts
+        }
+
+        return await response.render('search.html', data)
+    }
+}
+
+export default FrontController
+/*
 const User = require('../models/User')
 const Repository = require('../models/Repository')
 const Contract = require('../models/Contract')
@@ -100,3 +148,5 @@ exports.logout = async (request, response) => {
 exports.play = async (request, response) => {
     response.render('play.html')
 }
+
+ */

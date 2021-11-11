@@ -1,3 +1,94 @@
+import express from 'express'
+import bodyParser from 'body-parser'
+import nunjucks from 'nunjucks'
+import dotenv from 'dotenv'
+import session from 'express-session'
+import passport from 'passport'
+import {Strategy} from 'passport-github'
+
+
+import User from './models/User.mjs'
+
+dotenv.config()
+
+const port = 8080 // TODO .env
+const app = express()
+
+nunjucks.configure('views', {
+    autoescape:  true,
+    express:  app,
+    watch: true,
+})
+
+app.use(express.static('public'))
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
+app.use(session({
+    secret: process.env.session,
+    proxy: true,
+    resave: true,
+    saveUninitialized: true
+}))
+
+app.use(passport.initialize())
+app.use(passport.session())
+
+passport.use(
+    new Strategy(
+        {
+            clientID: process.env.clientID,
+            clientSecret: process.env.clientSecret,
+            callbackUrl: 'http://localhost:8080/login/github/callback'
+        },
+        (accessToken, refreshToken, profile, done) => {
+            return done(null, profile)
+        }
+    )
+)
+
+passport.serializeUser(async (user, done) => {
+
+    const u = await User.findByPk(user.id)
+    if (u === null) {
+
+        const data = {
+            id: user.id,
+            username: user.username,
+            avatar_url: user['_json']['avatar_url'],
+            provider: user.provider
+        }
+
+        await User.create(data)
+    }
+
+    await console.log(user)
+    await done(null, user)
+})
+
+passport.deserializeUser((user, done) =>  done(null, user) )
+
+import FrontController from './controllers/FrontController.mjs'
+import LoginController from './controllers/Auth/LoginController.mjs'
+
+app.get('/', FrontController.index)
+app.get('/get-started', FrontController.getStarted)
+app.get('/search', FrontController.search)
+
+app.get('/login', LoginController.index)
+app.get('/login/github', passport.authenticate('github'))
+app.get('/login/github/callback', passport.authenticate('github', { failureRedirect: '/nope' }),
+    (request, response) => {
+        response.redirect('/app')
+    }
+)
+
+app.get('/logout', LoginController.logout)
+
+app.listen(port, () => console.log(`http://localhost:${port}`))
+
+
+/*
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
@@ -129,3 +220,4 @@ app.use((request, response) => {
 })
 
 app.listen(port, () => console.log(`http://localhost:${port}`))
+*/
