@@ -12,15 +12,21 @@ let mix = require('laravel-mix');
  */
 
 
+mix.sass('resources/scss/app.scss', 'public/css');
+
+
 //require("laravel-mix-vue3");
 //mix.vue3('resources/js/index.js', 'public/js');
 //mix.sass('resources/scss/app.scss', 'public/css');
 
-require('laravel-mix-svelte')
+//require('laravel-mix-svelte')
 
+/*
 mix.js('resources/js/editor/_index.js', 'public/js/editor.js')
     .sass('resources/scss/editor/app.scss', 'public/css/editor.css')
     .svelte();
+
+ */
 
 //mix.js('src/app.js', 'dist/').sass('src/app.scss', 'dist/');
 

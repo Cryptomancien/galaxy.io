@@ -6,6 +6,7 @@ import session from 'express-session'
 import passport from 'passport'
 import {Strategy} from 'passport-github'
 
+import ensureAuthenticated from './middleware/ensureAuthenticated.mjs'
 import User from './models/User.mjs'
 import FrontController from './controllers/FrontController.mjs'
 import LoginController from './controllers/Auth/LoginController.mjs'
@@ -84,6 +85,17 @@ app.get('/login/github/callback', passport.authenticate('github', { failureRedir
         response.redirect('/app')
     }
 )
+
+app.get('/app', ensureAuthenticated, (request, response) => {
+
+    let data = {
+        user: request.user
+    }
+
+    console.log('--------')
+
+    response.render('app.html', data)
+})
 
 app.get('/logout', LoginController.logout)
 
