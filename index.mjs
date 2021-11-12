@@ -6,8 +6,9 @@ import session from 'express-session'
 import passport from 'passport'
 import {Strategy} from 'passport-github'
 
-
 import User from './models/User.mjs'
+import FrontController from './controllers/FrontController.mjs'
+import LoginController from './controllers/Auth/LoginController.mjs'
 
 dotenv.config()
 
@@ -19,6 +20,19 @@ nunjucks.configure('views', {
     express:  app,
     watch: true,
 })
+
+passport.use(
+    new Strategy(
+        {
+            clientID: process.env.clientID,
+            clientSecret: process.env.clientSecret,
+            callbackUrl: 'http://localhost:8080/login/github/callback'
+        },
+        (accessToken, refreshToken, profile, done) => {
+            return done(null, profile)
+        }
+    )
+)
 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -34,18 +48,7 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-passport.use(
-    new Strategy(
-        {
-            clientID: process.env.clientID,
-            clientSecret: process.env.clientSecret,
-            callbackUrl: 'http://localhost:8080/login/github/callback'
-        },
-        (accessToken, refreshToken, profile, done) => {
-            return done(null, profile)
-        }
-    )
-)
+
 
 passport.serializeUser(async (user, done) => {
 
@@ -68,8 +71,7 @@ passport.serializeUser(async (user, done) => {
 
 passport.deserializeUser((user, done) =>  done(null, user) )
 
-import FrontController from './controllers/FrontController.mjs'
-import LoginController from './controllers/Auth/LoginController.mjs'
+
 
 app.get('/', FrontController.index)
 app.get('/get-started', FrontController.getStarted)
