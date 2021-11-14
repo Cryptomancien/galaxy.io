@@ -12,8 +12,12 @@ let mix = require('laravel-mix');
  */
 
 
-mix.sass('resources/scss/app.scss', 'public/css');
-
+//mix.sass('resources/scss/app.scss', 'public/css');
+mix
+    .js('resources/js/index.js', 'public/js').vue({
+        version: 3
+    })
+    .disableNotifications()
 
 //require("laravel-mix-vue3");
 //mix.vue3('resources/js/index.js', 'public/js');

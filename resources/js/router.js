@@ -1,3 +1,29 @@
+import {createRouter, createWebHashHistory } from "vue-router";
+
+import Home2 from './components/Home2'
+import Create2 from './components/Create2'
+
+const routes = [
+    {
+        path: '/',
+        name: 'Home2',
+        component: Home2
+    },
+    {
+        path: '/create',
+        name: 'Create2',
+        component: Create2
+    }
+]
+
+const router = createRouter({
+    routes,
+    history: createWebHashHistory(),
+})
+
+export default router
+
+/*
 import { createWebHistory, createRouter } from 'vue-router'
 import Home from './components/Home'
 import Create from './components/Create'
@@ -39,3 +65,5 @@ const router = createRouter({
 })
 
 export default router
+
+ */

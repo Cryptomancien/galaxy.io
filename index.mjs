@@ -1,4 +1,4 @@
-import express from 'express'
+import express, {response} from 'express'
 import bodyParser from 'body-parser'
 import nunjucks from 'nunjucks'
 import dotenv from 'dotenv'
@@ -98,6 +98,12 @@ app.get('/app', ensureAuthenticated, (request, response) => {
 })
 
 app.get('/logout', LoginController.logout)
+
+// TODO movie in api controller
+app.get('/api/logged-user', (request, response) => {
+    const user = request.user
+    return response.json(user)
+})
 
 app.listen(port, () => console.log(`http://localhost:${port}`))
 

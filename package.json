@@ -14,6 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.24.0",
     "body-parser": "^1.19.0",
     "bulma": "^0.9.3",
     "cross-env": "^7.0.3",
@@ -26,9 +27,15 @@
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.9.0",
-    "vue-loader": "^15.9.8"
+    "sweetalert": "^2.1.2",
+    "toml": "^3.0.0",
+    "vue": "^3.2.21",
+    "vue-loader": "^16.8.3",
+    "vue-router": "^4.0.12",
+    "vue-template-compiler": "^2.6.14"
   },
   "devDependencies": {
+    "@vue/compiler-sfc": "^3.2.21",
     "laravel-mix": "^6.0.39",
     "laravel-mix-vue3": "^0.7.0",
     "nodemon": "^2.0.15",

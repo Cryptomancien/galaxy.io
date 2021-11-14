@@ -1,4 +1,7 @@
 <template>
+    <router-view />
+
+  <!--
     <div class="mt-2">
         <div class="columns">
             <div class="column is-one-quarter app-nav">
@@ -12,4 +15,13 @@
             </div>
         </div>
     </div>
+     -->
+
+
 </template>
+
+<script>
+    export default {
+        name: 'App'
+    }
+</script>
