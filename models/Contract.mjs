@@ -1,6 +1,7 @@
-require('dotenv').config()
-const { Sequelize, Model, DataTypes } = require("sequelize");
+import dotenv from 'dotenv'
+dotenv.config()
 
+import Sequelize from 'sequelize'
 const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, process.env.DB_PASSWORD, {
     host: 'localhost',
     dialect: 'postgres'
@@ -20,7 +21,7 @@ const Contract = sequelize.define('Contract', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    file: {
+    url: {
         type: Sequelize.STRING,
         allowNull: false
     },
@@ -31,11 +32,6 @@ const Contract = sequelize.define('Contract', {
     content: {
         type: Sequelize.TEXT,
         allowNull: false
-    },
-    repository_id: {
-        type: Sequelize.INTEGER,
-        references: 'repositories',
-        referencesKey: 'id',
     },
     user_id: {
         type: Sequelize.INTEGER,
@@ -50,5 +46,4 @@ const Contract = sequelize.define('Contract', {
     tableName: 'contracts'
 })
 
-module.exports = Contract
-
+export default Contract

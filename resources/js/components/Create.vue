@@ -114,7 +114,7 @@
                 const repository = await saveRepository(this.repository)
                 await saveContracts(this.contracts, repository.id)
 
-                await this.$router.push('/app')
+                await this.$router.push('/')
                 swal('Success', 'All fine', 'success')
             },
 

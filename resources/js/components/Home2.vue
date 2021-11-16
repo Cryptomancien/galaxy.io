@@ -3,22 +3,31 @@
         <div class="card">
             <div class="card-content">
 
-                <router-link class="button is-info" to="/create">Create new contract</router-link>
+                <router-link class="button is-info" to="/create">Register new contract</router-link>
 
                 <table class="table is-stripped is-fullwidth is-hoverable is-bordered mt-3">
                     <thead>
-                    <th>Name</th>
-                    <th>URL</th>
-                    <th>Created at</th>
-                    <th>Updated at</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>URL</th>
+                        <th>Version</th>
+                        <th>Created at</th>
+                        <th>Updated at</th>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>Test</td>
-                        <td>https://github.com/toto/toto/toto.bas</td>
-                        <td>11/11/11</td>
-                        <td>11/11/11</td>
-                    </tr>
+                        <tr v-if="contracts.length" v-for="contract in contracts">
+                            <td>
+                                <router-link :to="'/contracts/' + contract.id">{{ contract.title }}</router-link>
+                            </td>
+                            <td>{{ contract.description }}</td>
+                            <td>{{ contract.url }}</td>
+                            <td>{{ contract.version }}</td>
+                            <td>{{ contract.createdAt }}</td>
+                            <td>{{ contract.updatedAt }}</td>
+                        </tr>
+                        <tr v-else>
+                            <td colspan="6">No contract available</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -27,7 +36,28 @@
 </template>
 
 <script>
+    import axios from "axios";
+
     export default {
-        name: 'Home2'
+        name: 'Home2',
+
+        mounted() {
+            this.fetchContracts()
+        },
+
+        data() {
+            return {
+                contracts: [],
+            }
+        },
+
+        methods: {
+            async fetchContracts() {
+                const url = `/api/contracts`
+                const response = await axios.get(url)
+                const data = await response.data
+                this.contracts = data
+            },
+        }
     }
 </script>

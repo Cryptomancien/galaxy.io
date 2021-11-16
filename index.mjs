@@ -11,6 +11,9 @@ import User from './models/User.mjs'
 import FrontController from './controllers/FrontController.mjs'
 import LoginController from './controllers/Auth/LoginController.mjs'
 
+// TODO in routes files
+import ContractsController from './controllers/Api/ContractsController.mjs'
+
 dotenv.config()
 
 const port = 8080 // TODO .env
@@ -96,6 +99,10 @@ app.get('/app', ensureAuthenticated, (request, response) => {
 
     response.render('app.html', data)
 })
+
+app.get('/api/contracts', ContractsController.all)
+app.post('/api/contracts', ContractsController.store)
+app.get('/api/contracts/:id', ContractsController.show)
 
 app.get('/logout', LoginController.logout)
 
@@ -225,11 +232,8 @@ app.get('/api/repositories/:id', RepositoriesController.show)
 app.put('/api/repositories/:id', RepositoriesController.update)
 app.delete('/api/repositories/:id', RepositoriesController.destroy)
 
-app.get('/api/contracts', ContractsController.all)
-app.post('/api/contracts', ContractsController.store)
-app.get('/api/contracts/:id', ContractsController.show)
 
-app.get('/test', RepositoriesController.home)
+
 
 app.use((request, response) => {
 	if (request.user) {
@@ -239,5 +243,5 @@ app.use((request, response) => {
 	return response.redirect('/')
 })
 
-app.listen(port, () => console.log(`http://localhost:${port}`))
+
 */
