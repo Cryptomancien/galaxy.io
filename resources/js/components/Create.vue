@@ -50,6 +50,7 @@
 <script>
     import axios from 'axios'
     import {ValidateUrl, loadFileContent} from '../helpers/create2'
+    import swal from "sweetalert";
 
     export default {
         name: 'Create.vue',
@@ -115,7 +116,7 @@
                 console.log(response)
 
                 await this.$router.push('/')
-                alert('ok')
+                swal('Success', 'Created', 'success')
 
             },
         }
