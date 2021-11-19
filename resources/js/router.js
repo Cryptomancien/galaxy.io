@@ -1,24 +1,24 @@
 import {createRouter, createWebHashHistory } from "vue-router";
 
-import Home2 from './components/Home2'
-import Create2 from './components/Create2'
-import Contract2 from './components/Contract2'
+import Home from './components/Home'
+import Create from './components/Create'
+import Contract from './components/Contract'
 
 const routes = [
     {
         path: '/',
-        name: 'Home2',
-        component: Home2
+        name: 'Home',
+        component: Home
     },
     {
         path: '/create',
-        name: 'Create2',
-        component: Create2
+        name: 'Create',
+        component: Create
     },
     {
         path: '/contracts/:id',
-        name: 'Contract2',
-        component: Contract2
+        name: 'Contract',
+        component: Contract
     }
 ]
 

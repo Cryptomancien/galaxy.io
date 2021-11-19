@@ -54,6 +54,7 @@
 
 <script>
 import axios from 'axios'
+import swal from 'sweetalert'
 
 export default {
     name: "Contract2.vue",
@@ -105,7 +106,7 @@ export default {
             const response = await axios.put(url, data_post)
             const data = await response.data
 
-            alert('ok')
+            swal('Success', 'Updated', 'success')
 
         },
 
@@ -120,7 +121,7 @@ export default {
             console.log(data)
 
             await this.$router.push('/')
-            alert('ok')
+            swal('Success', 'Deleted', 'success')
 
         }
     }
