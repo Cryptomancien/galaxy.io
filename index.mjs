@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 import session from 'express-session'
 import passport from 'passport'
 import {Strategy} from 'passport-github'
+import redis from 'redis'
 
 import ensureAuthenticated from './middleware/ensureAuthenticated.mjs'
 import User from './models/User.mjs'
@@ -42,7 +43,13 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
+import ConnectRedis from 'connect-redis'
+
+let RedisStore = ConnectRedis(session)
+let redisClient = redis.createClient()
+
 app.use(session({
+    store: new RedisStore({client: redisClient}),
     secret: process.env.session,
     proxy: true,
     resave: true,
@@ -103,6 +110,8 @@ app.get('/app', ensureAuthenticated, (request, response) => {
 app.get('/api/contracts', ContractsController.all)
 app.post('/api/contracts', ContractsController.store)
 app.get('/api/contracts/:id', ContractsController.show)
+app.put('/api/contracts/:id', ContractsController.update)
+app.delete('/api/contracts/:id', ContractsController.destroy)
 
 app.get('/logout', LoginController.logout)
 
