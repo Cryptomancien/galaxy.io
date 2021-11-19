@@ -1,4 +1,5 @@
 <template>
+    <!-- TODO REPLACE ALERT BY SWAL -->
     <div class="container mt-3">
         <div class="card">
             <div class="card-content">
@@ -44,7 +45,7 @@
                 </form>
                 <hr>
                 <form class="is-flex is-justify-content-flex-end" @submit.prevent="handleDeleteForm">
-                    <button class="button is-danger">Delete</button>
+                    <button class="button is-danger is-small">Delete</button>
                 </form>
             </div>
         </div>
@@ -58,22 +59,27 @@ export default {
     name: "Contract2.vue",
 
     mounted() {
+        this.setId()
         this.fetchContract()
     },
 
     data() {
         return {
             error: '',
+            id: Number,
             contract: {}
         }
     },
 
     methods: {
-        async fetchContract() {
+        async setId() {
             const id = this.$route.params.id
+            this.id = id
+        },
 
-            const url = `/api/contracts/${id}`
+        async fetchContract() {
 
+            const url = `/api/contracts/${this.id}`
 
             const response = await axios.get(url)
             const data = await response.data
@@ -86,10 +92,35 @@ export default {
         },
 
         async handleForm() {
+            const url = `/api/contracts/${this.id}`
+
+            const data_post = {
+                title: this.contract.title,
+                description: this.contract.description,
+                version: this.contract.version,
+                url: this.contract.url,
+                content: this.contract.content,
+            }
+
+            const response = await axios.put(url, data_post)
+            const data = await response.data
+
+            alert('ok')
 
         },
 
         async handleDeleteForm() {
+            confirm('delete the contract ?')
+
+            const url = `/api/contracts/${this.id}`
+
+            const response = await axios.delete(url)
+            const data = await response
+
+            console.log(data)
+
+            await this.$router.push('/')
+            alert('ok')
 
         }
     }

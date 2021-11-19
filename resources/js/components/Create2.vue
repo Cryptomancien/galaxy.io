@@ -6,8 +6,6 @@
 
                 <h1 class="mt-3 is-size-3">Register new contract</h1>
 
-                <pre>{{$data}}</pre>
-
                 <form class="mt-3" @submit.prevent="handleForm">
 
                     <div class="field mt-5">
