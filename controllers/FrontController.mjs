@@ -45,12 +45,13 @@ const FrontController = {
         const sql = `select contracts.*, users.username, users.avatar_url from contracts left join users on users.id = contracts.user_id WHERE contracts.id = ${id} LIMIT 1;`
         let contract = await sequelize.query(sql, { type: QueryTypes.SELECT })
         contract = contract[0]
+        contract = contract[0]
 
         const data = {
             contract
         }
-        response.json(data)
-        //response.render('contract.html', data)
+        //response.json(data)
+        response.render('contract.html', data)
     }
 }
 

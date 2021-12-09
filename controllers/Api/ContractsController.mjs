@@ -68,7 +68,6 @@ const ContractsController = {
         contract = await contract.update(data)
 
         response.json(contract)
-
     },
 
     async destroy(request, response) {

@@ -20,6 +20,8 @@ dotenv.config()
 const port = 8080 // TODO .env
 const app = express()
 
+app.set('json spaces', 2)
+
 nunjucks.configure('views', {
     autoescape:  true,
     express:  app,
@@ -42,6 +44,7 @@ passport.use(
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
 
 import ConnectRedis from 'connect-redis'
 

@@ -1,1 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- Generator: Gravit.io --><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="isolation:isolate" viewBox="0 0 250 60" width="250pt" height="60pt"><defs><clipPath id="_clipPath_Nr6m0wSNbio6u6SbXq8xxsKiSeVpAjFJ"><rect width="250" height="60"/></clipPath></defs><g clip-path="url(#_clipPath_Nr6m0wSNbio6u6SbXq8xxsKiSeVpAjFJ)"><text transform="matrix(1,0,0,1,0,37.759)" style="font-family:'Open Sans';font-weight:400;font-size:20px;font-style:normal;fill:#000000;stroke:none;">SmartContracts.dev</text></g></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- Generator: Gravit.io -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="isolation:isolate" viewBox="0 0 250 60" width="250pt" height="60pt">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans');
+
+        #txt-logo {
+            font-family: 'Open Sans', sans-serif;
+        }
+    </style>
+
+    <defs>
+        <clipPath id="_clipPath_Nr6m0wSNbio6u6SbXq8xxsKiSeVpAjFJ">
+            <rect width="250" height="60"/>
+        </clipPath>
+    </defs>
+    <g clip-path="url(#_clipPath_Nr6m0wSNbio6u6SbXq8xxsKiSeVpAjFJ)">
+        <text id="txt-logo" transform="matrix(1,0,0,1,0,37.759)" style="font-weight:400;font-size:20px;font-style:normal;fill:#000000;stroke:none;">NextGate.io</text>
+    </g>
+</svg>
