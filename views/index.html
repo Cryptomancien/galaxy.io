@@ -52,38 +52,8 @@
 			</div>
 		</div>
 	</section>
-
-	<section class="section has-background-grey-lighter" id="documentation">
-		<div class="container">
-			<div class="columns is-align-items-center">
-				<div class="column">
-					<h3 class="title has-text-centered is-size-3">A simple configuration file</h3>
-				</div>
-				<div class="column box">
-
-					<pre class="code">
-						<code class="lang-toml">
-// sc.toml (at the root of your repository)
-[[sc]]
-title = 'My awesome smart contract'
-description = 'A short description'
-file = 'hello_world.bas'
-version = '1.2.3'
-
-[[sc]]
-title = 'Another awesome smart contract'
-description = 'A short description'
-file = 'hello_world2.bas'
-version = '4.5.6'
-						</code>
-					</pre>
-				</div>
-			</div>
-		</div>
-	</section>
 {% endblock %}
 
 {% block js %}
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.4.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+
 {% endblock %}
