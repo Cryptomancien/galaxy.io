@@ -90,6 +90,7 @@ passport.deserializeUser((user, done) =>  done(null, user) )
 app.get('/', FrontController.index)
 app.get('/search', FrontController.search)
 app.get('/contract/:id', FrontController.contract)
+app.get('/users/:username', FrontController.user)
 
 app.get('/login', LoginController.index)
 app.get('/login/github', passport.authenticate('github'))
@@ -128,22 +129,5 @@ app.listen(port, () => console.log(`http://localhost:${port}`))
 
 
 /*
-
-app.get('/contract/:id', FrontController.contract)
-
-app.get('/user/:username', FrontController.user)
-
-
 app.get('/play', FrontController.play)
-
-app.get('/app', ensureAuthenticated, (request, response) => {
-
-	let data = {
-		user: request.user
-	}
-
-	console.log('--------')
-
-	response.render('app.html', data)
-})
 */

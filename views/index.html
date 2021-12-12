@@ -9,51 +9,59 @@
 	<section id="landing">
 		<h1 class="title">DERO is an amazing fast in private blockchain</h1>
 		<h2 class="title">The smart contracts are here</h2>
-		<div class="">
-			<a href="/search" class="button is-medium is-info">
-				Search
-			</a>
-
-			<a href="/get-started" class="button is-medium is-primary">
-				Get started
-			</a>
-		</div>
 	</section>
 
 	<section class="section" id="latest">
 		<div class="container">
-			<h2 class="title has-text-centered is-size-3">
+			<h2 class="title is-size-4">
 				Latest smart contracts available
 			</h2>
-			<div class="columns is-multiline smart-contracts">
-				{% for contract in contracts %}
-					<div class="column is-one-third">
-						<div class="card smart-contract">
-							<div class="card-header">
-								<div class="card-header-title">
-									<a href="/contract/{{ contract.id }}">
-										{{ contract.title }}
-									</a>
-								</div>
-							</div>
-							<div class="card-content">
-								{{ contract.description }}
-							</div>
-							<div class="card-footer">
-								<a href="#" class="card-footer-item is-flex is-align-content-center is-justify-content-start">
-                                    <img src="{{ contract.avatar_url }}" alt="" style="width: 30px;">
-                                    &nbsp;
+
+            <div class="columns">
+                <div class="column is-two-thirds">
+                    {% for contract in contracts %}
+                    <div class="card mb-2">
+                        <div class="card-content">
+                            <div class="has-text-weight-semibold mb-2">
+                                <a href="/contract/{{ contract.id }}" class="has-text-black-ter">{{ contract.title }}</a>
+                            </div>
+                            <div class="mb-2 has-text-grey">
+                                {{ contract.description }}
+                            </div>
+
+                            <div class="tags is-flex mb-0">
+                                <a href="#" class="tag">
+                                    defi
+                                </a>
+                                <a href="#" class="tag">
+                                    game
+                                </a>
+                            </div>
+
+                            <div class="is-flex is-align-items-center">
+                                <a class="is-flex  is-align-items-center">
+                                    <img src="{{ contract.avatar_url }}" alt="{{ contract.avatar_url }}" class="mr-1" width="30px;">
                                     <span>{{ contract.username }}</span>
                                 </a>
-							</div>
-						</div>
-					</div>
-				{%- endfor %}
-			</div>
+                                <span class="ml-3"> {{ contract.version }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="column">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-header-title">
+                                Categories
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            Coming soon
+                        </div>
+                    </div>
+                </div>
+            </div>
 		</div>
 	</section>
-{% endblock %}
-
-{% block js %}
-
 {% endblock %}

@@ -3,25 +3,50 @@
 {% block content %}
 <section class="section">
     <div class="container">
-        <div class="card">
-            <div class="card-content">
-                <h1 class="is-size-3">{{ u.username }}</h1>
-                <hr>
-                {% for contract in contracts %}
-                <div>
-                    <div class="mb-2">
-                        <a href="/contract/{{ contract.id }}">{{ contract.title }}</a>
+        <div class="columns">
+            <div class="column is-one-fifth">
+                <div class="card">
+                    <div class="card-content">
+                        <div>
+                            <img src="{{ u.avatar_url }}" alt="">
+                        </div>
+                        <h1 class="is-size-3">{{ u.username }}</h1>
                     </div>
-                    <div class="mb-2">{{ contract.description }}</div>
-                    <div class="mb-2">{{ contract.file }}</div>
-                    <div class="mb-2">{{ contract.version }}</div>
-                    <hr>
                 </div>
+            </div>
+            <div class="column">
+                {% for contract in contracts %}
+                <div class="card mb-2">
+                    <div class="card-content">
+                        <div class="has-text-weight-semibold mb-2">
+                            <a href="/contract/{{ contract.id }}" class="has-text-black-ter">{{ contract.title }}</a>
+                        </div>
+                        <div class="mb-2 has-text-grey">
+                            {{ contract.description }}
+                        </div>
 
+                        <div class="tags is-flex mb-0">
+                            <a href="#" class="tag">
+                                defi
+                            </a>
+                            <a href="#" class="tag">
+                                game
+                            </a>
+                        </div>
+
+                        <div class="is-flex is-align-items-center">
+                            <a class="is-flex  is-align-items-center">
+                                <img src="{{ u.avatar_url }}" alt="{{ u.avatar_url }}" class="mr-1" width="30px;">
+                                <span>{{ u.username }}</span>
+                            </a>
+                            <span class="ml-3"> {{ contract.version }}</span>
+                        </div>
+                    </div>
+                </div>
                 {% endfor %}
-
             </div>
         </div>
+
     </div>
 </section>
 {% endblock %}
